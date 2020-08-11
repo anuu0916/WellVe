@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    android:weightSum="10">
+
+    <TextView
+        android:id="@+id/postInIdTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="id"
+        android:textSize="20sp"
+        android:layout_gravity="right"
+        android:layout_weight="0.5"/>
+    <TextView
+        android:id="@+id/postInDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="date"
+        android:textSize="20sp"
+        android:layout_gravity="right"
+        android:layout_weight="0.5"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:weightSum="10"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/postInTitleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="제목쓰는칸"
+            android:gravity="center"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/postInContentTextView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:scrollbars="vertical"
+            android:text="내용쓰는칸"
+            android:textSize="20sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:weightSum="10"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/postInMarkButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="북마크"/>
+
+            <Button
+                android:id="@+id/postInLikeButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="LIKE"/>
+            <TextView
+                android:id="@+id/postInLikeTextView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="Like : ?"
+                android:gravity="center"/>
+        </LinearLayout>
+        
+        <ScrollView
+            android:background="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            android:layout_weight="4">
+
+            <ListView
+                android:id="@+id/postInListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </ScrollView>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="10">
+        <EditText
+            android:id="@+id/postInCommentEditText"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:hint="댓글다세요"/>
+        <Button
+            android:id="@+id/postInSubmitButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:text="전송"/>
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

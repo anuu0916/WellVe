@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "974765846952",
+    "firebase_url": "https://wellve.firebaseio.com",
+    "project_id": "wellve",
+    "storage_bucket": "wellve.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974765846952:android:c9ebb319dedd6d2619ed9d",
+        "android_client_info": {
+          "package_name": "com.diary.jimin.wellve"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "974765846952-qs5s42nmig6ckvmuthqg1329o6d3g0p1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVLGiSvGCj3veQ5nKUvrAn6k46Ih9elmA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "974765846952-qs5s42nmig6ckvmuthqg1329o6d3g0p1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
