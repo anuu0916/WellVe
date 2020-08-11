@@ -5,27 +5,85 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/main_background"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/mainLogOutButton"
+    <ImageView
+        android:id="@+id/mainTopLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Logout"/>
+        android:layout_marginTop="52dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/main_toplogo"/>
 
-    <Button
-        android:id="@+id/mainBoardButton"
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:text="게시판"/>
+        android:layout_marginTop="400dp"
+        android:layout_marginLeft="16dp"
+        android:text="블라블라블라 무슨 칼럼같은 글이 좋을듯?"
+        android:textColor="#ffffff"
+        android:textSize="28sp"
+        android:textStyle="bold"/>
 
-    <Button
-        android:id="@+id/mainBookMarkButton"
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="256dp"
         android:layout_height="wrap_content"
-        android:text="북마크"/>
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:text="채식과 관련된 어쩌구...저쩌구... 잡다한 어쩌구... 하놔 그런걸로 나타났다...."
+        android:textColor="#ffffff"
+        android:textSize="16sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom|center"
+        android:background="@drawable/main_bottombackground">
+
+        <Button
+            android:id="@+id/mainCameraButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
+            android:text="바로 채식제품인지 확인하기"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:background="#00ff0000"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom|center"
+            android:gravity="center_horizontal|center_vertical"
+            android:background="@drawable/main_buttonbackground">
+
+            <Button
+                android:id="@+id/mainLogOutButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Logout"/>
+
+            <Button
+                android:id="@+id/mainBoardButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="게시판"/>
+
+            <Button
+                android:id="@+id/mainBookMarkButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="북마크"/>
+
+        </LinearLayout>
 
 
+    </LinearLayout>
 
 
 </LinearLayout>
