@@ -31,38 +31,105 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="16dp"
+        android:text="계정정보를 입력해주세요."
+        android:textSize="16sp"
+        android:textColor="#000000"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="32dp"
         android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:text="아이디"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:textSize="14sp"/>
 
         <EditText
             android:id="@+id/emailEditText"
-            android:layout_width="match_parent"
+            android:layout_width="327dp"
             android:layout_height="wrap_content"
-            android:hint="Email"
+            android:layout_marginTop="4dp"
+            android:hint="  이메일 주소 (example@gmail.com)"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"
             android:inputType="textEmailAddress"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="닉네임"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:textSize="14sp"/>
+
+        <EditText
+            android:id="@+id/nicknameEditText"
+            android:layout_width="327dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:hint="  영문, 숫자, 한글 조합 2-10자리"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="비밀번호"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:textSize="14sp"/>
 
         <EditText
             android:id="@+id/pwEditText"
-            android:layout_width="match_parent"
+            android:layout_width="327dp"
             android:layout_height="wrap_content"
-            android:hint="Password"
+            android:layout_marginTop="4dp"
+            android:layout_gravity="center_horizontal"
+            android:hint="영문, 숫자 조합 8-20자리"
+            android:textSize="16sp"
             android:inputType="textPassword"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="비밀번호 확인"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:textSize="14sp"/>
 
         <EditText
             android:id="@+id/pwCheckEditText"
-            android:layout_width="match_parent"
+            android:layout_width="327dp"
             android:layout_height="wrap_content"
-            android:hint="Password check"
+            android:layout_marginTop="4dp"
+            android:layout_gravity="center_horizontal"
+            android:hint="영문, 숫자 조합 8-20자리"
+            android:textSize="16sp"
             android:inputType="textPassword"/>
 
         <Button
             android:id="@+id/signUpButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:text="SignUp gogo"/>
 
         <Button
