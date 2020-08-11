@@ -19,7 +19,7 @@
     <TextView
         android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="400dp"
+        android:layout_marginTop="370dp"
         android:layout_marginLeft="16dp"
         android:text="블라블라블라 무슨 칼럼같은 글이 좋을듯?"
         android:textColor="#ffffff"
@@ -40,6 +40,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="bottom|center"
+        android:layout_marginTop="48dp"
         android:background="@drawable/main_bottombackground">
 
         <Button
