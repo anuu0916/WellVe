@@ -130,12 +130,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
+            android:background="@drawable/main_gradient"
             android:text="SignUp gogo"/>
 
         <Button
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/main_gradient"
             android:text="Login gogo"/>
 
 
