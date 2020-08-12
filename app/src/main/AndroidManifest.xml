@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BookmarkActivity"></activity>
+        <activity android:name=".CameraActivity"></activity>
+        <activity android:name=".BookmarkActivity" />
         <activity android:name=".CategoryActivity" />
         <activity android:name=".PostInActivity" />
         <activity android:name=".PostActivity" />
@@ -24,9 +25,7 @@
         <activity android:name=".PasswordResetActivity" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
-
-
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
