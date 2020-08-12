@@ -22,7 +22,11 @@
         <activity android:name=".BoardActivity" />
         <activity android:name=".MemberInitActivity" />
         <activity android:name=".PasswordResetActivity" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" >
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
