@@ -7,6 +7,7 @@ android {
         applicationId "com.diary.jimin.wellve"
         minSdkVersion 21
         targetSdkVersion 29
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -31,6 +32,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.3.2'
     implementation 'com.google.firebase:firebase-firestore:21.2.1'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
+    implementation 'com.google.firebase:firebase-ml-vision:24.0.3' //ml kit
     implementation 'com.android.volley:volley:1.1.0'
 }
 apply plugin: 'com.google.gms.google-services'
