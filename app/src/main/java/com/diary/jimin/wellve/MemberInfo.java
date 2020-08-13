@@ -15,6 +15,15 @@ public class MemberInfo {
     }
 
 
+//    public MemberInfo(String nikname, String phone, String address, String date) {
+//        this.name = name;
+//        this.phone = phone;
+//        this.address = address;
+//        this.date = date;
+//    }
+
+
+
     public String getName() {
         return this.name;
     }

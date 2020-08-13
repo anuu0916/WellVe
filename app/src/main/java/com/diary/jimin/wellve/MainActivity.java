@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
                             } else {
                                 Log.d(TAG, "No such document");
-                                Intent intent = new Intent(MainActivity.this, MemberInitActivity.class);
-                                startActivity(intent);
+//                                Intent intent = new Intent(MainActivity.this, MemberInitActivity.class);
+//                                startActivity(intent);
                             }
                         }
                     } else {
