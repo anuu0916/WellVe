@@ -3,10 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <SurfaceView
-        android:id="@+id/CameraSurfaceView"
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="#000"/>
 
     <TextView
         android:id="@+id/CameraShowText"
@@ -28,26 +29,5 @@
         android:layout_height="wrap_content"
         android:src="@drawable/camera_boarder"
         android:layout_centerInParent="true"/>
-
-    <ImageButton
-        android:id="@+id/CameraGalleryButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/camera_gallery_image"
-        android:layout_alignParentBottom="true"
-        android:width="36dp"
-        android:height="27dp"
-        android:layout_marginBottom="80dp"
-        android:layout_marginLeft="60dp"/>
-
-    <ImageButton
-        android:id="@+id/CameraShootButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/camera_shooting_image"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="70dp"/>
-
 
 </RelativeLayout>
