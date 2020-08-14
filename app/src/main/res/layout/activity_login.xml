@@ -16,6 +16,7 @@
             android:layout_height="16dp"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="16dp"
+            android:layout_centerVertical="true"
             android:background="@drawable/backbutton" />
 
         <TextView
@@ -31,8 +32,8 @@
 
 
     <ImageView
-        android:layout_width="200dp"
-        android:layout_height="60dp"
+        android:layout_width="144dp"
+        android:layout_height="31.65dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="60dp"
         android:src="@drawable/login_logo" />
@@ -40,7 +41,7 @@
     <EditText
         android:id="@+id/loginEmailEditText"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="64dp"
         android:layout_marginHorizontal="12dp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/shadow"
@@ -52,7 +53,7 @@
     <EditText
         android:id="@+id/loginPwEditText"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="64dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="12dp"
         android:layout_marginTop="12dp"
@@ -73,18 +74,20 @@
     <Button
         android:id="@+id/loginButton"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="40dp"
         android:background="@drawable/main_gradient"
         android:text="로그인"
-        android:textColor="#FFFFFF" />
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="24dp"
         android:gravity="center_horizontal">
 
         <View
@@ -117,12 +120,13 @@
     <Button
         android:id="@+id/loginSignupButton"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/login_joinboarder"
         android:text="회원가입"
-        android:textColor="#79C668" />
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="12sp"/>
 
 
 </LinearLayout>

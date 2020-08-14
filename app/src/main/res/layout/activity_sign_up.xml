@@ -17,6 +17,7 @@
             android:layout_height="16dp"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="16dp"
+            android:layout_centerVertical="true"
             android:background="@drawable/backbutton" />
 
         <TextView

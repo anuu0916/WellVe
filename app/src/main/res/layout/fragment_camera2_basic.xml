@@ -18,7 +18,7 @@
         android:layout_alignParentStart="true">
 
         <ImageButton
-            android:id="@+id/info"
+            android:id="@+id/cameraGalleryButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/camera_gallery_image"
@@ -28,7 +28,7 @@
             android:layout_marginLeft="60dp"/>
 
         <ImageButton
-            android:id="@+id/picture"
+            android:id="@+id/cameraShootButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/camera_shooting_image"
