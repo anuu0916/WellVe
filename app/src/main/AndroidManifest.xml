@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CameraActivity"></activity>
+        <activity android:name=".Signup_complete"></activity>
+        <activity android:name=".CameraActivity" />
         <activity android:name=".BookmarkActivity" />
         <activity android:name=".CategoryActivity" />
         <activity android:name=".PostInActivity" />
