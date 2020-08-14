@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private Button logOutButton;
     private Button boardButton;
     private Button bookMarkButton;
+    private Button cameraButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,11 +96,20 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     void init() {
         logOutButton = findViewById(R.id.mainLogOutButton);
         boardButton = findViewById(R.id.mainBoardButton);
         bookMarkButton = findViewById(R.id.mainBookMarkButton);
+        cameraButton = findViewById(R.id.mainCameraButton);
     }
 }
