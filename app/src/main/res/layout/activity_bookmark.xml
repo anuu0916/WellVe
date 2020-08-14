@@ -19,6 +19,7 @@
             android:layout_height="16dp"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="16dp"
+            android:layout_centerVertical="true"
             android:background="@drawable/backbutton" />
 
         <TextView
@@ -73,8 +74,9 @@
 
     </com.google.android.material.tabs.TabLayout>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/categoryViewPager"
+    <!-- 그냥 대충 해놨어요 수정plz... -->
+    <ListView
+        android:id="@+id/bookMarkListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9" />
