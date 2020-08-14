@@ -17,6 +17,8 @@ public class CameraActivity extends AppCompatActivity {
 
     private final int MY_PERMISSIONS_REQUEST_CAMERA=1001;
 
+    private ImageView cameraview;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,8 @@ public class CameraActivity extends AppCompatActivity {
                 Toast.makeText(this, "카메라 권한이 필요합니다.", Toast.LENGTH_LONG).show();
             }
         }
+
+        cameraview = findViewById(R.id.CameraView);
     }
 
     @Override
@@ -64,16 +68,15 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     /*미리보기 이미지 가져오기*/
+    /*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            //ImageView imageView;
-            //imageView.setImageBitmap(imageBitmap);
+            cameraview.setImageBitmap(imageBitmap);
         }
     }
-
-
+     */
 }
