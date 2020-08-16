@@ -61,21 +61,30 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/flexitarianButton"
+            <RelativeLayout
                 android:layout_width="160dp"
                 android:layout_height="100dp"
                 android:layout_marginRight="8dp"
-                android:text="플렉시테리안"
-                android:textColor="@color/colorGray"
-                android:gravity="center"
-                android:background="@drawable/btn_empty" />
+                android:background="@drawable/btn_empty">
+
+                <TextView
+
+                    android:id="@+id/pescoButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:drawableTop="@drawable/fish"
+                    android:gravity="center"
+                    android:textColor="@color/colorGray"
+                    android:text="페스코" />
+
+            </RelativeLayout>
 
             <Button
-                android:id="@+id/semiButton"
+                android:id="@+id/lactoovoButton"
                 android:layout_width="160dp"
                 android:layout_height="100dp"
-                android:text="세미"
+                android:text="락토오보"
                 android:textColor="@color/colorGray"
                 android:gravity="center"
                 android:background="@drawable/btn_empty"/>
@@ -90,20 +99,20 @@
             android:gravity="center">
 
             <Button
-                android:id="@+id/pescoButton"
-                android:layout_width="160dp"
-                android:layout_height="100dp"
-                android:layout_marginRight="8dp"
-                android:text="페스코"
-                android:textColor="@color/colorGray"
-                android:gravity="center"
-                android:background="@drawable/btn_empty" />
-
-            <Button
                 android:id="@+id/lactoButton"
                 android:layout_width="160dp"
                 android:layout_height="100dp"
+                android:layout_marginRight="8dp"
                 android:text="락토"
+                android:textColor="@color/colorGray"
+                android:gravity="center"
+                android:background="@drawable/btn_empty"/>
+
+            <Button
+                android:id="@+id/ovoButton"
+                android:layout_width="160dp"
+                android:layout_height="100dp"
+                android:text="오보"
                 android:textColor="@color/colorGray"
                 android:gravity="center"
                 android:background="@drawable/btn_empty"/>
@@ -118,23 +127,19 @@
             android:layout_marginTop="8dp">
 
             <Button
-                android:id="@+id/lactoovoButton"
+                android:id="@+id/veganButton"
                 android:layout_width="160dp"
                 android:layout_height="100dp"
                 android:layout_marginRight="8dp"
-                android:text="락토오보"
+                android:text="비건"
                 android:textColor="@color/colorGray"
                 android:gravity="center"
                 android:background="@drawable/btn_empty"/>
 
             <Button
-                android:id="@+id/veganButton"
                 android:layout_width="160dp"
                 android:layout_height="100dp"
-                android:text="비건"
-                android:textColor="@color/colorGray"
-                android:gravity="center"
-                android:background="@drawable/btn_empty"/>
+                android:background="@drawable/no_btn"/>
 
         </LinearLayout>
 
