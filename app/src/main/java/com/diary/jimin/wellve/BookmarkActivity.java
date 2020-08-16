@@ -89,7 +89,5 @@ public class BookmarkActivity extends AppCompatActivity {
     private void init() {
         bookMarkListView = (ListView) findViewById(R.id.bookMarkListView);
 
-
-
     }
 }

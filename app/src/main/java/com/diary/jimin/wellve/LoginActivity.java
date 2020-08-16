@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity{
     private EditText emailEditText;
     private EditText pwEditText;
     private Button loginButton;
-    private Button passwordResetButton;
+    private Button SignupButton;
     private FirebaseAuth mAuth;
 
 
@@ -44,11 +44,11 @@ public class LoginActivity extends AppCompatActivity{
             }
         });
 
-        passwordResetButton.setOnClickListener(new Button.OnClickListener() {
+        SignupButton.setOnClickListener(new Button.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, PasswordResetActivity.class);
+                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
                 startActivity(intent);
             }
         });
@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity{
         emailEditText = (EditText)findViewById(R.id.loginEmailEditText);
         pwEditText = (EditText)findViewById(R.id.loginPwEditText);
         loginButton = (Button)findViewById(R.id.loginButton);
-        passwordResetButton = (Button)findViewById(R.id.loginPwResetButton);
+        SignupButton = (Button)findViewById(R.id.loginSignupButton);
 
         mAuth = FirebaseAuth.getInstance();
     }

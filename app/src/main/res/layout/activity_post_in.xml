@@ -1,120 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity"
-    android:weightSum="10">
+    android:weightSum="10"
+    tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/postInIdTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:text="id"
-        android:textSize="20sp"
-        android:layout_gravity="right"
-        android:layout_weight="0.5"/>
-    <TextView
-        android:id="@+id/postInDateTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:text="date"
-        android:textSize="20sp"
-        android:layout_gravity="right"
-        android:layout_weight="0.5"/>
+    <!--weight쓸줄을 잘 몰라서 일단 고쳐봤는데 엉망진창이라면 ㅈㅅ합니다... -->
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8"
-        android:weightSum="10"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/postInTitleTextView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="제목쓰는칸"
-            android:gravity="center"
-            android:textSize="20sp"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp">
+
+        <Button
+            android:id="@+id/postInBackButton"
+            android:layout_width="12dp"
+            android:layout_height="16dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/white_backbutton" />
 
         <TextView
-            android:id="@+id/postInContentTextView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4"
-            android:scrollbars="vertical"
-            android:text="내용쓰는칸"
-            android:textSize="20sp"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="커뮤니티"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/postInScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="0dp"
+        android:fillViewport="true"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:weightSum="10"
-            android:gravity="right"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <Button
+            <ImageButton
                 android:id="@+id/postInMarkButton"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:text="북마크"/>
+                android:layout_width="10dp"
+                android:layout_height="13dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/bookmark_button" />
 
-            <Button
-                android:id="@+id/postInLikeButton"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:text="LIKE"/>
             <TextView
-                android:id="@+id/postInLikeTextView"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:text="Like : ?"
-                android:gravity="center"/>
-        </LinearLayout>
-        
-        <ScrollView
-            android:background="@color/colorPrimaryDark"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:fillViewport="true"
-            android:layout_weight="4">
+                android:id="@+id/postInCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="80dp"
+                android:layout_weight="0.5"
+                android:text="카테고리"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
 
-            <ListView
-                android:id="@+id/postInListView"
+            <TextView
+                android:id="@+id/postInTitleTextView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </ScrollView>
+                android:layout_height="0dp"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="제목쓰는칸"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="10">
-        <EditText
-            android:id="@+id/postInCommentEditText"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="8"
-            android:hint="댓글다세요"/>
-        <Button
-            android:id="@+id/postInSubmitButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:text="전송"/>
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:weightSum="10">
 
+                <TextView
+                    android:id="@+id/postInIdTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="0.5"
+                    android:text="id"
+                    android:textColor="#000000"
+                    android:textSize="20sp" />
 
+                <TextView
+                    android:id="@+id/postInDateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="0.5"
+                    android:text="date"
+                    android:textColor="#8A8A8A"
+                    android:textSize="20sp" />
 
+                <TextView
+                    android:id="@+id/postInContentTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="4"
+                    android:scrollbars="vertical"
+                    android:text="내용쓰는칸"
+                    android:textColor="#575757"
+                    android:textSize="20sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+                    <!--
+                    <Button
+                        android:id="@+id/postInMarkButton"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:text="북마크"/>
+                        -->
+
+                    <Button
+                        android:id="@+id/postInLikeButton"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:text="LIKE" />
+
+                    <TextView
+                        android:id="@+id/postInLikeTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:text="Like : ?"
+                        android:textColor="#000000" />
+
+                </LinearLayout>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="4"
+                    android:background="@color/colorPrimaryDark"
+                    android:fillViewport="true">
+
+                    <ListView
+                        android:id="@+id/postInListView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </ScrollView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5" />
+
+                <EditText
+                    android:id="@+id/postInCommentEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="7"
+                    android:background="@drawable/login_joinboarder"
+                    android:hint="  댓글 쓰기"
+                    android:textSize="20sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5" />
+
+                <Button
+                    android:id="@+id/postInSubmitButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="@drawable/comment_send_button" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>
