@@ -106,7 +106,7 @@
                 android:layout_width="160dp"
                 android:layout_height="100dp"
                 android:background="@drawable/type_button"
-                android:drawableTop="@drawable/eggs"
+                android:drawableTop="@drawable/unselect_ovo"
                 android:text="오보"
                 android:textColor="@color/colorGray"
                 android:paddingTop="30dp"

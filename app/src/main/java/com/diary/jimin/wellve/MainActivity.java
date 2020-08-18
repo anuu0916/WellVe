@@ -112,4 +112,12 @@ public class MainActivity extends AppCompatActivity {
         bookMarkButton = findViewById(R.id.mainBookMarkButton);
         cameraButton = findViewById(R.id.mainCameraButton);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        moveTaskToBack(true);
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(1);
+    }
 }

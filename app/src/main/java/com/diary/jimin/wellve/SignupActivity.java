@@ -58,14 +58,6 @@ public class SignupActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        moveTaskToBack(true);
-        android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(1);
-    }
-
     void init() {
         emailEditText = (EditText)findViewById(R.id.emailEditText);
         pwEditText = (EditText)findViewById(R.id.pwEditText);
@@ -122,9 +114,10 @@ public class SignupActivity extends AppCompatActivity {
 //                                            Toast.LENGTH_SHORT).show();
 
                                     Intent intent = new Intent(SignupActivity.this, TypeCheckActivity.class);
+                                    intent.putExtra("nickName",nickName);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
-
+                                    finish();
                                 } else {
 
                                     /*********************** To Do List ********************/

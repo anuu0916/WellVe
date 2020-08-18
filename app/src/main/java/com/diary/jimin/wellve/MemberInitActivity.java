@@ -65,25 +65,25 @@ public class MemberInitActivity extends AppCompatActivity {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-            MemberInfo memberInfo = new MemberInfo(name, phone, address, date);
+//             MemberInfo memberInfo = new MemberInfo(name, phone, address, date);
 
             if(user != null) {
-                db.collection("users").document(user.getUid()).set(memberInfo)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(MemberInitActivity.this, "성공",
-                                        Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(MemberInitActivity.this, "실패",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
+//                db.collection("users").document(user.getUid()).set(memberInfo)
+//                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void aVoid) {
+//                                Toast.makeText(MemberInitActivity.this, "성공",
+//                                        Toast.LENGTH_SHORT).show();
+//                                finish();
+//                            }
+//                        })
+//                        .addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Toast.makeText(MemberInitActivity.this, "실패",
+//                                        Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
             }
 
         } else {
