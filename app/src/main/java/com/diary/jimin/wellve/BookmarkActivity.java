@@ -2,8 +2,13 @@ package com.diary.jimin.wellve;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -63,6 +68,9 @@ public class BookmarkActivity extends AppCompatActivity {
                     DocumentSnapshot documentSnapshot = task.getResult();
                     if(documentSnapshot.exists()) {
                         myPageNickName.setText(documentSnapshot.getData().get("nickname")+"님!");
+                        if(documentSnapshot.getData().get("profileImageUrl")==null) {
+                            myPageProfileImage.setImageResource(R.drawable.app_icon);
+                        }
                     }
                 } else {
                     Log.d("BookmarkActivity", ""+task.getException());
