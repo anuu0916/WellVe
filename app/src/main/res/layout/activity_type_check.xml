@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,48 +55,32 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="32dp">
-        
+
         <LinearLayout
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <RelativeLayout
+            <Button
+                android:id="@+id/typePescoButton"
                 android:layout_width="160dp"
                 android:layout_height="100dp"
-                android:layout_marginRight="8dp"
-                android:background="@drawable/btn_empty">
+                android:background="@drawable/type_button"
+                android:drawableTop="@drawable/fish"
+                android:text="페스코\n\n"
+                android:textColor="@color/colorGray"
+                android:padding="10dp"/>
 
-                <TextView
-                    android:id="@+id/pescoButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:drawableTop="@drawable/fish"
-                    android:gravity="center"
-                    android:textColor="@color/colorGray"
-                    android:text="페스코" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
+            <Button
+                android:id="@+id/typeLactoovoButton"
                 android:layout_width="160dp"
                 android:layout_height="100dp"
-                android:layout_marginRight="8dp"
-                android:background="@drawable/btn_empty">
-
-                <TextView
-                    android:id="@+id/lactoovoButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:drawableTop="@drawable/milk"
-                    android:gravity="center"
-                    android:textColor="@color/colorGray"
-                    android:text="락토오보" />
-
-            </RelativeLayout>
+                android:background="@drawable/type_button"
+                android:drawableTop="@drawable/unselect_lactoovo"
+                android:text="락토오보"
+                android:textColor="@color/colorGray"
+                android:padding="20dp" />
 
         </LinearLayout>
 
@@ -106,41 +91,27 @@
             android:orientation="horizontal"
             android:gravity="center">
 
-            <RelativeLayout
+            <Button
+                android:id="@+id/typeLactoButton"
                 android:layout_width="160dp"
                 android:layout_height="100dp"
-                android:layout_marginRight="8dp"
-                android:background="@drawable/btn_empty">
+                android:background="@drawable/type_button"
+                android:drawableTop="@drawable/milk"
+                android:text="락토"
+                android:textColor="@color/colorGray"
+                android:padding="20dp" />
 
-                <TextView
-                    android:id="@+id/lactoButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:drawableTop="@drawable/milk"
-                    android:gravity="center"
-                    android:textColor="@color/colorGray"
-                    android:text="락토" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
+            <Button
+                android:id="@+id/typeOvoButton"
                 android:layout_width="160dp"
                 android:layout_height="100dp"
-                android:layout_marginRight="8dp"
-                android:background="@drawable/btn_empty">
+                android:background="@drawable/type_button"
+                android:drawableTop="@drawable/eggs"
+                android:text="오보"
+                android:textColor="@color/colorGray"
+                android:paddingTop="30dp"
+                android:paddingBottom="10dp"/>
 
-                <TextView
-                    android:id="@+id/ovoButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:drawableTop="@drawable/eggs"
-                    android:gravity="center"
-                    android:textColor="@color/colorGray"
-                    android:text="오보" />
-
-            </RelativeLayout>
 
         </LinearLayout>
 
@@ -151,31 +122,34 @@
             android:gravity="center"
             android:layout_marginTop="8dp">
 
-            <RelativeLayout
-                android:layout_width="160dp"
-                android:layout_height="100dp"
-                android:layout_marginRight="8dp"
-                android:background="@drawable/btn_empty">
-
-                <TextView
-                    android:id="@+id/veganButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:drawableTop="@drawable/cabbage_icon"
-                    android:gravity="center"
-                    android:textColor="@color/colorGray"
-                    android:text="비건" />
-
-            </RelativeLayout>
-
             <Button
+                android:id="@+id/typeVeganButton"
                 android:layout_width="160dp"
                 android:layout_height="100dp"
-                android:background="@drawable/no_btn"/>
+                android:background="@drawable/type_button"
+                android:drawableTop="@drawable/cabbage_icon"
+                android:text="비건"
+                android:textColor="@color/colorGray"
+                android:padding="20dp" />
+
+            <Space
+                android:layout_width="160dp"
+                android:layout_height="100dp" />
 
         </LinearLayout>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/typeSignUpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:background="@drawable/type_button"
+        android:drawableRight="@drawable/button_no_arrow"
+        android:text="가입완료하기"
+        android:textColor="@color/colorGray"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
 
 </LinearLayout>

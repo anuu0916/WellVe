@@ -118,10 +118,10 @@ public class SignupActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(SignupActivity.this, "회원가입에 성공했습니다.",
-                                            Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(SignupActivity.this, "회원가입에 성공했습니다.",
+//                                            Toast.LENGTH_SHORT).show();
 
-                                    Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                                    Intent intent = new Intent(SignupActivity.this, TypeCheckActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
 
