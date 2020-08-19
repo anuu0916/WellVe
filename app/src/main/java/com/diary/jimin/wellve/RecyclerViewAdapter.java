@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,10 +21,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private LayoutInflater inflater;
     private Context context;
 
+    public interface OnItemClickListener {
+        void onItemClick(int pos);
+    }
+
+    private OnItemClickListener mListener = null;
+
+
     public RecyclerViewAdapter(Context context, ArrayList<CommunityItem> items) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.items = items;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mListener = listener;
     }
 
     @NonNull
@@ -53,6 +65,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
 
+
     @Override
     public int getItemCount() {
         return items.size();
@@ -77,7 +90,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             category = (TextView) itemView.findViewById(R.id.communityItemCategoryText);
             comment = (TextView) itemView.findViewById(R.id.communityItemCommentText);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if(pos != RecyclerView.NO_POSITION) {
+                        mListener.onItemClick(pos);
+                    }
+                }
+            });
 
         }
     }
+
 }

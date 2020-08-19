@@ -1,6 +1,7 @@
 package com.diary.jimin.wellve;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Page1Fragment extends Fragment {
@@ -32,6 +35,9 @@ public class Page1Fragment extends Fragment {
     private RecyclerViewAdapter adapter;
 
     private FirebaseFirestore db;
+
+    private List<String> idList = new ArrayList<>();
+    private List<String> categoryList = new ArrayList<>();
 
 
     public static Page1Fragment getInstance() {
@@ -61,6 +67,18 @@ public class Page1Fragment extends Fragment {
 
         adapter = new RecyclerViewAdapter(context, items);
 
+        adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                Log.d("pagePos", "pos : "+ pos);
+                Intent intent = new Intent(getActivity(), PostInActivity.class);
+                intent.putExtra("setId", idList.get(pos));
+                intent.putExtra("setCategory", categoryList.get(pos));
+                startActivity(intent);
+            }
+        });
+
+
         return view;
     }
 
@@ -87,6 +105,9 @@ public class Page1Fragment extends Fragment {
                                         documentSnapshot.getData().get("time").toString(),
                                         "잡담 ",
                                         "15"));
+
+                                idList.add(documentSnapshot.getId());
+                                categoryList.add("freePosts");
                             }
                             recyclerView.setAdapter(adapter);
                         }
@@ -108,6 +129,8 @@ public class Page1Fragment extends Fragment {
                                         documentSnapshot.getData().get("time").toString(),
                                         "QnA ",
                                         "15"));
+                                idList.add(documentSnapshot.getId());
+                                categoryList.add("QnAPosts");
                             }
                             recyclerView.setAdapter(adapter);
                         }
@@ -130,6 +153,8 @@ public class Page1Fragment extends Fragment {
                                         documentSnapshot.getData().get("time").toString(),
                                         "식당 ",
                                         "15"));
+                                idList.add(documentSnapshot.getId());
+                                categoryList.add("restaurantPosts");
                             }
                             recyclerView.setAdapter(adapter);
                         }
@@ -152,11 +177,24 @@ public class Page1Fragment extends Fragment {
                                         documentSnapshot.getData().get("time").toString(),
                                         "문학 ",
                                         "15"));
+                                idList.add(documentSnapshot.getId());
+                                categoryList.add("literPosts");
                             }
                             recyclerView.setAdapter(adapter);
                         }
                     }
                 });
+
+//        adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View v, int pos) {
+////                Intent intent = new Intent(getActivity(), PostInActivity.class);
+////                intent.putExtra("setId", idList.get(pos));
+////                intent.putExtra("setCategory", categoryList.get(pos));
+////                startActivity(intent);
+////                Log.d("pagePos", "pos : "+ pos);
+//            }
+//        });
 
 
 //        items.add(new CommunityItem("a", "htttp", "a", "a", "a ", "a"));
