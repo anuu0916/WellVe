@@ -13,12 +13,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 
 
 public class Page1Fragment extends Fragment {
 
     private ArrayList<CommunityItem> items = new ArrayList<>();
+    private Context context;
+    private RecyclerView recyclerView;
+    private RecyclerViewAdapter adapter;
+
+    private FirebaseFirestore db;
+
 
     public static Page1Fragment getInstance() {
         Page1Fragment page1Fragment = new Page1Fragment();
@@ -30,31 +44,121 @@ public class Page1Fragment extends Fragment {
         super.onAttach(context);
     }
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_page, container, false);
         initDataset();
 
-        Context context = view.getContext();
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.page1RecyclerView);
+        context = view.getContext();
+        recyclerView = (RecyclerView) view.findViewById(R.id.page1RecyclerView);
         recyclerView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(context, items);
-        recyclerView.setAdapter(adapter);
+        adapter = new RecyclerViewAdapter(context, items);
 
         return view;
     }
 
     private void initDataset() {
 
+        db = FirebaseFirestore.getInstance();
+
         items.clear();
-        items.add(new CommunityItem("nickname", "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019", "지민이의", "time", "잡담 ", "15"));
-        items.add(new CommunityItem("nickname", "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019", "험난한", "time", "잡담 ", "15"));
-        items.add(new CommunityItem("nickname", "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019", "풀스택 이야기", "time", "자유 ", "15"));
+
+        CollectionReference collectionReference = db.collection("freePosts");
+
+
+        collectionReference
+                .orderBy("time", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                        "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
+                                        documentSnapshot.getData().get("title").toString(),
+                                        documentSnapshot.getData().get("time").toString(),
+                                        "잡담 ",
+                                        "15"));
+                            }
+                            recyclerView.setAdapter(adapter);
+                        }
+                    }
+                });
+        collectionReference = db.collection("QnAPosts");
+
+        collectionReference
+                .orderBy("time", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                        "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
+                                        documentSnapshot.getData().get("title").toString(),
+                                        documentSnapshot.getData().get("time").toString(),
+                                        "QnA ",
+                                        "15"));
+                            }
+                            recyclerView.setAdapter(adapter);
+                        }
+                    }
+                });
+
+        collectionReference = db.collection("restaurantPosts");
+
+        collectionReference
+                .orderBy("time", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                        "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
+                                        documentSnapshot.getData().get("title").toString(),
+                                        documentSnapshot.getData().get("time").toString(),
+                                        "식당 ",
+                                        "15"));
+                            }
+                            recyclerView.setAdapter(adapter);
+                        }
+                    }
+                });
+
+        collectionReference = db.collection("literPosts");
+
+        collectionReference
+                .orderBy("time", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                        "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
+                                        documentSnapshot.getData().get("title").toString(),
+                                        documentSnapshot.getData().get("time").toString(),
+                                        "문학 ",
+                                        "15"));
+                            }
+                            recyclerView.setAdapter(adapter);
+                        }
+                    }
+                });
+
+
+//        items.add(new CommunityItem("a", "htttp", "a", "a", "a ", "a"));
     }
 }
