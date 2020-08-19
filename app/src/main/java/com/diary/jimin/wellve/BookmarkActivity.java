@@ -2,20 +2,29 @@ package com.diary.jimin.wellve;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -33,7 +42,9 @@ public class BookmarkActivity extends AppCompatActivity {
     private List<String> titleList = new ArrayList<>();
     private List<String> categoryList = new ArrayList<>();
 
-    private PostInfo postInfo;
+    private ImageView myPageProfileImage;
+    private TextView myPageNickName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +58,26 @@ public class BookmarkActivity extends AppCompatActivity {
 
         CollectionReference document = db.collection("users").document(user.getUid())
                 .collection("bookmarks");
+
+        DocumentReference document2 = db.collection("users").document(user.getUid());
+
+        document2.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if(documentSnapshot.exists()) {
+                        myPageNickName.setText(documentSnapshot.getData().get("nickname")+"님!");
+                        if(documentSnapshot.getData().get("profileImageUrl")==null) {
+                            myPageProfileImage.setImageResource(R.drawable.app_icon);
+                        }
+                    }
+                } else {
+                    Log.d("BookmarkActivity", ""+task.getException());
+                }
+            }
+        });
+
 
         document.orderBy("time", Query.Direction.DESCENDING)
                 .get()
@@ -88,6 +119,8 @@ public class BookmarkActivity extends AppCompatActivity {
 
     private void init() {
         bookMarkListView = (ListView) findViewById(R.id.bookMarkListView);
+        myPageProfileImage = (ImageView) findViewById(R.id.mypage_profile_image);
+        myPageNickName = (TextView) findViewById(R.id.mypage_nickname);
 
     }
 }

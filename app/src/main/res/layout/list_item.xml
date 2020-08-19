@@ -1,23 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="12dp"
+    android:paddingTop="12dp"
+    >
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/community_thumb"
+        />
+<TableLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:weightSum="10">
-
-
+    android:weightSum="10"
+    android:layout_gravity="center_vertical"
+    android:layout_marginRight="24dp">
     <TableRow
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:weightSum="10">
-
-
+        android:layout_height="match_parent">
         <TextView
             android:id="@+id/userID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textSize="22sp" />
+            android:textSize="14sp"
+            android:textColor="#000"
+            android:layout_marginBottom="4dp"
+            android:layout_gravity="left"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/list_comment"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="0dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="#000"
+            android:textSize="10sp"
+            android:layout_gravity="center_vertical"
+            android:textStyle="bold"
+            android:layout_marginLeft="3dp"/>
     </TableRow>
 
     <TableRow
@@ -31,7 +66,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="context"
-            android:textSize="20sp" />
+            android:textSize="10sp"
+            android:textColor="#8a8a8a"/>
     </TableRow>
-
 </TableLayout>
+</LinearLayout>

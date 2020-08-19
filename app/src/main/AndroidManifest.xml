@@ -25,6 +25,7 @@
         <activity android:name=".BoardActivity" />
         <activity android:name=".MemberInitActivity" />
         <activity android:name=".PasswordResetActivity" />
+        <activity android:name=".TypeCheckActivity" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
