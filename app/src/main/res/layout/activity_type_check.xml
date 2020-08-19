@@ -4,6 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:weightSum="31"
     android:background="#FFFFFF">
 
     <LinearLayout
@@ -60,11 +61,13 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="43">
 
             <Button
                 android:id="@+id/typePescoButton"
-                android:layout_width="160dp"
+                android:layout_weight="20"
+                android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:background="@drawable/type_button"
                 android:drawableTop="@drawable/fish"
@@ -72,9 +75,15 @@
                 android:textColor="@color/colorGray"
                 android:padding="10dp"/>
 
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
             <Button
                 android:id="@+id/typeLactoovoButton"
-                android:layout_width="160dp"
+                android:layout_weight="20"
+                android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:background="@drawable/type_button"
                 android:drawableTop="@drawable/unselect_lactoovo"
@@ -89,11 +98,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:weightSum="43">
 
             <Button
                 android:id="@+id/typeLactoButton"
-                android:layout_width="160dp"
+                android:layout_weight="20"
+                android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:background="@drawable/type_button"
                 android:drawableTop="@drawable/milk"
@@ -101,9 +112,15 @@
                 android:textColor="@color/colorGray"
                 android:padding="20dp" />
 
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
             <Button
                 android:id="@+id/typeOvoButton"
-                android:layout_width="160dp"
+                android:layout_weight="20"
+                android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:background="@drawable/type_button"
                 android:drawableTop="@drawable/unselect_ovo"
@@ -120,12 +137,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:weightSum="43">
 
             <Button
                 android:id="@+id/typeVeganButton"
-                android:layout_width="160dp"
+                android:layout_width="0dp"
                 android:layout_height="100dp"
+                android:layout_weight="20"
                 android:background="@drawable/type_button"
                 android:drawableTop="@drawable/cabbage_icon"
                 android:text="비건"
@@ -133,23 +152,41 @@
                 android:padding="20dp" />
 
             <Space
-                android:layout_width="160dp"
+                android:layout_weight="21"
+                android:layout_width="0dp"
                 android:layout_height="100dp" />
 
         </LinearLayout>
 
     </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"/>
 
-    <Button
-        android:id="@+id/typeSignUpButton"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:background="@drawable/type_button"
-        android:drawableRight="@drawable/button_no_arrow"
-        android:text="가입완료하기"
-        android:textColor="@color/colorGray"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"/>
+        android:weightSum="22">
+        
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="14"/>
+        
+        <Button
+            android:id="@+id/typeSignUpButton"
+            android:layout_weight="7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@drawable/type_check_next"
+            android:drawableRight="@drawable/button_no_arrow"
+            android:text="가입완료하기"
+            android:textColor="@color/colorGray"
+            android:paddingLeft="16dp"
+            android:paddingRight="10dp"/>
+
+    </LinearLayout>
 
 </LinearLayout>
