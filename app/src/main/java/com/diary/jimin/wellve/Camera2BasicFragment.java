@@ -9,6 +9,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Point;
@@ -30,6 +32,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.provider.Contacts;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
@@ -39,15 +42,18 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -413,7 +419,10 @@ public class Camera2BasicFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_camera2_basic, container, false);
+        View view = inflater.inflate(R.layout.fragment_page, container, false);
+        //ImageView iv_photo = (ImageView) view.findViewById(R.id.photo);
+        //return inflater.inflate(R.layout.fragment_camera2_basic, container, false);
+        return view;
     }
 
     @Override
@@ -421,12 +430,27 @@ public class Camera2BasicFragment extends Fragment
         view.findViewById(R.id.cameraShootButton).setOnClickListener(this);
         view.findViewById(R.id.cameraGalleryButton).setOnClickListener(this);
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture);
+        //ImageView mImageView = (ImageView) view.findViewById(R.id.photo);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
+    }
+
+    //갤러리 사진가져온거 결과(비트맵으로) 저장
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data.getData() != null) {
+            if (requestCode == PICK_IMAGE_REQUEST) {
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                //((ImageView) view.findViewById(R.id.photo)).setImageBitmap(imageBitmap);
+            }
+
+        }
     }
 
     @Override
@@ -884,10 +908,11 @@ public class Camera2BasicFragment extends Fragment
                 break;
             }
             case R.id.cameraGalleryButton: {
-                Intent intent = new Intent();
+                //갤러리에서 사진 불러오기
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+                startActivityForResult(intent, PICK_IMAGE_REQUEST);
                 break;
             }
         }
