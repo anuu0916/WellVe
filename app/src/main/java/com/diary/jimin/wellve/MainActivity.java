@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -107,10 +108,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void init() {
-        logOutButton = findViewById(R.id.mainLogOutButton);
-        boardButton = findViewById(R.id.mainBoardButton);
-        bookMarkButton = findViewById(R.id.mainBookMarkButton);
-        cameraButton = findViewById(R.id.mainCameraButton);
+        logOutButton = (Button)findViewById(R.id.mainLogOutButton);
+        boardButton = (Button)findViewById(R.id.mainBoardButton);
+        bookMarkButton = (Button)findViewById(R.id.mainBookMarkButton);
+        cameraButton = (Button)findViewById(R.id.mainCameraButton);
     }
 
     @Override
