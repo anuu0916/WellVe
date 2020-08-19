@@ -3,12 +3,14 @@ package com.diary.jimin.wellve;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -21,7 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.lang.reflect.Member;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     private static final String TAG = "MainActivity";
 
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         boardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
+                Intent intent = new Intent(MainActivity.this, CommunityActivity.class);
                 startActivity(intent);
             }
         });
@@ -107,9 +109,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void init() {
-        logOutButton = findViewById(R.id.mainLogOutButton);
-        boardButton = findViewById(R.id.mainBoardButton);
-        bookMarkButton = findViewById(R.id.mainBookMarkButton);
-        cameraButton = findViewById(R.id.mainCameraButton);
+        logOutButton = (Button)findViewById(R.id.mainLogOutButton);
+        boardButton = (Button)findViewById(R.id.mainBoardButton);
+        bookMarkButton = (Button)findViewById(R.id.mainBookMarkButton);
+        cameraButton = (Button)findViewById(R.id.mainCameraButton);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        moveTaskToBack(true);
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(1);
     }
 }

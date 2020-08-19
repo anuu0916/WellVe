@@ -3,23 +3,12 @@ package com.diary.jimin.wellve;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class CategoryActivity extends AppCompatActivity {
+public class CommunityActivity extends AppCompatActivity {
 
 //    private ListView listView;
 //    private CategoryAdapter adapter;
@@ -35,7 +24,7 @@ public class CategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category);
+        setContentView(R.layout.activity_community);
 
 
         vp = findViewById(R.id.categoryViewPager);
@@ -65,7 +54,7 @@ public class CategoryActivity extends AppCompatActivity {
 //        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(CategoryActivity.this, BoardActivity.class);
+//                Intent intent = new Intent(CommunityActivity.this, BoardActivity.class);
 //                intent.putExtra("category", categoryList.get(position));
 //                startActivity(intent);
 //

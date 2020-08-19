@@ -1,59 +1,47 @@
 package com.diary.jimin.wellve;
 
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
+
 public class MemberInfo {
 
-    private String name;
-    private String phone;
-    private String address;
-    private String date;
+    private String nickname;
+    private String type;
+    private String profileImageUrl;
 
-    public MemberInfo(String name, String phone, String address, String date) {
-        this.name = name;
-        this.phone = phone;
-        this.address = address;
-        this.date = date;
+
+
+    public MemberInfo(String nickname, String type, String profileImageUrl) {
+        this.nickname = nickname;
+        this.type = type;
+        this.profileImageUrl = profileImageUrl;
     }
 
 
-//    public MemberInfo(String nikname, String phone, String address, String date) {
-//        this.name = name;
-//        this.phone = phone;
-//        this.address = address;
-//        this.date = date;
-//    }
-
-
-
-    public String getName() {
-        return this.name;
+    public String getNickname() {
+        return this.nickname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
-    public String getPhone() {
-        return this.phone;
+    public String getType() {
+        return this.type;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getAddress() {
-        return this.address;
+    public String getProfileImageUrl() {
+        return this.profileImageUrl;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 
-    public String getDate() {
-        return this.date;
-    }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
 
 }
