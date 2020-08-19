@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp">
+
+        <Button
+            android:id="@+id/loginBackButton"
+            android:layout_width="12dp"
+            android:layout_height="16dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/backbutton" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="개발자에게"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="어플을 사용하며 불편했던 점이나\n개선되었으면 하는 점을 말해주세요!"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:lineSpacingExtra="6sp"
+        android:layout_marginTop="45dp"
+        android:layout_marginLeft="16dp"
+        />
+
+    <EditText
+        android:layout_width="380dp"
+        android:layout_height="240dp"
+        android:background="@drawable/developer_background"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:hint="이 성분은 비건 성분이 아니에요!"
+        android:gravity="top"
+        android:paddingTop="16dp"
+        android:paddingLeft="16dp"
+        android:textColorHint="#8a8a8a"
+        android:textSize="12sp"
+        />
+
+    <Button
+        android:layout_width="380dp"
+        android:layout_height="42dp"
+        android:background="@drawable/developer_background"
+        android:stateListAnimator="@null"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"
+        android:text="보내기"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#4d4d4d"
+        />
+
+</LinearLayout>
