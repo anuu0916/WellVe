@@ -115,8 +115,8 @@
     </com.google.android.material.tabs.TabLayout>
 
     <!-- 그냥 대충 해놨어요 수정plz... -->
-    <ListView
-        android:id="@+id/bookMarkListView"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/categoryViewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9" />

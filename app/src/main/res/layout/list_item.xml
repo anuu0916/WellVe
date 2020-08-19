@@ -52,7 +52,7 @@
             android:textSize="10sp"
             android:layout_gravity="center_vertical"
             android:textStyle="bold"
-            android:layout_marginLeft="3dp"/>
+            android:layout_marginLeft="4dp"/>
     </TableRow>
 
     <TableRow

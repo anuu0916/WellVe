@@ -35,12 +35,6 @@ import java.util.List;
 
 public class BookmarkActivity extends AppCompatActivity {
 
-    private ListView bookMarkListView;
-    private ListViewAdapter adapter;
-    private FirebaseFirestore db;
-    private FirebaseUser user;
-    private List<String> titleList = new ArrayList<>();
-    private List<String> categoryList = new ArrayList<>();
 
     private ImageView myPageProfileImage;
     private TextView myPageNickName;
@@ -52,73 +46,9 @@ public class BookmarkActivity extends AppCompatActivity {
 
         init();
 
-        db = FirebaseFirestore.getInstance();
-        adapter = new ListViewAdapter();
-        user = FirebaseAuth.getInstance().getCurrentUser();
-
-        CollectionReference document = db.collection("users").document(user.getUid())
-                .collection("bookmarks");
-
-        DocumentReference document2 = db.collection("users").document(user.getUid());
-
-        document2.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()) {
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    if(documentSnapshot.exists()) {
-                        myPageNickName.setText(documentSnapshot.getData().get("nickname")+"님!");
-                        if(documentSnapshot.getData().get("profileImageUrl")==null) {
-                            myPageProfileImage.setImageResource(R.drawable.app_icon);
-                        }
-                    }
-                } else {
-                    Log.d("BookmarkActivity", ""+task.getException());
-                }
-            }
-        });
-
-
-        document.orderBy("time", Query.Direction.DESCENDING)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
-                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                adapter.addItem(documentSnapshot.get("title").toString(),
-                                        documentSnapshot.get("text").toString(),
-                                        documentSnapshot.get("id").toString(),
-                                        documentSnapshot.get("time").toString(),
-                                        documentSnapshot.get("name").toString());
-                                titleList.add(documentSnapshot.getId());
-                                categoryList.add(documentSnapshot.get("category").toString());
-
-                            }
-
-                            bookMarkListView.setAdapter(adapter);
-                        }
-                    }
-                });
-
-
-
-        bookMarkListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(BookmarkActivity.this, PostInActivity.class);
-                intent.putExtra("ID",titleList.get(position));
-                intent.putExtra("setCategory", categoryList.get(position));
-                startActivity(intent);
-            }
-        });
-
-
-
     }
 
     private void init() {
-        bookMarkListView = (ListView) findViewById(R.id.bookMarkListView);
         myPageProfileImage = (ImageView) findViewById(R.id.mypage_profile_image);
         myPageNickName = (TextView) findViewById(R.id.mypage_nickname);
 
