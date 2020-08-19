@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +50,7 @@ public class PostInActivity extends AppCompatActivity {
     private Button postInSubmitButton;
     private Button postInLikeButton;
     private TextView postInLikeTextView;
-    private Button postInMarkButton;
+    private ImageButton postInMarkButton;
 
     private String getId;   //문서 uid
     private String getCategory; //문서 컬렉션 이름
@@ -70,7 +71,7 @@ public class PostInActivity extends AppCompatActivity {
         init();
 
         Intent intent = getIntent();
-        getId = intent.getStringExtra("ID");
+        getId = intent.getStringExtra("setId");
         getCategory = intent.getStringExtra("setCategory");
 
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -89,7 +90,6 @@ public class PostInActivity extends AppCompatActivity {
 
                         name = document.getData().get("name").toString();
 
-//                        String title, String text, String id, String time, String name
                         postInfo = new PostInfo(document.getData().get("title").toString(),
                                 document.getData().get("text").toString(),
                                 document.getData().get("id").toString(),
@@ -180,7 +180,7 @@ public class PostInActivity extends AppCompatActivity {
         postInSubmitButton = (Button) findViewById(R.id.postInSubmitButton);
         postInLikeButton = (Button) findViewById(R.id.postInLikeButton);
         postInLikeTextView = (TextView) findViewById(R.id.postInLikeTextView);
-        postInMarkButton = (Button) findViewById(R.id.postInMarkButton);
+        postInMarkButton = (ImageButton) findViewById(R.id.postInMarkButton);
 
     }
 
