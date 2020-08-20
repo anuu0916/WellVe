@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.google.firebase:firebase-ml-vision:24.0.3@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/09ff395c955988a82f0e2a41e8e74e6c/firebase-ml-vision-24.0.3/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/09ff395c955988a82f0e2a41e8e74e6c/firebase-ml-vision-24.0.3/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/09ff395c955988a82f0e2a41e8e74e6c/firebase-ml-vision-24.0.3/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/05cab4c2fdeb839e7bfcc3f4c6c937e8/jetified-firebase-ml-vision-24.0.3/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/05cab4c2fdeb839e7bfcc3f4c6c937e8/jetified-firebase-ml-vision-24.0.3/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/05cab4c2fdeb839e7bfcc3f4c6c937e8/jetified-firebase-ml-vision-24.0.3/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-ml-vision/24.0.3/96cc070ac1be0cf3e4ebd7d56f7ef0c6c063ffb1/firebase-ml-vision-24.0.3-javadoc.jar!/" />
