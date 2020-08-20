@@ -28,6 +28,7 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -437,6 +438,7 @@ public class Camera2BasicFragment extends Fragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
+//        getContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(mFile)));
     }
 
     //갤러리 사진가져온거 결과(비트맵으로) 저장
@@ -447,7 +449,7 @@ public class Camera2BasicFragment extends Fragment
             if (requestCode == PICK_IMAGE_REQUEST) {
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
-                //((ImageView) view.findViewById(R.id.photo)).setImageBitmap(imageBitmap);
+                ((ImageView) getActivity().findViewById(R.id.photo)).setImageBitmap(imageBitmap);
             }
 
         }
