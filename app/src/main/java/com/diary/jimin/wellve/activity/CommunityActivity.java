@@ -3,8 +3,11 @@ package com.diary.jimin.wellve.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
 
 import com.diary.jimin.wellve.fragment.Page1Fragment;
 import com.diary.jimin.wellve.fragment.Page2Fragment;
@@ -17,16 +20,12 @@ import com.google.android.material.tabs.TabLayout;
 
 public class CommunityActivity extends AppCompatActivity {
 
-//    private ListView listView;
-//    private CategoryAdapter adapter;
-//    private FirebaseFirestore db;
-//
-//    private List<String> categoryList = new ArrayList<>();
-
 
     private ViewPager vp;
     private VPAdapter vpAdapter;
     private TabLayout tab;
+    private Button communitySearchButton;
+    private Button communityWriteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,38 +34,20 @@ public class CommunityActivity extends AppCompatActivity {
 
 
         vp = findViewById(R.id.categoryViewPager);
-
-
+        communitySearchButton = findViewById(R.id.communitySearchButton);
+        communityWriteButton = findViewById(R.id.communityWriteButton);
         getTabs();
-//        listView = (ListView) findViewById(R.id.categoryListView);
 
-//        db = FirebaseFirestore.getInstance();
-//        adapter = new CategoryAdapter();
-//
-//
-//        categoryList.add("freePosts");
-//        categoryList.add("QnAPosts");
-//        categoryList.add("restaurantPosts");
-//        categoryList.add("literPosts");
-//
-//
-//        adapter.addItem("자유게시판");
-//        adapter.addItem("QnA");
-//        adapter.addItem("비건 식당 추천");
-//        adapter.addItem("비건 문학 추천");
-//
-//        listView.setAdapter(adapter);
-//
-//
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(CommunityActivity.this, BoardActivity.class);
-//                intent.putExtra("category", categoryList.get(position));
-//                startActivity(intent);
-//
-//            }
-//        });
+
+        communityWriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CommunityActivity.this, PostActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
     public void getTabs() {
