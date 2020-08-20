@@ -27,30 +27,23 @@ public class OcrActivity extends AppCompatActivity /*implements ImageAnalysis.An
 
     private static final String TAG = "OcrActivity";
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_ocr);
+
+
+    }
+
+
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
+
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 90);
         ORIENTATIONS.append(Surface.ROTATION_90, 0);
         ORIENTATIONS.append(Surface.ROTATION_180, 270);
         ORIENTATIONS.append(Surface.ROTATION_270, 180);
     }
-
-    /*
-    @Override
-    public void analyze(ImageProxy imageProxy, int degrees) {
-        if (imageProxy == null || imageProxy.getImage() == null) {
-            return;
-        }
-        Image mediaImage = imageProxy.getImage();
-        int rotation = degreesToFirebaseRotation(degrees);
-        FirebaseVisionImage image =
-                FirebaseVisionImage.fromMediaImage(mediaImage, rotation);
-        // Pass image to an ML Kit Vision API
-        // ...
-
-
-    }
-     */
 
 
     /**
@@ -95,12 +88,6 @@ public class OcrActivity extends AppCompatActivity /*implements ImageAnalysis.An
                 Log.e(TAG, "Bad rotation value: " + rotationCompensation);
         }
         return result;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ocr);
     }
 }
 
