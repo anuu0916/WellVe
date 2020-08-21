@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.diary.jimin.wellve.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,9 +23,9 @@ public class MainActivity extends Activity {
 
     private static final String TAG = "MainActivity";
 
-    private Button logOutButton;
-    private Button boardButton;
-    private Button bookMarkButton;
+    private ImageButton bookMarkButton;
+    private ImageButton boardButton;
+    private ImageButton settingButton;
     private Button cameraButton;
 
     @Override
@@ -69,11 +70,10 @@ public class MainActivity extends Activity {
 
         }
 
-        logOutButton.setOnClickListener(new View.OnClickListener() {
+        bookMarkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, BookmarkActivity.class);
                 startActivity(intent);
             }
         });
@@ -86,10 +86,11 @@ public class MainActivity extends Activity {
             }
         });
 
-        bookMarkButton.setOnClickListener(new View.OnClickListener() {
+        settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, BookmarkActivity.class);
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -104,9 +105,9 @@ public class MainActivity extends Activity {
     }
 
     void init() {
-        logOutButton = (Button)findViewById(R.id.mainLogOutButton);
-        boardButton = (Button)findViewById(R.id.mainBoardButton);
-        bookMarkButton = (Button)findViewById(R.id.mainBookMarkButton);
+        bookMarkButton = (ImageButton)findViewById(R.id.mainBookMarkButton);
+        boardButton = (ImageButton)findViewById(R.id.mainBoardButton);
+        settingButton = (ImageButton)findViewById(R.id.mainSettingButton);
         cameraButton = (Button)findViewById(R.id.mainCameraButton);
     }
 
