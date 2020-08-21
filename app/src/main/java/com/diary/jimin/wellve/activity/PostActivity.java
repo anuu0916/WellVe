@@ -7,8 +7,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.diary.jimin.wellve.model.PostInfo;
@@ -28,12 +32,14 @@ import java.util.Date;
 
 public class PostActivity extends AppCompatActivity {
 
+    String[] items = {"자유", "QNA", "식당", "문학"};
+
     private FirebaseAuth mAuth;
 
     private EditText postTitleEditText;
     private EditText postTextEditText;
     private Button postButton;
-    private Button postPhotoButton;
+    private ImageButton postPhotoButton;
     private String name;
     private FirebaseUser user;
     private FirebaseFirestore db;
@@ -80,6 +86,25 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
+        Spinner spinner = findViewById(R.id.spinner);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, items);
+        adapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
     }
 
@@ -88,8 +113,7 @@ public class PostActivity extends AppCompatActivity {
         postTitleEditText = findViewById(R.id.postTitleEditText);
         postTextEditText = findViewById(R.id.postTextEditText);
         postButton = findViewById(R.id.postButton);
-        postPhotoButton = findViewById(R.id.postPhotoButton);
-
+        postPhotoButton = (ImageButton)findViewById(R.id.postPhotoButton);
 
     }
 
@@ -142,4 +166,6 @@ public class PostActivity extends AppCompatActivity {
             Toast.makeText(PostActivity.this, "제목과 내용을 입력하세요", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.diary.jimin.wellve.fragment.Page1Fragment;
 import com.diary.jimin.wellve.fragment.Page2Fragment;
@@ -32,6 +33,7 @@ public class CommunityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_community);
 
+        init();
 
         vp = findViewById(R.id.categoryViewPager);
         communitySearchButton = findViewById(R.id.communitySearchButton);
@@ -47,7 +49,20 @@ public class CommunityActivity extends AppCompatActivity {
             }
         });
 
+        communitySearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CommunityActivity.this, SearchActivity.class);
+                startActivity(intent);
+            }
+        });
 
+
+    }
+
+    void init() {
+        communitySearchButton = (Button)findViewById(R.id.communitySearchButton);
+        communityWriteButton = (Button)findViewById(R.id.communityWriteButton);
     }
 
     public void getTabs() {
