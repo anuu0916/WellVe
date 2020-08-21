@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="10"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
 
     <!--weight쓸줄을 잘 몰라서 일단 고쳐봤는데 엉망진창이라면 ㅈㅅ합니다... -->
 
