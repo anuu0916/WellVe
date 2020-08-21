@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context=".activity.DeveloperActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="개발자에게"
-            android:textColor="#000000"
+            android:textColor="@color/colorBlack"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -35,13 +36,14 @@
         android:layout_height="wrap_content"
         android:text="어플을 사용하며 불편했던 점이나\n개선되었으면 하는 점을 말해주세요!"
         android:textSize="16sp"
-        android:textColor="#000000"
+        android:textColor="@color/colorBlack"
         android:lineSpacingExtra="6sp"
         android:layout_marginTop="45dp"
         android:layout_marginLeft="16dp"
         />
 
     <EditText
+        android:id="@+id/et_message"
         android:layout_width="380dp"
         android:layout_height="240dp"
         android:background="@drawable/developer_background"
@@ -53,9 +55,12 @@
         android:paddingLeft="16dp"
         android:textColorHint="#8a8a8a"
         android:textSize="12sp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         />
 
     <Button
+        android:id="@+id/bt_send"
         android:layout_width="380dp"
         android:layout_height="42dp"
         android:background="@drawable/developer_background"
@@ -66,6 +71,8 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="#4d4d4d"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         />
 
 </LinearLayout>
