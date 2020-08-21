@@ -17,7 +17,7 @@
         <Button
             android:id="@+id/loginBackButton"
             android:layout_width="12dp"
-            android:layout_height="16dp"
+            android:layout_height="20dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
