@@ -54,11 +54,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:drawableStart="@drawable/main_ocr"
+            android:drawablePadding="16dp"
             android:text="바로 채식제품인지 확인하기"
             android:layout_alignParentTop="true"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:textColor="#000000"
+            android:textColor="@color/colorBlack"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
             android:background="#00ff0000"/>
@@ -68,28 +70,54 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="bottom|center"
             android:layout_alignParentBottom="true"
             android:gravity="center_horizontal|center_vertical"
-            android:background="@drawable/main_buttonbackground">
+            android:background="@drawable/main_buttonbackground"
+            android:weightSum="100">
 
-            <Button
-                android:id="@+id/mainLogOutButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Logout"/>
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="14"/>
 
-            <Button
-                android:id="@+id/mainBoardButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="게시판"/>
-
-            <Button
+            <ImageButton
                 android:id="@+id/mainBookMarkButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="북마크"/>
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/mypage_btn"
+                android:layout_weight="20"
+                android:background="@color/transparent"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="6"/>
+
+            <ImageButton
+                android:id="@+id/mainBoardButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/community_btn"
+                android:layout_weight="20"
+                android:background="@color/transparent"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="6"/>
+
+            <ImageButton
+                android:id="@+id/mainSettingButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/setting_btn"
+                android:layout_weight="20"
+                android:background="@color/transparent"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="14"/>
 
         </LinearLayout>
 

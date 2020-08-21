@@ -3,8 +3,11 @@ package com.diary.jimin.wellve.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,6 +38,8 @@ public class BookmarkActivity extends AppCompatActivity {
 
     private ImageView myPageProfileImage;
     private TextView myPageNickName;
+
+    private Button infoModifyButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +74,13 @@ public class BookmarkActivity extends AppCompatActivity {
             }
         });
 
-
+        infoModifyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BookmarkActivity.this, InfoModifyActivity.class);
+                startActivity(intent);
+            }
+        });
 //        document.orderBy("time", Query.Direction.DESCENDING)
 //                .get()
 //                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -90,11 +101,6 @@ public class BookmarkActivity extends AppCompatActivity {
 //                        }
 //                    }
 //                });
-
-
-
-
-
 
 
 

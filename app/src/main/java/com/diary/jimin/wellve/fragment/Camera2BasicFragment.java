@@ -3,13 +3,16 @@ package com.diary.jimin.wellve.fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Point;
@@ -25,13 +28,16 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.ExifInterface;
 import android.media.Image;
 import android.media.ImageReader;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
@@ -42,6 +48,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.content.Context;
+import android.content.ContentResolver;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -56,6 +64,8 @@ import com.diary.jimin.wellve.R;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,8 +86,10 @@ public class Camera2BasicFragment extends Fragment
      */
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     private static final int REQUEST_CAMERA_PERMISSION = 1;
+    private static final int REQUEST_READ_PERMISSION = 2;
     private static final String FRAGMENT_DIALOG = "dialog";
-    private static final int PICK_IMAGE_REQUEST = 1;
+
+    private static final int PICK_IMAGE_REQUEST = 1111;
 
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 90);
@@ -438,24 +450,21 @@ public class Camera2BasicFragment extends Fragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
+
     }
 
     //갤러리 사진가져온거 결과(비트맵으로) 저장
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("result", "0");
-        if (resultCode == RESULT_OK && data.getData() != null) {
-            Log.d("result", "1");
-            if (requestCode == PICK_IMAGE_REQUEST) {
 
-                Log.d("result", "2");
+        if (resultCode == RESULT_OK && data.getData() != null) {
+            if (requestCode == PICK_IMAGE_REQUEST) {
                 Bundle extras = data.getExtras();
 
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
-
-                Log.d("result", imageBitmap+"");
                 ((ImageView) getActivity().findViewById(R.id.photo)).setImageBitmap(imageBitmap);
+
             }
 
         }
@@ -485,6 +494,7 @@ public class Camera2BasicFragment extends Fragment
     }
 
     private void requestCameraPermission() {
+
         if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
             new ConfirmationDialog().show(getChildFragmentManager(), FRAGMENT_DIALOG);
         } else {
@@ -496,12 +506,14 @@ public class Camera2BasicFragment extends Fragment
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CAMERA_PERMISSION) {
-            if (grantResults.length != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                ErrorDialog.newInstance(getString(R.string.request_permission))
-                        .show(getChildFragmentManager(), FRAGMENT_DIALOG);
+            for (int i = 0; i < permissions.length; i++) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    ErrorDialog.newInstance(getString(R.string.request_permission))
+                            .show(getChildFragmentManager(), FRAGMENT_DIALOG);
+                } else {
+                    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                }
             }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
