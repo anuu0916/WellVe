@@ -27,6 +27,7 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -39,6 +40,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -64,6 +66,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class Camera2BasicFragment extends Fragment
         implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
@@ -416,7 +419,8 @@ public class Camera2BasicFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_page, container, false);
+        View view = inflater.inflate(R.layout.fragment_camera2_basic, container, false);
+
         //ImageView iv_photo = (ImageView) view.findViewById(R.id.photo);
         //return inflater.inflate(R.layout.fragment_camera2_basic, container, false);
         return view;
@@ -427,7 +431,7 @@ public class Camera2BasicFragment extends Fragment
         view.findViewById(R.id.cameraShootButton).setOnClickListener(this);
         view.findViewById(R.id.cameraGalleryButton).setOnClickListener(this);
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture);
-        //ImageView mImageView = (ImageView) view.findViewById(R.id.photo);
+//        ImageView mImageView = (ImageView) view.findViewById(R.id.photo);
     }
 
     @Override
@@ -440,11 +444,18 @@ public class Camera2BasicFragment extends Fragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("result", "0");
         if (resultCode == RESULT_OK && data.getData() != null) {
+            Log.d("result", "1");
             if (requestCode == PICK_IMAGE_REQUEST) {
+
+                Log.d("result", "2");
                 Bundle extras = data.getExtras();
+
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
-                //((ImageView) view.findViewById(R.id.photo)).setImageBitmap(imageBitmap);
+
+                Log.d("result", imageBitmap+"");
+                ((ImageView) getActivity().findViewById(R.id.photo)).setImageBitmap(imageBitmap);
             }
 
         }
@@ -902,10 +913,11 @@ public class Camera2BasicFragment extends Fragment
         switch (view.getId()) {
             case R.id.cameraShootButton: {
                 takePicture();
+
                 break;
             }
             case R.id.cameraGalleryButton: {
-                //갤러리에서 사진 불러오기
+                //갤러리 불러오기
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 intent.setType("image/*");

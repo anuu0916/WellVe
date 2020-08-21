@@ -33,6 +33,7 @@ public class PostActivity extends AppCompatActivity {
     private EditText postTitleEditText;
     private EditText postTextEditText;
     private Button postButton;
+    private Button postPhotoButton;
     private String name;
     private FirebaseUser user;
     private FirebaseFirestore db;
@@ -44,9 +45,9 @@ public class PostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
-        Intent intent = getIntent();
-        getCategory = intent.getStringExtra("setCategory");
-        Log.d("getCategory", getCategory);
+//        Intent intent = getIntent();
+//        getCategory = intent.getStringExtra("setCategory");
+//        Log.d("getCategory", getCategory);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
@@ -54,23 +55,23 @@ public class PostActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         init();
 
-        DocumentReference documentReference = db.collection("users").document(user.getUid());
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        name = document.getData().get("name").toString();
-                        Log.d("getname", "DocumentSnapshot data: " + document.getData().get("name"));
-                    } else {
-                        Log.d("getname", "No such document");
-                    }
-                } else {
-                    Log.d("getname", "get failed with ", task.getException());
-                }
-            }
-        });
+//        DocumentReference documentReference = db.collection("users").document(user.getUid());
+//        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        name = document.getData().get("name").toString();
+//                        Log.d("getname", "DocumentSnapshot data: " + document.getData().get("name"));
+//                    } else {
+//                        Log.d("getname", "No such document");
+//                    }
+//                } else {
+//                    Log.d("getname", "get failed with ", task.getException());
+//                }
+//            }
+//        });
 
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +88,7 @@ public class PostActivity extends AppCompatActivity {
         postTitleEditText = findViewById(R.id.postTitleEditText);
         postTextEditText = findViewById(R.id.postTextEditText);
         postButton = findViewById(R.id.postButton);
+        postPhotoButton = findViewById(R.id.postPhotoButton);
 
 
     }
