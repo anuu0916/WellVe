@@ -1,15 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.google.android.gms:play-services-ads-identifier:17.0.0@aar">
     <CLASSES>
-<<<<<<< HEAD
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b485224e7df16b4316a18869df7c4246/play-services-ads-identifier-17.0.0/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b485224e7df16b4316a18869df7c4246/play-services-ads-identifier-17.0.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b485224e7df16b4316a18869df7c4246/play-services-ads-identifier-17.0.0/res" />
-=======
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1701c68d7df5b259d25863f4d350b196/jetified-play-services-ads-identifier-17.0.0/AndroidManifest.xml" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1701c68d7df5b259d25863f4d350b196/jetified-play-services-ads-identifier-17.0.0/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1701c68d7df5b259d25863f4d350b196/jetified-play-services-ads-identifier-17.0.0/res" />
->>>>>>> 56c3d031bc01c2e4fc91db75284b84915ed62f71
     </CLASSES>
     <JAVADOC />
     <SOURCES />

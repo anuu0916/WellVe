@@ -1,15 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.google.firebase:firebase-firestore:21.2.1@aar">
     <CLASSES>
-<<<<<<< HEAD
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/490845dbeada522a23e252903ae4ee05/jetified-firebase-firestore-21.2.1/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/490845dbeada522a23e252903ae4ee05/jetified-firebase-firestore-21.2.1/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/490845dbeada522a23e252903ae4ee05/jetified-firebase-firestore-21.2.1/res" />
-=======
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/21524cdfdf0c34cb47a342775b755757/jetified-firebase-firestore-21.2.1/AndroidManifest.xml" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/21524cdfdf0c34cb47a342775b755757/jetified-firebase-firestore-21.2.1/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/21524cdfdf0c34cb47a342775b755757/jetified-firebase-firestore-21.2.1/res" />
->>>>>>> 56c3d031bc01c2e4fc91db75284b84915ed62f71
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-firestore/21.2.1/b9a848427431e64a9e856b5f18711bbec3eb072e/firebase-firestore-21.2.1-javadoc.jar!/" />
