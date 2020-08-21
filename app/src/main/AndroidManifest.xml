@@ -26,11 +26,13 @@
         <activity android:name=".activity.CameraActivity" />
         <activity android:name=".activity.BookmarkActivity" />
         <activity android:name=".activity.CommunityActivity" />
-        <activity android:name=".activity.PostInActivity" />
-        <activity android:name=".activity.PostActivity" />
+        <activity android:name=".activity.PostInActivity"/>
+        <activity android:name=".activity.PostActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".activity.BoardActivity" />
         <activity android:name=".activity.PasswordResetActivity" />
         <activity android:name=".activity.TypeCheckActivity" />
+        <activity android:name=".activity.SearchActivity" />
         <activity
             android:name=".activity.MainActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
