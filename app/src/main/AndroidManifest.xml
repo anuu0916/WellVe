@@ -18,6 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+
         <activity android:name=".activity.NicknameModifyActivity"></activity>
         <activity android:name=".activity.ReTypeCheckActivity" />
         <activity android:name=".activity.DeveloperActivity" />
