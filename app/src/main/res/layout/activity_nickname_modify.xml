@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context=".activity.ReTypeCheckActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="52dp">
+
+        <Button
+            android:id="@+id/signupBackButton"
+            android:layout_width="12dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="16dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/backbutton"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="닉네임 수정"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/colorBlack"
+            android:layout_gravity="center_horizontal"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="16dp"
+        android:text="바꿀 닉네임을 입력해주세요"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorBlack"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="닉네임"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/nicknameModifyEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:hint=" 영문·숫자·한글 조합 2-10자리"
+            android:textSize="14sp"
+            android:paddingBottom="20dp"
+            android:layout_marginRight="15dp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="22"
+        android:layout_marginTop="24dp">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="14"/>
+
+        <Button
+            android:id="@+id/nicknameModifyCompleteButton"
+            android:layout_weight="7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@drawable/type_check_next"
+            android:drawableRight="@drawable/button_no_arrow"
+            android:text="정보수정하기"
+            android:textColor="@color/colorGray"
+            android:paddingLeft="16dp"
+            android:paddingRight="10dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
