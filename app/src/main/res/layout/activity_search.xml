@@ -38,43 +38,36 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="12dp"
             android:layout_marginRight="16dp"
             android:src="@drawable/search_background" />
 
-        <Button
-            android:layout_width="80dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="33dp"
-            android:layout_marginTop="20dp"
-            android:background="#00FF0000"
-            android:drawableRight="@drawable/search_down_arrow"
-            android:gravity="center"
-            android:lineSpacingExtra="6sp"
-            android:paddingRight="25dip"
-            android:stateListAnimator="@null"
-            android:text="글내용"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <Spinner
-            android:layout_width="80dp"
-            android:layout_height="30dp"
-            android:background="@drawable/spinner_background"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="33dp"/>
-
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="64dp"
+                android:layout_height="46dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/dropdown_bg" />
+        </LinearLayout>
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="6sp"
-            android:text="검색어를 입력하세요"
-            android:textColor="#d4d4d4"
-            android:textSize="14sp" />
+            android:hint="검색어를 입력하세요"
+            android:textColorHint="#d4d4d4"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:layout_marginTop="14dp"
+            android:layout_marginLeft="110dp"/>
 
         <ImageButton
             android:layout_width="wrap_content"
