@@ -10,8 +10,7 @@ import com.diary.jimin.wellve.fragment.Camera2BasicFragment;
 import com.diary.jimin.wellve.fragment.CameraResultFragment;
 
 public class CameraActivity extends AppCompatActivity {
-
-    CameraResultFragment cameraResultFragment;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +22,6 @@ public class CameraActivity extends AppCompatActivity {
                     .commit();
         }
 
-        cameraResultFragment = (CameraResultFragment) getSupportFragmentManager().findFragmentById(R.id.cameraShootButton);
-        Log.e("Frag", "Fragment");
 
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
 //                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
