@@ -49,8 +49,8 @@ public class PostInActivity extends AppCompatActivity {
 
     private EditText postInCommentEditText;
     private Button postInSubmitButton;
-    private Button postInLikeButton;
-    private TextView postInLikeTextView;
+//    private Button postInLikeButton;
+  //  private TextView postInLikeTextView;
     private ImageButton postInMarkButton;
 
     private String getId;   //문서 uid
@@ -179,8 +179,8 @@ public class PostInActivity extends AppCompatActivity {
         commentListView = (ListView) findViewById(R.id.postInListView);
         postInCommentEditText = (EditText) findViewById(R.id.postInCommentEditText);
         postInSubmitButton = (Button) findViewById(R.id.postInSubmitButton);
-        postInLikeButton = (Button) findViewById(R.id.postInLikeButton);
-        postInLikeTextView = (TextView) findViewById(R.id.postInLikeTextView);
+//        postInLikeButton = (Button) findViewById(R.id.postInLikeButton);
+  //      postInLikeTextView = (TextView) findViewById(R.id.postInLikeTextView);
         postInMarkButton = (ImageButton) findViewById(R.id.postInMarkButton);
 
     }
