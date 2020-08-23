@@ -58,7 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.5"
-        android:paddingLeft="24dp"/>
+        android:paddingLeft="24dp" />
 
     <View
         android:layout_width="match_parent"
@@ -70,30 +70,40 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.5"
+        android:background="@null"
         android:hint="제목"
+        android:paddingLeft="24dp"
         android:singleLine="true"
         android:textColorHint="#d4d4d4"
-        android:textSize="16sp"
-        android:paddingLeft="24dp"/>
+        android:textSize="16sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="3px"
+        android:layout_marginBottom="10dp"
         android:background="#d4d4d4" />
+
 
     <EditText
         android:id="@+id/postTextEditText"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="15"
-        android:hint="내용"
+        android:background="@null"
         android:gravity="top"
+        android:hint="내용"
         android:inputType="textMultiLine"
         android:minLines="2"
+        android:paddingLeft="24dp"
         android:scrollbars="vertical"
         android:textColorHint="#d4d4d4"
-        android:textSize="16sp"
-        android:paddingLeft="24dp"/>
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 
     <View
         android:layout_width="match_parent"
@@ -104,11 +114,10 @@
         android:id="@+id/postPhotoButton"
         android:layout_width="70dp"
         android:layout_height="0dp"
+        android:layout_gravity="center_vertical"
         android:layout_weight="2"
         android:background="#00FF0000"
-        android:layout_gravity="center_vertical"
-        android:src="@drawable/post_gallery_btn"/>
-
+        android:src="@drawable/post_gallery_btn" />
 
 
 </LinearLayout>
