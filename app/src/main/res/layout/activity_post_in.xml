@@ -8,8 +8,6 @@
     android:weightSum="10"
     tools:context=".activity.MainActivity">
 
-    <!--weight쓸줄을 잘 몰라서 일단 고쳐봤는데 엉망진창이라면 ㅈㅅ합니다... -->
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,6 +31,16 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
+        <ImageButton
+            android:id="@+id/postInMarkButton"
+            android:layout_width="16dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="right"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/bookmark_button" />
+
     </RelativeLayout>
 
     <ScrollView
@@ -47,15 +55,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/postInMarkButton"
-                android:layout_width="10dp"
-                android:layout_height="13dp"
-                android:layout_gravity="right"
-                android:layout_marginTop="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/bookmark_button" />
 
             <TextView
                 android:id="@+id/postInCategory"
@@ -120,40 +119,40 @@
                     android:textColor="#575757"
                     android:textSize="20sp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:orientation="horizontal"
-                    android:weightSum="10">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:gravity="right"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:weightSum="10">-->
 
-                    <!--
-                    <Button
-                        android:id="@+id/postInMarkButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:text="북마크"/>
-                        -->
+<!--                    &lt;!&ndash;-->
+<!--                    <Button-->
+<!--                        android:id="@+id/postInMarkButton"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_weight="2"-->
+<!--                        android:text="북마크"/>-->
+<!--                        &ndash;&gt;-->
 
-                    <Button
-                        android:id="@+id/postInLikeButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:text="LIKE" />
+<!--                    <Button-->
+<!--                        android:id="@+id/postInLikeButton"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_weight="2"-->
+<!--                        android:text="LIKE" />-->
 
-                    <TextView
-                        android:id="@+id/postInLikeTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:gravity="center"
-                        android:text="Like : ?"
-                        android:textColor="#000000" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/postInLikeTextView"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_weight="2"-->
+<!--                        android:gravity="center"-->
+<!--                        android:text="Like : ?"-->
+<!--                        android:textColor="#000000" />-->
 
-                </LinearLayout>
+<!--                </LinearLayout>-->
 
                 <ScrollView
                     android:layout_width="match_parent"
