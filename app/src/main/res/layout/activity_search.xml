@@ -59,6 +59,7 @@
         </LinearLayout>
 
         <EditText
+            android:id="@+id/searchEditText"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="6sp"
