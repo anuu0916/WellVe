@@ -12,7 +12,6 @@
         android:layout_marginTop="52dp">
 
         <Button
-            android:id="@+id/loginBackButton"
             android:layout_width="12dp"
             android:layout_height="20dp"
             android:layout_alignParentLeft="true"
@@ -103,7 +102,6 @@
         android:backgroundTint="#CCCCCC"
         android:paddingBottom="20dp"/>
     <Button
-        android:id="@+id/signUpButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
