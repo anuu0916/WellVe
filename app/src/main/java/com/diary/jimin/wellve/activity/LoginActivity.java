@@ -1,8 +1,5 @@
 package com.diary.jimin.wellve.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +13,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity{
 
@@ -78,7 +78,8 @@ public class LoginActivity extends AppCompatActivity{
                                 startActivity(intent);
                             } else {
                                 if(task.getException() != null) {
-                                    Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }

@@ -9,7 +9,7 @@
         android:layout_marginTop="52dp">
 
         <Button
-            android:id="@+id/loginBackButton"
+            android:id="@+id/settingBackButton"
             android:layout_width="12dp"
             android:layout_height="20dp"
             android:layout_alignParentLeft="true"

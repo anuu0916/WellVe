@@ -3,19 +3,18 @@ package com.diary.jimin.wellve.fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
@@ -28,11 +27,9 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
-import android.media.ExifInterface;
 import android.media.Image;
 import android.media.ImageReader;
-import android.media.MediaMetadataRetriever;
-import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -48,24 +45,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.content.Context;
-import android.content.ContentResolver;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import com.diary.jimin.wellve.view.AutoFitTextureView;
+import com.diary.jimin.wellve.BuildConfig;
 import com.diary.jimin.wellve.R;
+import com.diary.jimin.wellve.view.AutoFitTextureView;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.ml.vision.FirebaseVision;
+import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
+import com.google.firebase.ml.vision.text.FirebaseVisionCloudTextRecognizerOptions;
+import com.google.firebase.ml.vision.text.FirebaseVisionText;
+import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
+import com.google.firebase.ml.vision.text.RecognizedLanguage;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -75,8 +82,9 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
+import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import static android.content.Context.CAMERA_SERVICE;
 
 public class Camera2BasicFragment extends Fragment
         implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
@@ -84,19 +92,17 @@ public class Camera2BasicFragment extends Fragment
     /**
      * Conversion from screen rotation to JPEG orientation.
      */
-    private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private static final int REQUEST_READ_PERMISSION = 2;
     private static final String FRAGMENT_DIALOG = "dialog";
 
     private static final int PICK_IMAGE_REQUEST = 1111;
+    private Bitmap bm;
 
-    static {
-        ORIENTATIONS.append(Surface.ROTATION_0, 90);
-        ORIENTATIONS.append(Surface.ROTATION_90, 0);
-        ORIENTATIONS.append(Surface.ROTATION_180, 270);
-        ORIENTATIONS.append(Surface.ROTATION_270, 180);
-    }
+    private ImageView iv_photo;
+
+    private FirebaseVisionCloudTextRecognizerOptions.Builder options;
+
 
     /**
      * Tag for the {@link Log}.
@@ -433,8 +439,8 @@ public class Camera2BasicFragment extends Fragment
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_camera2_basic, container, false);
 
-        //ImageView iv_photo = (ImageView) view.findViewById(R.id.photo);
-        //return inflater.inflate(R.layout.fragment_camera2_basic, container, false);
+        iv_photo = view.findViewById(R.id.camera2_photo);
+
         return view;
     }
 
@@ -444,6 +450,12 @@ public class Camera2BasicFragment extends Fragment
         view.findViewById(R.id.cameraGalleryButton).setOnClickListener(this);
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture);
 //        ImageView mImageView = (ImageView) view.findViewById(R.id.photo);
+
+        options = new FirebaseVisionCloudTextRecognizerOptions.Builder();
+        if(!BuildConfig.DEBUG) {
+            options.enforceCertFingerprintMatch();
+        }
+
     }
 
     @Override
@@ -458,16 +470,77 @@ public class Camera2BasicFragment extends Fragment
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK && data.getData() != null) {
-            if (requestCode == PICK_IMAGE_REQUEST) {
-                Bundle extras = data.getExtras();
+//        if (resultCode == RESULT_OK && data.getData() != null) {
+//            if (requestCode == PICK_IMAGE_REQUEST) {
+//                Bundle extras = data.getExtras();
+//
+//                Bitmap imageBitmap = (Bitmap) extras.get("data");
+//                ((ImageView) getActivity().findViewById(R.id.photo)).setImageBitmap(imageBitmap);
+//
+//            }
+//
+//        }
+        Log.d("bitmap", requestCode + "");
 
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
-                ((ImageView) getActivity().findViewById(R.id.photo)).setImageBitmap(imageBitmap);
+        if (requestCode == PICK_IMAGE_REQUEST) {
+            if (resultCode == RESULT_OK && data != null) {
+                try {
+                    Log.d("bitmap", "ok");
+                    InputStream is = getContext().getContentResolver().openInputStream(data.getData());
+                    Log.d("bitmap", "data:" + data.getData());
+                    bm = BitmapFactory.decodeStream(is);
+                    is.close();
 
+                    Log.d("bitmap", "bm: " + bm);
+                    iv_photo.setImageBitmap(bm);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else if (resultCode == RESULT_CANCELED) {
+                Log.d("bitmap", "canceld");
+                Toast.makeText(getActivity(), "canceled", Toast.LENGTH_SHORT).show();
+            } else if (data == null) {
+                Log.d("bitmap", data + "");
             }
-
         }
+
+        FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bm);
+
+
+        FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance()
+                .getCloudTextRecognizer(options.build());
+
+        options
+                .setLanguageHints(Arrays.asList("ko", "hi"))
+                .build();
+
+        Log.d("image", "detector : " + detector.getRecognizerType());
+
+        Task<FirebaseVisionText> result =
+                detector.processImage(image)
+                        .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
+                            @Override
+                            public void onSuccess(FirebaseVisionText firebaseVisionText) {
+                                // Task completed successfully
+                                // ...
+                                extractText(firebaseVisionText);
+                                Log.d("image", "success");
+                            }
+                        })
+                        .addOnFailureListener(
+                                new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // Task failed with an exception
+                                        // ...
+                                        Log.d("image", "fail");
+                                    }
+                                });
+
+//        Log.d("image", "result : " + result.getResult());
+
     }
 
     @Override
@@ -495,23 +568,62 @@ public class Camera2BasicFragment extends Fragment
 
     private void requestCameraPermission() {
 
-        if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-            new ConfirmationDialog().show(getChildFragmentManager(), FRAGMENT_DIALOG);
-        } else {
-            requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+//        if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+//            new ConfirmationDialog().show(getChildFragmentManager(), FRAGMENT_DIALOG);
+//        } else {
+//            requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+//        }
+//
+//        if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+//            new ConfirmationDialog().show(getChildFragmentManager(), FRAGMENT_DIALOG);
+//        } else {
+//            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_PERMISSION);
+//        }
+
+        String temp = "";
+
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            temp += Manifest.permission.READ_EXTERNAL_STORAGE + " ";
         }
+
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            temp += Manifest.permission.CAMERA + " ";
+        }
+
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            temp += Manifest.permission.WRITE_EXTERNAL_STORAGE + " ";
+        }
+
+        if (TextUtils.isEmpty(temp) == false) {
+            ActivityCompat.requestPermissions(getActivity(), temp.trim().split(" "), 1);
+        } else {
+            Toast.makeText(getActivity(), "all permission granted", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_CAMERA_PERMISSION) {
-            for (int i = 0; i < permissions.length; i++) {
-                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                    ErrorDialog.newInstance(getString(R.string.request_permission))
-                            .show(getChildFragmentManager(), FRAGMENT_DIALOG);
-                } else {
-                    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if (requestCode == REQUEST_CAMERA_PERMISSION && requestCode == REQUEST_READ_PERMISSION) {
+//            for (int i = 0; i < permissions.length; i++) {
+//                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+//                    ErrorDialog.newInstance(getString(R.string.request_permission))
+//                            .show(getChildFragmentManager(), FRAGMENT_DIALOG);
+//                } else {
+//                    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//                }
+//            }
+//        }
+
+        if (requestCode == 1) {
+            int length = permissions.length;
+            for (int i = 0; i < length; i++) {
+                if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d("Camera2BasicFragment", "권한 허용 : " + permissions[i]);
                 }
             }
         }
@@ -926,6 +1038,42 @@ public class Camera2BasicFragment extends Fragment
             case R.id.cameraShootButton: {
                 takePicture();
 
+                String filePath = mFile.getPath();
+                bm = BitmapFactory.decodeFile(filePath);
+                FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bm);
+
+
+                FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance()
+                        .getCloudTextRecognizer(options.build());
+
+                options
+                        .setLanguageHints(Arrays.asList("ko", "hi"))
+                        .build();
+
+                Log.d("image", "detector : " + detector.processImage(image));
+
+                Task<FirebaseVisionText> result =
+                        detector.processImage(image)
+                                .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
+                                    @Override
+                                    public void onSuccess(FirebaseVisionText firebaseVisionText) {
+                                        // Task completed successfully
+                                        // ...
+                                        extractText(firebaseVisionText);
+                                        Log.d("image", "success");
+                                    }
+                                })
+                                .addOnFailureListener(
+                                        new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // Task failed with an exception
+                                                // ...
+                                                Log.d("image", "fail");
+                                            }
+                                        });
+
+
                 break;
             }
             case R.id.cameraGalleryButton: {
@@ -934,9 +1082,92 @@ public class Camera2BasicFragment extends Fragment
                 intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 intent.setType("image/*");
                 startActivityForResult(intent, PICK_IMAGE_REQUEST);
+
+
                 break;
             }
         }
+    }
+
+    private void extractText(FirebaseVisionText result) {
+        String resultText = result.getText();
+        for (FirebaseVisionText.TextBlock block : result.getTextBlocks()) {
+            String blockText = block.getText();
+            Float blockConfidence = block.getConfidence();
+            List<RecognizedLanguage> blockLanguages = block.getRecognizedLanguages();
+            Point[] blockCornerPoints = block.getCornerPoints();
+            Rect blockFrame = block.getBoundingBox();
+            for (FirebaseVisionText.Line line : block.getLines()) {
+                String lineText = line.getText();
+                Float lineConfidence = line.getConfidence();
+                List<RecognizedLanguage> lineLanguages = line.getRecognizedLanguages();
+                Point[] lineCornerPoints = line.getCornerPoints();
+                Rect lineFrame = line.getBoundingBox();
+                for (FirebaseVisionText.Element element : line.getElements()) {
+                    String elementText = element.getText();
+                    Float elementConfidence = element.getConfidence();
+                    List<RecognizedLanguage> elementLanguages = element.getRecognizedLanguages();
+                    Point[] elementCornerPoints = element.getCornerPoints();
+                    Rect elementFrame = element.getBoundingBox();
+                }
+            }
+        }
+
+        Log.d("resultText", resultText);
+    }
+
+
+    private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
+
+    static {
+        ORIENTATIONS.append(Surface.ROTATION_0, 90);
+        ORIENTATIONS.append(Surface.ROTATION_90, 0);
+        ORIENTATIONS.append(Surface.ROTATION_180, 270);
+        ORIENTATIONS.append(Surface.ROTATION_270, 180);
+    }
+
+    /**
+     * Get the angle by which an image must be rotated given the device's current
+     * orientation.
+     */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private int getRotationCompensation(String cameraId, Activity activity, Context context)
+            throws CameraAccessException {
+        // Get the device's current rotation relative to its "native" orientation.
+        // Then, from the ORIENTATIONS table, look up the angle the image must be
+        // rotated to compensate for the device's rotation.
+        int deviceRotation = activity.getWindowManager().getDefaultDisplay().getRotation();
+        int rotationCompensation = ORIENTATIONS.get(deviceRotation);
+
+        // On most devices, the sensor orientation is 90 degrees, but for some
+        // devices it is 270 degrees. For devices with a sensor orientation of
+        // 270, rotate the image an additional 180 ((270 + 270) % 360) degrees.
+        CameraManager cameraManager = (CameraManager) getActivity().getSystemService(CAMERA_SERVICE);
+        int sensorOrientation = cameraManager
+                .getCameraCharacteristics(cameraId)
+                .get(CameraCharacteristics.SENSOR_ORIENTATION);
+        rotationCompensation = (rotationCompensation + sensorOrientation + 270) % 360;
+
+        // Return the corresponding FirebaseVisionImageMetadata rotation value.
+        int result;
+        switch (rotationCompensation) {
+            case 0:
+                result = FirebaseVisionImageMetadata.ROTATION_0;
+                break;
+            case 90:
+                result = FirebaseVisionImageMetadata.ROTATION_90;
+                break;
+            case 180:
+                result = FirebaseVisionImageMetadata.ROTATION_180;
+                break;
+            case 270:
+                result = FirebaseVisionImageMetadata.ROTATION_270;
+                break;
+            default:
+                result = FirebaseVisionImageMetadata.ROTATION_0;
+                Log.e(TAG, "Bad rotation value: " + rotationCompensation);
+        }
+        return result;
     }
 
     private void setAutoFlash(CaptureRequest.Builder requestBuilder) {
