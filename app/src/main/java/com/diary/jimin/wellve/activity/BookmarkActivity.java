@@ -1,8 +1,5 @@
 package com.diary.jimin.wellve.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.diary.jimin.wellve.adapter.ListViewAdapter;
 import com.diary.jimin.wellve.R;
+import com.diary.jimin.wellve.adapter.ListViewAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +22,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class BookmarkActivity extends AppCompatActivity {
 
@@ -40,6 +40,7 @@ public class BookmarkActivity extends AppCompatActivity {
     private TextView myPageNickName;
 
     private Button infoModifyButton;
+    private Button backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,13 @@ public class BookmarkActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 //        document.orderBy("time", Query.Direction.DESCENDING)
 //                .get()
 //                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -110,5 +118,6 @@ public class BookmarkActivity extends AppCompatActivity {
         myPageProfileImage = (ImageView) findViewById(R.id.mypage_profile_image);
         myPageNickName = (TextView) findViewById(R.id.mypage_nickname);
         infoModifyButton=(Button)findViewById(R.id.infoModifyButton);
+        backButton = (Button)findViewById(R.id.bookmarkBackButton);
     }
 }
