@@ -19,6 +19,8 @@ public class InfoModifyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_modify);
 
+        init();
+
         veganModifyButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
