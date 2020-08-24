@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,9 @@ public class Page5Fragment extends Fragment {
     private RecyclerViewAdapter adapter;
 
     private FirebaseFirestore db;
+
+    private ArrayList<String> literList = new ArrayList<>();
+    private String literSize;
 
     public static Page5Fragment getInstance() {
         Page5Fragment page5Fragment = new Page5Fragment();
@@ -71,6 +75,29 @@ public class Page5Fragment extends Fragment {
 
         items.clear();
 
+        literList.clear();
+        CollectionReference comment = db.collection("comments");
+
+        comment.whereEqualTo("category","literPosts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+
+                                literList.add(documentSnapshot.getData().toString());
+                                Log.d("commentSize", documentSnapshot.getData().toString());
+
+                            }
+                            literSize = Integer.toString(literList.size());
+
+                            Log.d("commentSize", literSize);
+
+                        }
+                    }
+                });
+
         CollectionReference collectionReference = db.collection("literPosts");
 
         collectionReference
@@ -86,7 +113,7 @@ public class Page5Fragment extends Fragment {
                                         documentSnapshot.getData().get("title").toString(),
                                         documentSnapshot.getData().get("time").toString(),
                                         "문학 ",
-                                        "15"));
+                                        literSize));
                             }
                             recyclerView.setAdapter(adapter);
                         }
