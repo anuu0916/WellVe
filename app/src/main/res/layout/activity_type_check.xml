@@ -33,11 +33,34 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="4dp"
+            android:text="3"
+            android:textSize="16sp"
+            android:textColor="#79c668"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="4dp"
+            android:text="/3"
+            android:textSize="16sp"
+            android:textColor="#000000" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/middleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:layout_marginLeft="16dp"
         android:text="개인정보를 입력해주세요."
         android:textSize="16sp"

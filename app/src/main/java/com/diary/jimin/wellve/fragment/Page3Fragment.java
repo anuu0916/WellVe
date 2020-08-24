@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,9 @@ public class Page3Fragment extends Fragment {
     private RecyclerViewAdapter adapter;
 
     private FirebaseFirestore db;
+
+    private ArrayList<String> QnAList = new ArrayList<>();
+    private String QnASize;
 
     public static Page3Fragment getInstance() {
         Page3Fragment page3Fragment = new Page3Fragment();
@@ -72,6 +76,29 @@ public class Page3Fragment extends Fragment {
 
         items.clear();
 
+        CollectionReference comment = db.collection("comments");
+
+        QnAList.clear();
+        comment.whereEqualTo("category","QnAPosts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+
+                                QnAList.add(documentSnapshot.getData().toString());
+                                Log.d("commentSize", documentSnapshot.getData().toString());
+
+                            }
+                            QnASize = Integer.toString(QnAList.size());
+
+                            Log.d("commentSize", QnASize);
+
+                        }
+                    }
+                });
+
         CollectionReference collectionReference = db.collection("QnAPosts");
 
         collectionReference
@@ -87,7 +114,7 @@ public class Page3Fragment extends Fragment {
                                         documentSnapshot.getData().get("title").toString(),
                                         documentSnapshot.getData().get("time").toString(),
                                         "QnA ",
-                                        "15"));
+                                        QnASize));
                             }
                             recyclerView.setAdapter(adapter);
                         }

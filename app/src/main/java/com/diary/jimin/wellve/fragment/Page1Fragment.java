@@ -43,6 +43,16 @@ public class Page1Fragment extends Fragment {
     private List<String> idList = new ArrayList<>();
     private List<String> categoryList = new ArrayList<>();
 
+    private List<String> freeList = new ArrayList<>();
+    private List<String> restaurantList = new ArrayList<>();
+    private List<String> QnAList = new ArrayList<>();
+    private List<String> literList = new ArrayList<>();
+
+    private String freeSize;
+    private String restaurantSize;
+    private String QnASize;
+    private String literSize;
+
 
     public static Page1Fragment getInstance() {
         Page1Fragment page1Fragment = new Page1Fragment();
@@ -92,6 +102,26 @@ public class Page1Fragment extends Fragment {
 
         items.clear();
 
+
+        CollectionReference comment = db.collection("comments");
+        comment.whereEqualTo("category","freePosts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+
+                                freeList.add(documentSnapshot.getData().toString());
+                                Log.d("commentSize", documentSnapshot.getData().toString());
+                            }
+                            freeSize = Integer.toString(freeList.size());
+
+                            Log.d("commentSize", freeSize);
+                        }
+                    }
+                });
+
         CollectionReference collectionReference = db.collection("freePosts");
 
 
@@ -108,7 +138,7 @@ public class Page1Fragment extends Fragment {
                                         documentSnapshot.getData().get("title").toString(),
                                         documentSnapshot.getData().get("time").toString(),
                                         "잡담 ",
-                                        "15"));
+                                        freeSize));
 
                                 idList.add(documentSnapshot.getId());
                                 categoryList.add("freePosts");
@@ -117,6 +147,27 @@ public class Page1Fragment extends Fragment {
                         }
                     }
                 });
+
+        comment.whereEqualTo("category","QnAPosts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+
+                                QnAList.add(documentSnapshot.getData().toString());
+                                Log.d("commentSize", documentSnapshot.getData().toString());
+
+                            }
+                            QnASize = Integer.toString(QnAList.size());
+
+                            Log.d("commentSize", QnASize);
+
+                        }
+                    }
+                });
+
         collectionReference = db.collection("QnAPosts");
 
         collectionReference
@@ -132,11 +183,31 @@ public class Page1Fragment extends Fragment {
                                         documentSnapshot.getData().get("title").toString(),
                                         documentSnapshot.getData().get("time").toString(),
                                         "QnA ",
-                                        "15"));
+                                        QnASize));
                                 idList.add(documentSnapshot.getId());
                                 categoryList.add("QnAPosts");
                             }
                             recyclerView.setAdapter(adapter);
+                        }
+                    }
+                });
+
+        comment.whereEqualTo("category","restaurantPosts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+
+                                restaurantList.add(documentSnapshot.getData().toString());
+                                Log.d("commentSize", documentSnapshot.getData().toString());
+
+                            }
+                            restaurantSize = Integer.toString(restaurantList.size());
+
+                            Log.d("commentSize", restaurantSize);
+
                         }
                     }
                 });
@@ -156,11 +227,31 @@ public class Page1Fragment extends Fragment {
                                         documentSnapshot.getData().get("title").toString(),
                                         documentSnapshot.getData().get("time").toString(),
                                         "식당 ",
-                                        "15"));
+                                        restaurantSize));
                                 idList.add(documentSnapshot.getId());
                                 categoryList.add("restaurantPosts");
                             }
                             recyclerView.setAdapter(adapter);
+                        }
+                    }
+                });
+
+        comment.whereEqualTo("category","literPosts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+
+                                literList.add(documentSnapshot.getData().toString());
+                                Log.d("commentSize", documentSnapshot.getData().toString());
+
+                            }
+                            literSize = Integer.toString(literList.size());
+
+                            Log.d("commentSize", literSize);
+
                         }
                     }
                 });
@@ -180,7 +271,7 @@ public class Page1Fragment extends Fragment {
                                         documentSnapshot.getData().get("title").toString(),
                                         documentSnapshot.getData().get("time").toString(),
                                         "문학 ",
-                                        "15"));
+                                        literSize));
                                 idList.add(documentSnapshot.getId());
                                 categoryList.add("literPosts");
                             }

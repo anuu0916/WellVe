@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context=".activity.FindIdActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp">
+
+        <Button
+            android:id="@+id/findIdBackButton"
+            android:layout_width="12dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/backbutton" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="아이디 찾기"
+            android:textColor="#000000"
+            android:textSize="24sp" />
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="16dp"
+        android:text="전화번호를 인증해주세요."
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/findIdSpinner"
+            android:layout_width="64dp"
+            android:layout_height="46dp"
+            android:background="@drawable/dropdown_bg" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/findIdPhoneNumEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="4dp"
+                android:backgroundTint="#CCCCCC"
+                android:hint="  휴대전화번호"
+                android:paddingBottom="20dp"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/authNumButton"
+                android:layout_width="96dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center_vertical|right"
+                android:background="@drawable/login_joinboarder"
+                android:text="인증번호 받기"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/findIdNumEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="#CCCCCC"
+        android:hint="  인증번호를 입력해주세요."
+        android:paddingBottom="20dp"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/authButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/find_password_button"
+        android:text="인증하기"
+        android:textSize="16sp"
+        android:textColor="#4d4d4d"
+        android:lineSpacingExtra="-14sp"
+        android:textStyle="bold"
+        android:gravity="center" />
+
+</LinearLayout>
