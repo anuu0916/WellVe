@@ -13,8 +13,7 @@ public class FindIdCompleteActivity extends AppCompatActivity {
 
     private Button backButton;
     private Button findIdBackLoginButton;
-    private Button reFindPwButton;
-
+    private Button findPwButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,13 +21,22 @@ public class FindIdCompleteActivity extends AppCompatActivity {
 
         init();
 
+        backButton = findViewById(R.id.findIdCompleteBackButton);
         findIdBackLoginButton = findViewById(R.id.findIdBackLoginButton);
-        reFindPwButton = findViewById(R.id.reFindPwButton);
+        findPwButton = findViewById(R.id.findPwButton);
 
         findIdBackLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(FindIdCompleteActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        findPwButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FindIdCompleteActivity.this, FindPasswordActivity.class);
                 startActivity(intent);
             }
         });
@@ -39,11 +47,12 @@ public class FindIdCompleteActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
     }
 
     void init() {
         findIdBackLoginButton = (Button)findViewById(R.id.findIdBackLoginButton);
-        reFindPwButton = (Button)findViewById(R.id.reFindPwButton);
+        findPwButton = (Button)findViewById(R.id.findPwButton);
         backButton = (Button)findViewById(R.id.findIdBackLoginButton);
     }
 }

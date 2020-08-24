@@ -30,5 +30,13 @@
         android:layout_height="wrap_content"
         android:src="@drawable/camera_boarder"
         android:layout_centerInParent="true"/>
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="112dp"/>
+
+
 
 </RelativeLayout>

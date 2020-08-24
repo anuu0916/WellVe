@@ -10,16 +10,19 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.diary.jimin.wellve.model.CommunityItem;
 import com.diary.jimin.wellve.R;
 import com.diary.jimin.wellve.adapter.RecyclerViewAdapter;
 import com.diary.jimin.wellve.activity.PostInActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -43,15 +46,12 @@ public class Page1Fragment extends Fragment {
     private List<String> idList = new ArrayList<>();
     private List<String> categoryList = new ArrayList<>();
 
-    private List<String> freeList = new ArrayList<>();
-    private List<String> restaurantList = new ArrayList<>();
-    private List<String> QnAList = new ArrayList<>();
-    private List<String> literList = new ArrayList<>();
+    private int freeSize;
+    private int restaurantSize;
+    private int QnASize;
+    private int literSize;
 
-    private String freeSize;
-    private String restaurantSize;
-    private String QnASize;
-    private String literSize;
+    private ProgressBar progressBar;
 
 
     public static Page1Fragment getInstance() {
@@ -69,8 +69,9 @@ public class Page1Fragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_page, container, false);
-        initDataset();
 
+
+        progressBar = view.findViewById(R.id.progressBar);
         context = view.getContext();
         recyclerView = (RecyclerView) view.findViewById(R.id.page1RecyclerView);
         recyclerView.setHasFixedSize(true);
@@ -80,6 +81,8 @@ public class Page1Fragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new RecyclerViewAdapter(context, items);
+
+        initDataset();
 
         adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
@@ -93,6 +96,8 @@ public class Page1Fragment extends Fragment {
         });
 
 
+
+
         return view;
     }
 
@@ -102,29 +107,9 @@ public class Page1Fragment extends Fragment {
 
         items.clear();
 
-
-        CollectionReference comment = db.collection("comments");
-        comment.whereEqualTo("category","freePosts")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
-                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-
-                                freeList.add(documentSnapshot.getData().toString());
-                                Log.d("commentSize", documentSnapshot.getData().toString());
-                            }
-                            freeSize = Integer.toString(freeList.size());
-
-                            Log.d("commentSize", freeSize);
-                        }
-                    }
-                });
-
         CollectionReference collectionReference = db.collection("freePosts");
 
-
+        progressBar.setVisibility(View.VISIBLE);
         collectionReference
                 .orderBy("time", Query.Direction.DESCENDING)
                 .get()
@@ -133,43 +118,40 @@ public class Page1Fragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
                             for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                        "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
-                                        documentSnapshot.getData().get("title").toString(),
-                                        documentSnapshot.getData().get("time").toString(),
-                                        "잡담 ",
-                                        freeSize));
 
-                                idList.add(documentSnapshot.getId());
-                                categoryList.add("freePosts");
+                                db.collection("comments")
+                                        .whereEqualTo("postId",documentSnapshot.getId())
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if(task.isSuccessful()) {
+                                                    freeSize = 0;
+                                                    for(QueryDocumentSnapshot document : task.getResult()) {
+                                                        freeSize++;
+                                                    }
+
+                                                    items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                            "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
+                                                            documentSnapshot.getData().get("title").toString(),
+                                                            documentSnapshot.getData().get("time").toString(),
+                                                            "자유 ",
+                                                            String.valueOf(freeSize)
+                                                    ));
+                                                    recyclerView.setAdapter(adapter);
+                                                    progressBar.setVisibility(View.GONE);
+                                                }
+                                            }
+                                        });
                             }
-                            recyclerView.setAdapter(adapter);
                         }
                     }
                 });
 
-        comment.whereEqualTo("category","QnAPosts")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
-                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-
-                                QnAList.add(documentSnapshot.getData().toString());
-                                Log.d("commentSize", documentSnapshot.getData().toString());
-
-                            }
-                            QnASize = Integer.toString(QnAList.size());
-
-                            Log.d("commentSize", QnASize);
-
-                        }
-                    }
-                });
 
         collectionReference = db.collection("QnAPosts");
 
+        progressBar.setVisibility(View.VISIBLE);
         collectionReference
                 .orderBy("time", Query.Direction.DESCENDING)
                 .get()
@@ -178,42 +160,40 @@ public class Page1Fragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
                             for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                        "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
-                                        documentSnapshot.getData().get("title").toString(),
-                                        documentSnapshot.getData().get("time").toString(),
-                                        "QnA ",
-                                        QnASize));
-                                idList.add(documentSnapshot.getId());
-                                categoryList.add("QnAPosts");
+
+                                db.collection("comments")
+                                        .whereEqualTo("postId",documentSnapshot.getId())
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if(task.isSuccessful()) {
+                                                    QnASize = 0;
+                                                    for(QueryDocumentSnapshot document : task.getResult()) {
+                                                        QnASize++;
+                                                    }
+
+                                                    items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                            "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
+                                                            documentSnapshot.getData().get("title").toString(),
+                                                            documentSnapshot.getData().get("time").toString(),
+                                                            "QnA ",
+                                                            String.valueOf(QnASize)
+                                                    ));
+                                                    recyclerView.setAdapter(adapter);
+                                                    progressBar.setVisibility(View.GONE);
+                                                }
+                                            }
+                                        });
                             }
-                            recyclerView.setAdapter(adapter);
                         }
                     }
                 });
 
-        comment.whereEqualTo("category","restaurantPosts")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
-                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-
-                                restaurantList.add(documentSnapshot.getData().toString());
-                                Log.d("commentSize", documentSnapshot.getData().toString());
-
-                            }
-                            restaurantSize = Integer.toString(restaurantList.size());
-
-                            Log.d("commentSize", restaurantSize);
-
-                        }
-                    }
-                });
 
         collectionReference = db.collection("restaurantPosts");
 
+        progressBar.setVisibility(View.VISIBLE);
         collectionReference
                 .orderBy("time", Query.Direction.DESCENDING)
                 .get()
@@ -222,42 +202,39 @@ public class Page1Fragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
                             for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                        "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
-                                        documentSnapshot.getData().get("title").toString(),
-                                        documentSnapshot.getData().get("time").toString(),
-                                        "식당 ",
-                                        restaurantSize));
-                                idList.add(documentSnapshot.getId());
-                                categoryList.add("restaurantPosts");
+
+                                db.collection("comments")
+                                        .whereEqualTo("postId",documentSnapshot.getId())
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if(task.isSuccessful()) {
+                                                    restaurantSize = 0;
+                                                    for(QueryDocumentSnapshot document : task.getResult()) {
+                                                        restaurantSize++;
+                                                    }
+
+                                                    items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                            "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
+                                                            documentSnapshot.getData().get("title").toString(),
+                                                            documentSnapshot.getData().get("time").toString(),
+                                                            "식당 ",
+                                                            String.valueOf(restaurantSize)
+                                                    ));
+                                                    recyclerView.setAdapter(adapter);
+                                                    progressBar.setVisibility(View.GONE);
+                                                }
+                                            }
+                                        });
                             }
-                            recyclerView.setAdapter(adapter);
-                        }
-                    }
-                });
-
-        comment.whereEqualTo("category","literPosts")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
-                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-
-                                literList.add(documentSnapshot.getData().toString());
-                                Log.d("commentSize", documentSnapshot.getData().toString());
-
-                            }
-                            literSize = Integer.toString(literList.size());
-
-                            Log.d("commentSize", literSize);
-
                         }
                     }
                 });
 
         collectionReference = db.collection("literPosts");
 
+        progressBar.setVisibility(View.VISIBLE);
         collectionReference
                 .orderBy("time", Query.Direction.DESCENDING)
                 .get()
@@ -266,19 +243,37 @@ public class Page1Fragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
                             for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                        "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
-                                        documentSnapshot.getData().get("title").toString(),
-                                        documentSnapshot.getData().get("time").toString(),
-                                        "문학 ",
-                                        literSize));
-                                idList.add(documentSnapshot.getId());
-                                categoryList.add("literPosts");
+
+                                db.collection("comments")
+                                        .whereEqualTo("postId",documentSnapshot.getId())
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if(task.isSuccessful()) {
+                                                    literSize = 0;
+                                                    for(QueryDocumentSnapshot document : task.getResult()) {
+                                                        literSize++;
+                                                    }
+
+                                                    items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                            "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
+                                                            documentSnapshot.getData().get("title").toString(),
+                                                            documentSnapshot.getData().get("time").toString(),
+                                                            "문학 ",
+                                                            String.valueOf(literSize)
+                                                    ));
+                                                    recyclerView.setAdapter(adapter);
+                                                    progressBar.setVisibility(View.GONE);
+                                                }
+                                            }
+                                        });
                             }
-                            recyclerView.setAdapter(adapter);
                         }
                     }
                 });
+
+
 
 //        adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
 //            @Override

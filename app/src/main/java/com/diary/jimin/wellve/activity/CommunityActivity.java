@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.diary.jimin.wellve.R;
 import com.diary.jimin.wellve.adapter.VPAdapter;
@@ -27,7 +28,6 @@ public class CommunityActivity extends AppCompatActivity {
     private Button communitySearchButton;
     private Button communityWriteButton;
     private Button backButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +90,8 @@ public class CommunityActivity extends AppCompatActivity {
 
                 tab = findViewById(R.id.tab);
                 tab.setupWithViewPager(vp);
+
+
             }
         });
 

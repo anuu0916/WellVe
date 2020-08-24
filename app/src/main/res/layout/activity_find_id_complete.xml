@@ -37,7 +37,7 @@
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
         android:layout_weight="7"
-        android:src="@drawable/app_icon" />
+        android:src="@drawable/wellve_icon" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -133,7 +133,7 @@
             android:gravity="center_horizontal|right"/>
 
         <Button
-            android:id="@+id/reFindPwButton"
+            android:id="@+id/findPwButton"
             android:layout_width="0dp"
             android:layout_height="18dp"
             android:layout_weight="3"
