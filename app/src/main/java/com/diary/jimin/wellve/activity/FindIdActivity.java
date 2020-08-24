@@ -30,7 +30,7 @@ public class FindIdActivity extends AppCompatActivity {
         setContentView(R.layout.activity_find_id);
 
         init();
-        Spinner spinner = findViewById(R.id.spinner);
+        Spinner spinner = findViewById(R.id.findIdSpinner);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_spinner_item, items);

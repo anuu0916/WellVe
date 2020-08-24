@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,8 +40,9 @@ public class FindPasswordActivity extends AppCompatActivity {
         findIdButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FindPasswordActivity.this, LoginActivity.class);
+                Intent intent = new Intent(FindPasswordActivity.this, FindIdActivity.class);
                 startActivity(intent);
+                Log.d("dbwlsl", "findIdButton");
             }
         });
 
@@ -82,6 +84,9 @@ public class FindPasswordActivity extends AppCompatActivity {
         tmpPwButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (tmpPwButton.isSelected()) {
+                }
+                else if(findIdButton.isSelected()){
+
                 }
 
             }
