@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.diary.jimin.wellve.model.CommunityItem;
 import com.diary.jimin.wellve.R;
@@ -38,8 +39,9 @@ public class Page4Fragment extends Fragment {
 
     private FirebaseFirestore db;
 
-    private ArrayList<String> restaurantList = new ArrayList<>();
-    private String restaurantSize;
+    private int restaurantSize;
+
+    private ProgressBar progressBar;
 
 
     public static Page4Fragment getInstance() {
@@ -57,7 +59,9 @@ public class Page4Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_page, container, false);
 
+        progressBar = view.findViewById(R.id.progressBar);
         initDataset();
+
 
         context = view.getContext();
         recyclerView = (RecyclerView) view.findViewById(R.id.page1RecyclerView);
@@ -77,32 +81,11 @@ public class Page4Fragment extends Fragment {
         db = FirebaseFirestore.getInstance();
 
         items.clear();
-        restaurantList.clear();
 
-        CollectionReference comment = db.collection("comments");
-
-        comment.whereEqualTo("category","restaurantPosts")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
-                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-
-                                restaurantList.add(documentSnapshot.getData().toString());
-                                Log.d("commentSize", documentSnapshot.getData().toString());
-
-                            }
-                            restaurantSize = Integer.toString(restaurantList.size());
-
-                            Log.d("commentSize", restaurantSize);
-
-                        }
-                    }
-                });
 
         CollectionReference collectionReference = db.collection("restaurantPosts");
 
+        progressBar.setVisibility(View.VISIBLE);
         collectionReference
                 .orderBy("time", Query.Direction.DESCENDING)
                 .get()
@@ -111,18 +94,35 @@ public class Page4Fragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
                             for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                        "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
-                                        documentSnapshot.getData().get("title").toString(),
-                                        documentSnapshot.getData().get("time").toString(),
-                                        "식당 ",
-                                        restaurantSize));
+
+                                db.collection("comments")
+                                        .whereEqualTo("postId",documentSnapshot.getId())
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if(task.isSuccessful()) {
+                                                    restaurantSize = 0;
+                                                    for(QueryDocumentSnapshot document : task.getResult()) {
+                                                        restaurantSize++;
+                                                    }
+
+                                                    items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                            "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
+                                                            documentSnapshot.getData().get("title").toString(),
+                                                            documentSnapshot.getData().get("time").toString(),
+                                                            "식당 ",
+                                                            String.valueOf(restaurantSize)
+                                                    ));
+                                                    recyclerView.setAdapter(adapter);
+                                                    progressBar.setVisibility(View.GONE);
+                                                }
+                                            }
+                                        });
                             }
-                            recyclerView.setAdapter(adapter);
                         }
                     }
                 });
-
 
     }
 }

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.diary.jimin.wellve.model.CommunityItem;
 import com.diary.jimin.wellve.R;
@@ -37,8 +38,9 @@ public class Page2Fragment extends Fragment {
 
     private FirebaseFirestore db;
 
-    private ArrayList<String> freeList = new ArrayList<>();
-    private String freeSize;
+    private int freeSize;
+
+    private ProgressBar progressBar;
 
 
     public static Page2Fragment getInstance() {
@@ -55,6 +57,7 @@ public class Page2Fragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_page, container, false);
+        progressBar = view.findViewById(R.id.progressBar);
         initDataset();
 
         context = view.getContext();
@@ -74,30 +77,11 @@ public class Page2Fragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
-        freeList.clear();
-        CollectionReference comment = db.collection("comments");
-        comment.whereEqualTo("category","freePosts")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
-                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-
-                                freeList.add(documentSnapshot.getData().toString());
-                                Log.d("commentSize", documentSnapshot.getData().toString());
-                            }
-                            freeSize = Integer.toString(freeList.size());
-
-                            Log.d("commentSize", freeSize);
-                        }
-                    }
-                });
+        items.clear();
 
         CollectionReference collectionReference = db.collection("freePosts");
 
-        items.clear();
-
+        progressBar.setVisibility(View.VISIBLE);
         collectionReference
                 .orderBy("time", Query.Direction.DESCENDING)
                 .get()
@@ -106,17 +90,36 @@ public class Page2Fragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
                             for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                        "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
-                                        documentSnapshot.getData().get("title").toString(),
-                                        documentSnapshot.getData().get("time").toString(),
-                                        "잡담 ",
-                                        freeSize));
+
+                                db.collection("comments")
+                                        .whereEqualTo("postId",documentSnapshot.getId())
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if(task.isSuccessful()) {
+                                                    freeSize = 0;
+                                                    for(QueryDocumentSnapshot document : task.getResult()) {
+                                                        freeSize++;
+                                                    }
+
+                                                    items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                            "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
+                                                            documentSnapshot.getData().get("title").toString(),
+                                                            documentSnapshot.getData().get("time").toString(),
+                                                            "자유 ",
+                                                            String.valueOf(freeSize)
+                                                    ));
+                                                    recyclerView.setAdapter(adapter);
+                                                    progressBar.setVisibility(View.GONE);
+                                                }
+                                            }
+                                        });
                             }
-                            recyclerView.setAdapter(adapter);
                         }
                     }
                 });
+
 
     }
 }
