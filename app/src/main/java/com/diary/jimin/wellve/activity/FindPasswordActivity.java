@@ -39,7 +39,7 @@ public class FindPasswordActivity extends AppCompatActivity {
         findIdButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FindPasswordActivity.this, LoginActivity.class);
+                Intent intent = new Intent(FindPasswordActivity.this, FindIdActivity.class);
                 startActivity(intent);
             }
         });
