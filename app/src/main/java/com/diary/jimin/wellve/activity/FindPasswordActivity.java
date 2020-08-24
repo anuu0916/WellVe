@@ -15,7 +15,7 @@ import com.diary.jimin.wellve.R;
 public class FindPasswordActivity extends AppCompatActivity {
 
     private Button tmpPwButton;
-    private Button findIDButton;
+    private Button findIdButton;
     private Button backButton;
     private EditText findPwEmailEditText;
 
@@ -36,6 +36,14 @@ public class FindPasswordActivity extends AppCompatActivity {
             }
         });
 
+        findIdButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FindPasswordActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,7 +54,7 @@ public class FindPasswordActivity extends AppCompatActivity {
 
     private void init() {
         tmpPwButton = (Button) findViewById(R.id.tmpPwButton);
-        findIDButton = (Button) findViewById(R.id.findIDButton);
+        findIdButton = (Button) findViewById(R.id.findIdButton);
         backButton = (Button) findViewById(R.id.findPwBackButton);
         findPwEmailEditText = (EditText) findViewById(R.id.findPwEmailEditText);
 

@@ -18,8 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".activity.FindPasswordCompleteActivity"></activity>
-        <activity android:name=".activity.FindPasswordActivity" />
+
 
         <meta-data
             android:name="com.firebase.ml.cloud.ApiKeyForDebug"
@@ -55,6 +54,10 @@
         <activity android:name=".activity.SignupActivity" />
         <activity android:name=".activity.InfoModifyActivity" />
         <activity android:name=".activity.SettingsActivity" />
+        <activity android:name=".activity.FindIdCompleteActivity"/>
+        <activity android:name=".activity.FindIdActivity" />
+        <activity android:name=".activity.FindPasswordCompleteActivity" />
+        <activity android:name=".activity.FindPasswordActivity" />
     </application>
 
 </manifest>

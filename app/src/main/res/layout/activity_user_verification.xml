@@ -11,6 +11,7 @@
         android:layout_marginTop="52dp">
 
         <Button
+            android:id="@+id/userVerificationBackButton"
             android:layout_width="12dp"
             android:layout_height="20dp"
             android:layout_alignParentLeft="true"
@@ -70,7 +71,7 @@
         android:orientation="horizontal">
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/singUpSpinner"
             android:layout_width="64dp"
             android:layout_height="46dp"
             android:background="@drawable/dropdown_bg" />
@@ -80,6 +81,7 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:id="@+id/userPhoneNumEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
@@ -90,6 +92,7 @@
                 android:textSize="16sp" />
 
             <Button
+                android:id="@+id/userAuthNumButton"
                 android:layout_width="96dp"
                 android:layout_height="21dp"
                 android:layout_gravity="center_vertical|right"
@@ -101,6 +104,7 @@
     </LinearLayout>
 
     <EditText
+        android:id="@+id/userNumEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -112,6 +116,7 @@
         android:textSize="16sp" />
 
     <Button
+        android:id="@+id/userVerificationNextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
