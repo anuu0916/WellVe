@@ -1,18 +1,19 @@
 package com.diary.jimin.wellve.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.diary.jimin.wellve.R;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class SearchActivity extends AppCompatActivity {
+
+    private Button backButton;
 
     String[] items = {"글제목", "글내용", "글쓴이"};
 
@@ -20,6 +21,8 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        init();
 
         Spinner spinner = findViewById(R.id.spinner);
 
@@ -41,5 +44,17 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+    }
+
+
+    void init(){
+        backButton = (Button)findViewById(R.id.searchBackButton);
     }
 }
