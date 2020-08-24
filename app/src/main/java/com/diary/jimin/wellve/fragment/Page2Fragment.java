@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,10 @@ public class Page2Fragment extends Fragment {
     private RecyclerViewAdapter adapter;
 
     private FirebaseFirestore db;
+
+    private ArrayList<String> freeList = new ArrayList<>();
+    private String freeSize;
+
 
     public static Page2Fragment getInstance() {
         Page2Fragment page2Fragment = new Page2Fragment();
@@ -69,6 +74,25 @@ public class Page2Fragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
+        freeList.clear();
+        CollectionReference comment = db.collection("comments");
+        comment.whereEqualTo("category","freePosts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+
+                                freeList.add(documentSnapshot.getData().toString());
+                                Log.d("commentSize", documentSnapshot.getData().toString());
+                            }
+                            freeSize = Integer.toString(freeList.size());
+
+                            Log.d("commentSize", freeSize);
+                        }
+                    }
+                });
 
         CollectionReference collectionReference = db.collection("freePosts");
 
@@ -87,7 +111,7 @@ public class Page2Fragment extends Fragment {
                                         documentSnapshot.getData().get("title").toString(),
                                         documentSnapshot.getData().get("time").toString(),
                                         "잡담 ",
-                                        "15"));
+                                        freeSize));
                             }
                             recyclerView.setAdapter(adapter);
                         }

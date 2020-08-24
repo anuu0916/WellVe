@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,9 @@ public class Page4Fragment extends Fragment {
     private RecyclerViewAdapter adapter;
 
     private FirebaseFirestore db;
+
+    private ArrayList<String> restaurantList = new ArrayList<>();
+    private String restaurantSize;
 
 
     public static Page4Fragment getInstance() {
@@ -73,6 +77,29 @@ public class Page4Fragment extends Fragment {
         db = FirebaseFirestore.getInstance();
 
         items.clear();
+        restaurantList.clear();
+
+        CollectionReference comment = db.collection("comments");
+
+        comment.whereEqualTo("category","restaurantPosts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+
+                                restaurantList.add(documentSnapshot.getData().toString());
+                                Log.d("commentSize", documentSnapshot.getData().toString());
+
+                            }
+                            restaurantSize = Integer.toString(restaurantList.size());
+
+                            Log.d("commentSize", restaurantSize);
+
+                        }
+                    }
+                });
 
         CollectionReference collectionReference = db.collection("restaurantPosts");
 
@@ -89,7 +116,7 @@ public class Page4Fragment extends Fragment {
                                         documentSnapshot.getData().get("title").toString(),
                                         documentSnapshot.getData().get("time").toString(),
                                         "식당 ",
-                                        "15"));
+                                        restaurantSize));
                             }
                             recyclerView.setAdapter(adapter);
                         }

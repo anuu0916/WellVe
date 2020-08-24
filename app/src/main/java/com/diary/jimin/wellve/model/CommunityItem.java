@@ -40,7 +40,8 @@ public class CommunityItem {
         return category;
     }
 
-    public String getComment() {
+
+    public String getCommentStr() {
         return comment;
     }
 
