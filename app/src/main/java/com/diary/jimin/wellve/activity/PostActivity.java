@@ -106,7 +106,7 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
-        Spinner spinner = findViewById(R.id.spinner);
+        Spinner spinner = findViewById(R.id.postSpinner);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_spinner_item, items);
@@ -317,3 +317,4 @@ public class PostActivity extends AppCompatActivity {
     }
 
 }
+

@@ -85,6 +85,7 @@ import java.util.concurrent.TimeUnit;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.CAMERA_SERVICE;
+import static android.view.View.GONE;
 
 public class Camera2BasicFragment extends Fragment
         implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
@@ -95,6 +96,21 @@ public class Camera2BasicFragment extends Fragment
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private static final int REQUEST_READ_PERMISSION = 2;
     private static final String FRAGMENT_DIALOG = "dialog";
+    private static final String [] Pesco = {
+            "E441젤라틴", "E542 식용 인산골", "인산골", "아교", "칼슘", "육즙", "골탄"
+    };
+    private static final String [] LactoOvo = {
+            "용연향", "자개", "캐비어", "키틴", "산호"
+    };
+    private static final String [] Lacto = {
+            "달걀", "난황", "난백", "난각", "알부민"
+    };
+    private static final String [] Ovo = {
+            "소젖", "우유", "버터"
+    };
+    private static final String [] Vegan = {
+            "비타민D3", "철분"
+    };
 
     private static final int PICK_IMAGE_REQUEST = 1111;
     private Bitmap bm;
@@ -1082,7 +1098,7 @@ public class Camera2BasicFragment extends Fragment
                 intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 intent.setType("image/*");
                 startActivityForResult(intent, PICK_IMAGE_REQUEST);
-
+                mTextureView.setVisibility(GONE);
 
                 break;
             }
@@ -1114,6 +1130,27 @@ public class Camera2BasicFragment extends Fragment
         }
 
         Log.d("resultText", resultText);
+
+        String type = "";
+        for(String s : Pesco){
+            if(resultText.contains(s)){
+                type += "None";
+            }
+        }
+
+        for(String s : LactoOvo){
+            if(resultText.contains(s)){
+                type += "페스코";
+            }
+        }
+
+        for(String s : Ovo){
+            if(resultText.contains(s)){
+                type += "페스코, 락토오보, 락토";
+            }
+        }
+
+        Toast.makeText(getActivity(),"비건등급 : "+ type, Toast.LENGTH_SHORT).show();
     }
 
 

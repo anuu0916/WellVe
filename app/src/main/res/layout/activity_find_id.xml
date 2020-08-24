@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context=".activity.FindIdActivity">
 
 
     <RelativeLayout
@@ -11,7 +13,7 @@
         android:layout_marginTop="52dp">
 
         <Button
-            android:id="@+id/userVerificationBackButton"
+            android:id="@+id/findIdBackButton"
             android:layout_width="12dp"
             android:layout_height="20dp"
             android:layout_alignParentLeft="true"
@@ -23,41 +25,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="회원가입"
+            android:text="아이디 찾기"
             android:textColor="#000000"
             android:textSize="24sp" />
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="4dp"
-            android:text="1"
-            android:textColor="#79c668"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="4dp"
-            android:text="/3"
-            android:textColor="#000000"
-            android:textSize="16sp" />
-    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:layout_marginTop="32dp"
         android:layout_marginLeft="16dp"
         android:text="전화번호를 인증해주세요."
         android:textColor="#000000"
@@ -71,7 +50,7 @@
         android:orientation="horizontal">
 
         <Spinner
-            android:id="@+id/singUpSpinner"
+            android:id="@+id/findIdSpinner"
             android:layout_width="64dp"
             android:layout_height="46dp"
             android:background="@drawable/dropdown_bg" />
@@ -81,7 +60,7 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/userPhoneNumEditText"
+                android:id="@+id/findIdPhoneNumEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
@@ -92,7 +71,7 @@
                 android:textSize="16sp" />
 
             <Button
-                android:id="@+id/userAuthNumButton"
+                android:id="@+id/authNumButton"
                 android:layout_width="96dp"
                 android:layout_height="21dp"
                 android:layout_gravity="center_vertical|right"
@@ -104,7 +83,7 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/userNumEditText"
+        android:id="@+id/findIdNumEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -116,15 +95,18 @@
         android:textSize="16sp" />
 
     <Button
-        android:id="@+id/userVerificationNextButton"
+        android:id="@+id/authButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="44dp"
         android:layout_marginRight="16dp"
-        android:background="@drawable/button_gradient"
-        android:text="다음"
-        android:textColor="#FFF"
+        android:background="@drawable/find_password_button"
+        android:text="인증하기"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textColor="#4d4d4d"
+        android:lineSpacingExtra="-14sp"
+        android:textStyle="bold"
+        android:gravity="center" />
+
 </LinearLayout>
