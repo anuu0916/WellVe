@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity{
     private EditText pwEditText;
     private Button loginButton;
     private Button SignupButton;
+    private Button findIdPwButton;
     private FirebaseAuth mAuth;
 
 
@@ -49,6 +50,14 @@ public class LoginActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+
+        findIdPwButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, FindPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     void init() {
@@ -56,7 +65,7 @@ public class LoginActivity extends AppCompatActivity{
         pwEditText = (EditText)findViewById(R.id.loginPwEditText);
         loginButton = (Button)findViewById(R.id.loginButton);
         SignupButton = (Button)findViewById(R.id.loginSignupButton);
-
+        findIdPwButton = (Button)findViewById(R.id.findIdPwButton);
         mAuth = FirebaseAuth.getInstance();
     }
 

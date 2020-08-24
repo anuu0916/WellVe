@@ -21,7 +21,7 @@ public class UserVerificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_verification);
 
-        Spinner spinner = findViewById(R.id.spinner);
+        Spinner spinner = findViewById(R.id.singUpSpinner);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_spinner_item, items);
