@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import com.diary.jimin.wellve.R;
 
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class FragmentCameraResultDetail extends Fragment {
 
@@ -17,9 +19,14 @@ public class FragmentCameraResultDetail extends Fragment {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-            return inflater.inflate(R.layout.fragment_camera_result_detail, container, false);
+        public void onCreate(Bundle savedInstanceState)
+        {
+                super.onCreate(savedInstanceState);
+        }
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        {
+                LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_camera_result_detail, container, false);
+                return layout;
         }
 }
