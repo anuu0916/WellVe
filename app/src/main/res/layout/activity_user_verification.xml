@@ -93,14 +93,15 @@
 </FrameLayout>
     </LinearLayout>
     <EditText
-        android:layout_width="380dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:hint="  인증번호를 입력해주세요."
         android:textSize="16sp"
         android:layout_gravity="center_horizontal"
         android:backgroundTint="#CCCCCC"
-        android:paddingBottom="20dp"/>
+        android:paddingBottom="20dp"
+        android:layout_marginHorizontal="16dp"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

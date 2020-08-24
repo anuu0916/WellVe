@@ -1,23 +1,22 @@
 package com.diary.jimin.wellve.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 
+import com.diary.jimin.wellve.R;
+import com.diary.jimin.wellve.adapter.VPAdapter;
 import com.diary.jimin.wellve.fragment.Page1Fragment;
 import com.diary.jimin.wellve.fragment.Page2Fragment;
 import com.diary.jimin.wellve.fragment.Page3Fragment;
 import com.diary.jimin.wellve.fragment.Page4Fragment;
 import com.diary.jimin.wellve.fragment.Page5Fragment;
-import com.diary.jimin.wellve.R;
-import com.diary.jimin.wellve.adapter.VPAdapter;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 public class CommunityActivity extends AppCompatActivity {
 
@@ -27,6 +26,7 @@ public class CommunityActivity extends AppCompatActivity {
     private TabLayout tab;
     private Button communitySearchButton;
     private Button communityWriteButton;
+    private Button backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +57,20 @@ public class CommunityActivity extends AppCompatActivity {
             }
         });
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
 
     }
 
     void init() {
         communitySearchButton = (Button)findViewById(R.id.communitySearchButton);
         communityWriteButton = (Button)findViewById(R.id.communityWriteButton);
+        backButton = (Button)findViewById(R.id.categoryBackButton);
     }
 
     public void getTabs() {

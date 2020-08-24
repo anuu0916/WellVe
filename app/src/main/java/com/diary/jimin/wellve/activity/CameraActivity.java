@@ -1,14 +1,16 @@
 package com.diary.jimin.wellve.activity;
 
 import android.os.Bundle;
-import android.view.WindowManager;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.diary.jimin.wellve.fragment.Camera2BasicFragment;
 import com.diary.jimin.wellve.R;
+import com.diary.jimin.wellve.fragment.Camera2BasicFragment;
+import com.diary.jimin.wellve.fragment.CameraResultFragment;
 
 public class CameraActivity extends AppCompatActivity {
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +21,7 @@ public class CameraActivity extends AppCompatActivity {
                     .replace(R.id.container, Camera2BasicFragment.newInstance())
                     .commit();
         }
+
 
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
 //                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);

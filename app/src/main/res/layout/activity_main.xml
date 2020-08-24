@@ -18,13 +18,16 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_above="@+id/MainBottomWhite"
+        android:layout_marginBottom="50dp">
+
+
     <TextView
-        android:layout_width="280dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="370dp"
         android:layout_marginLeft="16dp"
-        android:text="블라블라블라 무슨 칼럼같은 글이 좋을듯?"
+        android:text="내 몸과 지구를 위한 선택,\n채식주의"
         android:textColor="#ffffff"
         android:textSize="28sp"
         android:textStyle="bold"/>
@@ -34,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="16dp"
-        android:text="채식과 관련된 어쩌구...저쩌구... 잡다한 어쩌구... 하놔 그런걸로 나타났다...."
+        android:text="우리의 미래를 위한 해답을 비거니즘에서 찾다. 환경과 윤리적인 소비를 위한 첫 걸음, WellVe"
         android:textColor="#ffffff"
         android:textSize="16sp"/>
     <Space
@@ -44,6 +47,7 @@
 
     </LinearLayout>
     <RelativeLayout
+        android:id="@+id/MainBottomWhite"
         android:layout_width="match_parent"
         android:layout_height="144dp"
         android:layout_alignParentBottom="true"
