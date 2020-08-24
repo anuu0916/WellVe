@@ -18,10 +18,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".activity.FindPasswordCompleteActivity"></activity>
+        <activity android:name=".activity.FindPasswordActivity" />
+
         <meta-data
             android:name="com.firebase.ml.cloud.ApiKeyForDebug"
             android:value="AIzaSyBGsR4rzjEdUbJxOlNBeThoOLmnP1DiHYY" />
-        <activity android:name=".activity.UserVerificationActivity"></activity>
+
+        <activity android:name=".activity.UserVerificationActivity" />
         <activity android:name=".activity.NicknameModifyActivity" />
         <activity android:name=".activity.ReTypeCheckActivity" />
         <activity android:name=".activity.DeveloperActivity" />
