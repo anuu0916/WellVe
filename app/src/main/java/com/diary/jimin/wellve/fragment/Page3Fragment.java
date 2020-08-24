@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.diary.jimin.wellve.model.CommunityItem;
 import com.diary.jimin.wellve.R;
@@ -37,8 +38,9 @@ public class Page3Fragment extends Fragment {
 
     private FirebaseFirestore db;
 
-    private ArrayList<String> QnAList = new ArrayList<>();
-    private String QnASize;
+    private int QnASize;
+
+    private ProgressBar progressBar;
 
     public static Page3Fragment getInstance() {
         Page3Fragment page3Fragment = new Page3Fragment();
@@ -55,6 +57,7 @@ public class Page3Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_page, container, false);
 
+        progressBar = view.findViewById(R.id.progressBar);
         initDataset();
 
         context = view.getContext();
@@ -76,31 +79,9 @@ public class Page3Fragment extends Fragment {
 
         items.clear();
 
-        CollectionReference comment = db.collection("comments");
-
-        QnAList.clear();
-        comment.whereEqualTo("category","QnAPosts")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
-                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-
-                                QnAList.add(documentSnapshot.getData().toString());
-                                Log.d("commentSize", documentSnapshot.getData().toString());
-
-                            }
-                            QnASize = Integer.toString(QnAList.size());
-
-                            Log.d("commentSize", QnASize);
-
-                        }
-                    }
-                });
-
         CollectionReference collectionReference = db.collection("QnAPosts");
 
+        progressBar.setVisibility(View.VISIBLE);
         collectionReference
                 .orderBy("time", Query.Direction.DESCENDING)
                 .get()
@@ -109,17 +90,37 @@ public class Page3Fragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
                             for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                        "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
-                                        documentSnapshot.getData().get("title").toString(),
-                                        documentSnapshot.getData().get("time").toString(),
-                                        "QnA ",
-                                        QnASize));
+
+                                db.collection("comments")
+                                        .whereEqualTo("postId",documentSnapshot.getId())
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if(task.isSuccessful()) {
+                                                    QnASize = 0;
+                                                    for(QueryDocumentSnapshot document : task.getResult()) {
+                                                        QnASize++;
+                                                    }
+
+                                                    items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                            "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
+                                                            documentSnapshot.getData().get("title").toString(),
+                                                            documentSnapshot.getData().get("time").toString(),
+                                                            "QnA ",
+                                                            String.valueOf(QnASize)
+                                                    ));
+                                                    recyclerView.setAdapter(adapter);
+                                                    progressBar.setVisibility(View.GONE);
+                                                }
+                                            }
+                                        });
                             }
-                            recyclerView.setAdapter(adapter);
                         }
                     }
                 });
+
+
 
     }
 }
