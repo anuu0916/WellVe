@@ -48,6 +48,7 @@ public class PostActivity extends AppCompatActivity {
     private EditText postTitleEditText;
     private EditText postTextEditText;
     private Button postButton;
+    private Button backButton;
     private ImageButton postPhotoButton;
     private String name;
     private FirebaseUser user;
@@ -106,6 +107,13 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         Spinner spinner = findViewById(R.id.postSpinner);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
@@ -142,6 +150,7 @@ public class PostActivity extends AppCompatActivity {
         postTitleEditText = findViewById(R.id.postTitleEditText);
         postTextEditText = findViewById(R.id.postTextEditText);
         postButton = findViewById(R.id.postButton);
+        backButton = (Button)findViewById(R.id.postBackButton);
         postPhotoButton = (ImageButton)findViewById(R.id.postPhotoButton);
 
     }
