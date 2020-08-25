@@ -47,6 +47,7 @@ public class ReTypeCheckActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         nickName = intent.getStringExtra("nickname");
+
     }
     private void init() {
         typePescoButton = (Button)findViewById(R.id.typePescoButton);

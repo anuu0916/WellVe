@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="13">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -10,7 +11,7 @@
         android:layout_marginTop="52dp">
 
         <Button
-            android:id="@+id/loginBackButton"
+            android:id="@+id/infoModifyBackButton"
             android:layout_width="12dp"
             android:layout_height="20dp"
             android:layout_alignParentLeft="true"
@@ -35,16 +36,21 @@
         android:layout_marginTop="14dp"
         android:background="#d4d4d4" />
 
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginTop="16dp"
         android:background="#d4d4d4" />
 
     <Button
         android:id="@+id/infoVeganModifyButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="#00FF0000"
         android:drawableRight="@drawable/next_btn"
         android:gravity="left|center_vertical"
@@ -63,7 +69,8 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="#00FF0000"
         android:drawableRight="@drawable/next_btn"
         android:gravity="left|center_vertical"
@@ -83,7 +90,8 @@
     <Button
         android:id="@+id/nicknameModifyButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="#00FF0000"
         android:drawableRight="@drawable/next_btn"
         android:gravity="left|center_vertical"
