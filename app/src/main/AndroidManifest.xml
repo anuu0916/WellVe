@@ -32,7 +32,9 @@
         <activity android:name=".activity.CameraActivity" />
         <activity android:name=".activity.BookmarkActivity" />
         <activity android:name=".activity.CommunityActivity" />
-        <activity android:name=".activity.PostInActivity" />
+        <activity
+            android:name=".activity.PostInActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
             android:name=".activity.PostActivity"
             android:windowSoftInputMode="adjustPan"
