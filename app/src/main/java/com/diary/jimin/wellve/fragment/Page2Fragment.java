@@ -27,6 +27,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Page2Fragment extends Fragment {
@@ -37,6 +38,9 @@ public class Page2Fragment extends Fragment {
     private RecyclerViewAdapter adapter;
 
     private FirebaseFirestore db;
+
+    private List<String> idList = new ArrayList<>();
+    private List<String> categoryList = new ArrayList<>();
 
     private int freeSize;
 
@@ -110,6 +114,8 @@ public class Page2Fragment extends Fragment {
                                                             "자유 ",
                                                             String.valueOf(freeSize)
                                                     ));
+                                                    idList.add(documentSnapshot.getId());
+                                                    categoryList.add("freePosts");
                                                     recyclerView.setAdapter(adapter);
                                                     progressBar.setVisibility(View.GONE);
                                                 }
