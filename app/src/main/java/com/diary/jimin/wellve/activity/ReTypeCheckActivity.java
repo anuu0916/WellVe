@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class ReTypeCheckActivity extends AppCompatActivity {
     private TextView topText;
     private TextView middleText;
     private TextView questionText;
+    private LinearLayout numStep;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class ReTypeCheckActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         nickName = intent.getStringExtra("nickname");
+
     }
     private void init() {
         typePescoButton = (Button)findViewById(R.id.typePescoButton);
@@ -56,9 +59,11 @@ public class ReTypeCheckActivity extends AppCompatActivity {
         topText=(TextView)findViewById(R.id.topText);
         middleText=(TextView)findViewById(R.id.middleText);
         questionText=(TextView)findViewById(R.id.questionText);
+        numStep=(LinearLayout)findViewById(R.id.numStepText);
 
         topText.setText("채식주의자 단계 수정");
         middleText.setVisibility(View.GONE);
+        numStep.setVisibility(View.GONE);
         questionText.setText("현재 하고 있는 채식의 단계는?");
 
         typeSignUpButton.setText("정보수정하기");

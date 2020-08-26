@@ -11,8 +11,10 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -23,6 +25,9 @@ import com.google.android.material.tabs.TabLayout;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,6 +151,9 @@ public class FragmentCameraResult extends Fragment {
 
 public class FragmentCameraResult extends Fragment {
 
+    private TextView veganTypeResult;
+    private TextView isVeganResult;
+
     public FragmentCameraResult() {
         // Required empty public constructor
     }
@@ -154,11 +162,31 @@ public class FragmentCameraResult extends Fragment {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        init();
+
+//        Intent intent = getActivity().getIntent();
+//        String veganType = getActivity().getIntent().getStringExtra("veganType");
+//        veganTypeResult.setText(veganType);
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.fragment_camera_result, container, false);
+        veganTypeResult = layout.findViewById(R.id.veganTypeResult);
+        isVeganResult = layout.findViewById(R.id.isVeganResult);
+        Bundle bundle = getArguments();
+        if(bundle!=null){
+            String type = bundle.getString("veganType");
+            String userType = bundle.getString("userType");
+            Log.d("userType", "Result : " + userType);
+            veganTypeResult.setText("섭취 가능 : "+type);
+            isVeganResult.setText(userType);
+        }
         return layout;
+    }
+
+    void init(){
+        //veganTypeResult = (TextView)getActivity().findViewById(R.id.veganTypeResult);
     }
 }

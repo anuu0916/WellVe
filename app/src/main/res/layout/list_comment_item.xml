@@ -92,7 +92,7 @@
 </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="2px"
         android:background="#D4D4D4"
         />
 </LinearLayout>
