@@ -29,6 +29,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Page5Fragment extends Fragment {
@@ -42,6 +43,9 @@ public class Page5Fragment extends Fragment {
     private FirebaseFirestore db;
 
     private int literSize;
+
+    private List<String> idList = new ArrayList<>();
+    private List<String> categoryList = new ArrayList<>();
 
     private ProgressBar progressBar;
 
@@ -112,6 +116,8 @@ public class Page5Fragment extends Fragment {
                                                             "문학 ",
                                                             String.valueOf(literSize)
                                                     ));
+                                                    idList.add(documentSnapshot.getId());
+                                                    categoryList.add("literPosts");
                                                     recyclerView.setAdapter(adapter);
                                                     progressBar.setVisibility(View.GONE);
                                                 }

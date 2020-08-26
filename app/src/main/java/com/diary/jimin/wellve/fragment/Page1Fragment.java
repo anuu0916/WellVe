@@ -176,6 +176,14 @@ public class Page1Fragment extends Fragment {
                                                         QnASize++;
                                                     }
 
+                                                    items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                            "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
+                                                            documentSnapshot.getData().get("title").toString(),
+                                                            documentSnapshot.getData().get("time").toString(),
+                                                            "QnA ",
+                                                            String.valueOf(QnASize)
+                                                    ));
+
                                                     idList.add(documentSnapshot.getId());
                                                     categoryList.add("QnAPosts");
                                                     recyclerView.setAdapter(adapter);
