@@ -20,7 +20,14 @@ import android.view.ViewGroup;
 
 import com.diary.jimin.wellve.R;
 import com.diary.jimin.wellve.adapter.ViewPagerAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.view.View;
 import android.widget.LinearLayout;
@@ -154,6 +161,9 @@ public class FragmentCameraResult extends Fragment {
     private TextView veganTypeResult;
     private TextView isVeganResult;
 
+    private FirebaseFirestore db;
+    private FirebaseUser user;
+
     public FragmentCameraResult() {
         // Required empty public constructor
     }
@@ -163,6 +173,26 @@ public class FragmentCameraResult extends Fragment {
     {
         super.onCreate(savedInstanceState);
         init();
+
+        db = FirebaseFirestore.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        DocumentReference documentReference = db.collection("users").document(user.getUid());
+        Log.d("userType", "userID : "+user.getUid());
+
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if(documentSnapshot.exists()) {
+                        isVeganResult.setText(documentSnapshot.getData().get("type")+"");
+                    }
+                } else {
+                    Log.d("FragmentCameraResult", ""+task.getException());
+                }
+            }
+        });
 
 //        Intent intent = getActivity().getIntent();
 //        String veganType = getActivity().getIntent().getStringExtra("veganType");
@@ -178,10 +208,7 @@ public class FragmentCameraResult extends Fragment {
         Bundle bundle = getArguments();
         if(bundle!=null){
             String type = bundle.getString("veganType");
-            String userType = bundle.getString("userType");
-            Log.d("userType", "Result : " + userType);
             veganTypeResult.setText("섭취 가능 : "+type);
-            isVeganResult.setText(userType);
         }
         return layout;
     }
