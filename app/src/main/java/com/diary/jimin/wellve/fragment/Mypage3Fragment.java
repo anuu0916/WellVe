@@ -22,8 +22,9 @@ public class Mypage3Fragment extends Fragment {
 
     private ArrayList<CommunityItem> items = new ArrayList<>();
 
-    public Mypage3Fragment(){
-
+    public static Mypage3Fragment getInstance() {
+        Mypage3Fragment mypage3Fragment = new Mypage3Fragment();
+        return mypage3Fragment;
     }
 
     @Nullable
