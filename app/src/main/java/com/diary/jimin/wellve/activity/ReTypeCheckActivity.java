@@ -73,7 +73,7 @@ public class ReTypeCheckActivity extends Activity {
         numStep=(LinearLayout)findViewById(R.id.numStepText);
 
         topText.setText("채식주의자 단계 수정");
-        middleText.setText("");
+        middleText.setVisibility(View.GONE);
         numStep.setVisibility(View.GONE);
         questionText.setText("현재 하고 있는 채식의 단계는?");
 
