@@ -74,7 +74,7 @@ public class PostInActivity extends AppCompatActivity {
         Intent intent = getIntent();
         getId = intent.getStringExtra("setId");
         getCategory = intent.getStringExtra("setCategory");
-        
+
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 
