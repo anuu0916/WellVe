@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -219,6 +220,11 @@ public class PostInActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 Toast.makeText(PostInActivity.this, "성공",Toast.LENGTH_SHORT).show();
+                                adapter.addItem(comment,user.getUid(),time,name);
+                                adapter.notifyDataSetChanged();
+                                postInCommentEditText.setText("");
+                                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(postInCommentEditText.getWindowToken(), 0);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {

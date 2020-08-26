@@ -1,6 +1,7 @@
 package com.diary.jimin.wellve.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.diary.jimin.wellve.activity.PostInActivity;
 import com.diary.jimin.wellve.model.CommunityItem;
 import com.diary.jimin.wellve.R;
 import com.diary.jimin.wellve.adapter.RecyclerViewAdapter;
@@ -73,6 +75,17 @@ public class Page3Fragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new RecyclerViewAdapter(context, items);
+
+
+        adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                Intent intent = new Intent(getActivity(), PostInActivity.class);
+                intent.putExtra("setId", idList.get(pos));
+                intent.putExtra("setCategory", categoryList.get(pos));
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
