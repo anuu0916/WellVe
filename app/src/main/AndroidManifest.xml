@@ -37,7 +37,8 @@
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
             android:name=".activity.PostActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="unspecified"/>
         <activity android:name=".activity.BoardActivity" />
         <activity android:name=".activity.PasswordResetActivity" />
         <activity android:name=".activity.TypeCheckActivity" />

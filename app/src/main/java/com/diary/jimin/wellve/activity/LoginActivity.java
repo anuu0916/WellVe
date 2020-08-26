@@ -24,6 +24,7 @@ public class LoginActivity extends AppCompatActivity{
     private Button loginButton;
     private Button SignupButton;
     private Button findIdPwButton;
+    private Button backButton;
     private FirebaseAuth mAuth;
 
 
@@ -45,7 +46,7 @@ public class LoginActivity extends AppCompatActivity{
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+                Intent intent = new Intent(LoginActivity.this, UserVerificationActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
@@ -58,6 +59,13 @@ public class LoginActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     void init() {
@@ -66,6 +74,7 @@ public class LoginActivity extends AppCompatActivity{
         loginButton = (Button)findViewById(R.id.loginButton);
         SignupButton = (Button)findViewById(R.id.loginSignupButton);
         findIdPwButton = (Button)findViewById(R.id.findIdPwButton);
+        backButton = (Button)findViewById(R.id.loginBackButton);
         mAuth = FirebaseAuth.getInstance();
     }
 

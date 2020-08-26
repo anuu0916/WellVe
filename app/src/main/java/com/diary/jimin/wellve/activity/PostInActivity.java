@@ -52,6 +52,7 @@ public class PostInActivity extends AppCompatActivity {
 //    private Button postInLikeButton;
   //  private TextView postInLikeTextView;
     private ImageButton postInMarkButton;
+    private TextView postInCommentNumText;
 
     private String getId;   //문서 uid
     private String getCategory; //문서 컬렉션 이름
@@ -60,6 +61,7 @@ public class PostInActivity extends AppCompatActivity {
     private String time;
     private String name;
 
+    private int commentCount;
 
     private PostInfo postInfo;
     private PostInfo categoryInfo;
@@ -74,6 +76,8 @@ public class PostInActivity extends AppCompatActivity {
         Intent intent = getIntent();
         getId = intent.getStringExtra("setId");
         getCategory = intent.getStringExtra("setCategory");
+
+        Log.d("PostInActivity", getId);
 
 
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -120,15 +124,23 @@ public class PostInActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
+                            commentCount=0;
                             for(QueryDocumentSnapshot document : task.getResult()) {
                                 if(document.getData().get("postId").equals(getId)) {
+                                    commentCount ++;
+
                                     adapter.addItem(document.getData().get("text").toString(),
                                             document.getData().get("id").toString(),
                                             document.getData().get("time").toString(),
                                             document.getData().get("name").toString());
                                 }
                             }
-                            commentListView.setAdapter(adapter);
+                            postInCommentNumText.setText(Integer.toString(commentCount));
+                            if (adapter.getCount()!=0) {
+                                commentListView.setAdapter(adapter);
+                            } else {
+                                Log.d("PostInActivity", "adapter is empty ?: " +adapter.getCount());
+                            }
                         }
                     }
                 });
@@ -183,6 +195,7 @@ public class PostInActivity extends AppCompatActivity {
 //        postInLikeButton = (Button) findViewById(R.id.postInLikeButton);
   //      postInLikeTextView = (TextView) findViewById(R.id.postInLikeTextView);
         postInMarkButton = (ImageButton) findViewById(R.id.postInMarkButton);
+        postInCommentNumText = (TextView) findViewById(R.id.postInCommentNumText);
 
     }
 

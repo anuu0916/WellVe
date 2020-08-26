@@ -4,65 +4,67 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="31"
+    android:weightSum="20"
     android:background="@color/colorWhite">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="52dp">
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="bottom">
 
         <Button
-            android:id="@+id/signupBackButton"
+            android:id="@+id/typeCheckBackButton"
             android:layout_width="12dp"
             android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/backbutton"/>
+            android:background="@drawable/backbutton" />
+
         <TextView
             android:id="@+id/topText"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text="회원가입"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@color/colorBlack"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"/>
+            android:textColor="#000000"
+            android:textSize="24sp"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/numStepText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="bottom"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginBottom="4dp"
             android:text="3"
-            android:textSize="16sp"
             android:textColor="#79c668"
-            android:textStyle="bold"/>
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="4dp"
             android:text="/3"
-            android:textSize="16sp"
-            android:textColor="#000000" />
+            android:textColor="#000000"
+            android:textSize="16sp" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/middleText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginLeft="16dp"
+        android:gravity="center"
         android:text="개인정보를 입력해주세요."
         android:textSize="16sp"
         android:textColor="@color/colorBlack"/>
@@ -70,9 +72,10 @@
     <TextView
         android:id="@+id/questionText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginLeft="16dp"
+        android:gravity="center"
         android:text="현재 하고있는 채식의 단계는?"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -80,9 +83,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="32dp">
+        android:layout_height="0dp"
+        android:layout_weight="9.5"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <LinearLayout
             android:gravity="center"
@@ -186,14 +190,11 @@
         </LinearLayout>
 
     </LinearLayout>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:weightSum="22">
         
         <Space
