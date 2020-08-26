@@ -48,7 +48,9 @@
                     android:layout_height="wrap_content"
                     android:text="저 오늘 주말농장 다녀왔어요"
                     android:textSize="14sp"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000"
+                    android:ellipsize="end"
+                    android:maxLines="1"/>
             </LinearLayout>
 
             <LinearLayout

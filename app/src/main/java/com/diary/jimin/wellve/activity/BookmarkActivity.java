@@ -2,6 +2,7 @@ package com.diary.jimin.wellve.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -11,8 +12,13 @@ import android.widget.TextView;
 
 import com.diary.jimin.wellve.R;
 import com.diary.jimin.wellve.adapter.ListViewAdapter;
+import com.diary.jimin.wellve.adapter.VPAdapter;
+import com.diary.jimin.wellve.fragment.Mypage1Fragment;
+import com.diary.jimin.wellve.fragment.Mypage2Fragment;
+import com.diary.jimin.wellve.fragment.Mypage3Fragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -25,6 +31,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 public class BookmarkActivity extends AppCompatActivity {
 
@@ -42,6 +49,10 @@ public class BookmarkActivity extends AppCompatActivity {
     private Button infoModifyButton;
     private Button backButton;
 
+    private ViewPager vp;
+    private VPAdapter vpAdapter;
+    private TabLayout tab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,9 +60,13 @@ public class BookmarkActivity extends AppCompatActivity {
 
         init();
 
+        vp = findViewById(R.id.categoryViewPager);
+
         db = FirebaseFirestore.getInstance();
         adapter = new ListViewAdapter();
         user = FirebaseAuth.getInstance().getCurrentUser();
+
+        getTabs();
 
         CollectionReference document = db.collection("users").document(user.getUid())
                 .collection("bookmarks");
@@ -119,5 +134,23 @@ public class BookmarkActivity extends AppCompatActivity {
         myPageNickName = (TextView) findViewById(R.id.mypage_nickname);
         infoModifyButton=(Button)findViewById(R.id.infoModifyButton);
         backButton = (Button)findViewById(R.id.bookmarkBackButton);
+    }
+
+    public void getTabs() {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                vpAdapter = new VPAdapter(getSupportFragmentManager());
+
+                vpAdapter.addFragment(Mypage1Fragment.getInstance(), "내가 쓴 글");
+                vpAdapter.addFragment(Mypage2Fragment.getInstance(), "내가 쓴 댓글");
+                vpAdapter.addFragment(Mypage3Fragment.getInstance(), "북마크");
+
+                vp.setAdapter(vpAdapter);
+
+                tab = findViewById(R.id.tab);
+                tab.setupWithViewPager(vp);
+            }
+        });
     }
 }
