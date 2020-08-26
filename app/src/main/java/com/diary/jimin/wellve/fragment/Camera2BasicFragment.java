@@ -55,14 +55,13 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import com.diary.jimin.wellve.BuildConfig;
 import com.diary.jimin.wellve.R;
 import com.diary.jimin.wellve.activity.CameraActivity;
-import com.diary.jimin.wellve.activity.FragmentCameraResult;
 import com.diary.jimin.wellve.view.AutoFitTextureView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.BuildConfig;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;

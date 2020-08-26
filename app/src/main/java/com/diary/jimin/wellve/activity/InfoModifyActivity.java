@@ -13,6 +13,7 @@ public class InfoModifyActivity extends AppCompatActivity {
 
     private Button veganModifyButton;
     private Button nicknameModifyButton;
+    private Button backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +37,18 @@ public class InfoModifyActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     void init(){
         veganModifyButton = (Button)findViewById(R.id.infoVeganModifyButton);
         nicknameModifyButton=(Button)findViewById(R.id.nicknameModifyButton);
+        backButton = (Button)findViewById(R.id.infoModifyBackButton);
     }
 }

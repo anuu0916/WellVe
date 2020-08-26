@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -17,8 +18,18 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.diary.jimin.wellve.R;
+import com.diary.jimin.wellve.adapter.ListViewAdapter;
 import com.diary.jimin.wellve.fragment.Camera2BasicFragment;
 import com.diary.jimin.wellve.fragment.CameraBlankFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -28,10 +39,13 @@ public class CameraActivity extends AppCompatActivity {
     private Bitmap bm;
     private ImageView imageView;
     private String resultText;
+    private FirebaseFirestore db;
+    private FirebaseUser user;
+    private String userType = "";
     ViewPager vp;
 
     private static final String [] Pesco = {
-            "E441젤라틴", "E542 식용 인산골", "인산골", "아교", "칼슘", "육즙", "골탄"
+            "E441젤라틴", "E542 식용 인산골", "인산골", "아교", "칼슘", "육즙", "골탄", "고기"
     };
     private static final String [] LactoOvo = {
             "용연향", "자개", "캐비어", "키틴", "산호"
@@ -51,6 +65,27 @@ public class CameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
+        db = FirebaseFirestore.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        DocumentReference documentReference = db.collection("users").document(user.getUid());
+        Log.d("userType", "userID : "+user.getUid());
+
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if(documentSnapshot.exists()) {
+                        userType = (String) documentSnapshot.getString("type");
+                        Log.d("userType", userType);
+                    }
+                } else {
+                    Log.d("CameraActivity", ""+task.getException());
+                }
+            }
+        });
+
         init();
 
         if (null == savedInstanceState) {
@@ -67,7 +102,7 @@ public class CameraActivity extends AppCompatActivity {
         imageView.setImageBitmap(bm);
 
         if(resultText != null){
-
+            resultText = resultText.replaceAll(System.getProperty("line.separator"), " ");
 
             for(String s : Pesco){
                 if(resultText.contains(s)){
@@ -128,8 +163,9 @@ public class CameraActivity extends AppCompatActivity {
                     FragmentCameraResult fragmentCameraResult;
                     fragmentCameraResult = new FragmentCameraResult();
                     bundle.putString("veganType", type);
+                    bundle.putString("userType", userType);
+                    Log.d("userType", "before Result : " + type + userType);
                     fragmentCameraResult.setArguments(bundle);
-                    Log.d("resultText", "veganType : "+type);
                     return fragmentCameraResult;
                 case 2:
                     FragmentCameraResultDetail fragmentCameraResultDetail;

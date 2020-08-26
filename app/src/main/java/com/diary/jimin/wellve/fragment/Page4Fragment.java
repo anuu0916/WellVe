@@ -27,6 +27,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Page4Fragment extends Fragment {
@@ -40,6 +41,9 @@ public class Page4Fragment extends Fragment {
     private FirebaseFirestore db;
 
     private int restaurantSize;
+
+    private List<String> idList = new ArrayList<>();
+    private List<String> categoryList = new ArrayList<>();
 
     private ProgressBar progressBar;
 
@@ -114,6 +118,8 @@ public class Page4Fragment extends Fragment {
                                                             "식당 ",
                                                             String.valueOf(restaurantSize)
                                                     ));
+                                                    idList.add(documentSnapshot.getId());
+                                                    categoryList.add("restaurantPosts");
                                                     recyclerView.setAdapter(adapter);
                                                     progressBar.setVisibility(View.GONE);
                                                 }
