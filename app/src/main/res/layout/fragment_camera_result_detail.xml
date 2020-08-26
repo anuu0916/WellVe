@@ -42,6 +42,7 @@
             android:textStyle="bold"
             android:layout_marginRight="12dp"/>
         <TextView
+            android:id="@+id/detailFoodType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="곡류가공품"
