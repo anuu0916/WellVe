@@ -39,52 +39,38 @@ public class CameraActivity extends AppCompatActivity {
     private Bitmap bm;
     private ImageView imageView;
     private String resultText;
-    private FirebaseFirestore db;
-    private FirebaseUser user;
+
     private String userType = "";
     ViewPager vp;
 
-    private static final String [] Pesco = {
-            "E441젤라틴", "E542 식용 인산골", "인산골", "아교", "칼슘", "육즙", "골탄", "고기"
+    private static final String [] Animal = {
+            "E441젤라틴", "E542 식용 인산골", "인산골", "아교", "칼슘", "육즙", "골탄", "골분", "콜라겐", "선지",
+            "올레오스테아린", "동물성단백질", "엘라스틴", "케라틴", "레티쿨린", "레닛", "런넷", "가죽", "펩신", "케라틴",
+            "판크레아틴", "트립신", "수지", "라드", "돈유", "돈지유", "탤로", "드리핑", "마지", "말기름", "돈지", "돼지기름",
+            "우지", "쇠기름", "양지", "거위기름", "계유", "콘드로이틴", "고기"
     };
-    private static final String [] LactoOvo = {
-            "용연향", "자개", "캐비어", "키틴", "산호"
+    private static final String [] Ocean = {
+            "용연향", "자개", "조개", "캐비어", "키틴", "산호", "생선", "비늘", "어분", "부레풀", "해면", "진주",
+            "알", "경랍", "어유", "간유", "경유", "바다표범", "키토산"
     };
-    private static final String [] Lacto = {
+    private static final String [] Ovo= {
             "달걀", "난황", "난백", "난각", "알부민"
     };
-    private static final String [] Ovo = {
-            "소젖", "우유", "버터"
+    private static final String [] Lacto = {
+            "젖", "카세인", "락토오스", "유당", "유청", "락티톨", "우유", "버터"
     };
-    private static final String [] Vegan = {
-            "비타민D3", "철분"
+    private static final String [] Insect = {
+            "꿀", "벌 화분", "비폴렌", "봉독", "벌침", "밀랍", "로열젤리", "프로폴리스",
+            "E120 코치닐", "카민", "카르민", "달팽이", "곤충"
+    };
+    private static final String [] Else = {
+            "비타민D3", "철분", "혈액"
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-
-        db = FirebaseFirestore.getInstance();
-        user = FirebaseAuth.getInstance().getCurrentUser();
-
-        DocumentReference documentReference = db.collection("users").document(user.getUid());
-        Log.d("userType", "userID : "+user.getUid());
-
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()) {
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    if(documentSnapshot.exists()) {
-                        userType = (String) documentSnapshot.getString("type");
-                        Log.d("userType", userType);
-                    }
-                } else {
-                    Log.d("CameraActivity", ""+task.getException());
-                }
-            }
-        });
 
         init();
 
@@ -104,21 +90,29 @@ public class CameraActivity extends AppCompatActivity {
         if(resultText != null){
             resultText = resultText.replaceAll(System.getProperty("line.separator"), " ");
 
-            for(String s : Pesco){
-                if(resultText.contains(s)){
-                    type += "None";
-                }
-            }
+//            for(String s : Pesco){
+//                if(resultText.contains(s)){
+//                    type += "None";
+//                }
+//            }
+//
+//            for(String s : LactoOvo){
+//                if(resultText.contains(s)){
+//                    type += "페스코";
+//                }
+//            }
+//
+//            for(String s : Ovo){
+//                if(resultText.contains(s)){
+//                    type += "페스코, 락토오보, 락토";
+//                }
+//            }
 
-            for(String s : LactoOvo){
-                if(resultText.contains(s)){
-                    type += "페스코";
-                }
-            }
-
-            for(String s : Ovo){
-                if(resultText.contains(s)){
-                    type += "페스코, 락토오보, 락토";
+            for(int i=0; i<6; i++){
+                for(String s : Else){
+                    if(resultText.contains(s)){
+                        type = "None";
+                    }
                 }
             }
 
@@ -157,9 +151,9 @@ public class CameraActivity extends AppCompatActivity {
         {
             switch(position)
             {
+//                case 0:
+//                    return new CameraBlankFragment();
                 case 0:
-                    return new CameraBlankFragment();
-                case 1:
                     FragmentCameraResult fragmentCameraResult;
                     fragmentCameraResult = new FragmentCameraResult();
                     bundle.putString("veganType", type);
@@ -167,7 +161,7 @@ public class CameraActivity extends AppCompatActivity {
                     Log.d("userType", "before Result : " + type + userType);
                     fragmentCameraResult.setArguments(bundle);
                     return fragmentCameraResult;
-                case 2:
+                case 1:
                     FragmentCameraResultDetail fragmentCameraResultDetail;
                     fragmentCameraResultDetail = new FragmentCameraResultDetail();
                     detailbundle.putString("resultText", resultText);
@@ -180,7 +174,7 @@ public class CameraActivity extends AppCompatActivity {
         @Override
         public int getCount()
         {
-            return 3;
+            return 2;
         }
     }
 
