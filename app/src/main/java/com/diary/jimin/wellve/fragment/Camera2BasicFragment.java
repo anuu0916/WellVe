@@ -1044,9 +1044,12 @@ public class Camera2BasicFragment extends Fragment
         switch (view.getId()) {
             case R.id.cameraShootButton: {
                 takePicture();
-
+                mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
+                Log.d("image", mFile+"");
                 String filePath = mFile.getPath();
+                Log.d("image", filePath);
                 bm = BitmapFactory.decodeFile(filePath);
+                Log.d("image", bm+"");
 
                 FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bm);
 
@@ -1127,6 +1130,7 @@ public class Camera2BasicFragment extends Fragment
         intent.putExtra("resultText", resultText);
         //intent.putExtra("image", bm);
         startActivity(intent);
+        getActivity().finish();
 
 //        String type = "";
 //        for(String s : Pesco){

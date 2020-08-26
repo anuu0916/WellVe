@@ -38,8 +38,8 @@ public class CameraActivity extends AppCompatActivity {
 
     private Bundle bundle = new Bundle();
     private Bundle detailbundle = new Bundle();
-    private String type = "";
-    private Bitmap bm;
+//    private String type = "";
+//    private Bitmap bm;
     private ImageView imageView;
     private String resultText;
 
@@ -91,9 +91,7 @@ public class CameraActivity extends AppCompatActivity {
         Intent intent = getIntent();
         resultText = intent.getStringExtra("resultText");
         //byte[] byteArray = getIntent().getByteArrayExtra("image");
-
-
-        imageView.setImageBitmap(bm);
+        //imageView.setImageBitmap(bm);
 
         if(resultText != null){
             resultText = resultText.replaceAll(System.getProperty("line.separator"), " ");
