@@ -47,7 +47,6 @@ public class Mypage2Fragment extends Fragment {
 
     private ProgressBar progressBar;
 
-    private int commentSize;
 
     public static Mypage2Fragment getInstance() {
         Mypage2Fragment mypage2Fragment = new Mypage2Fragment();
