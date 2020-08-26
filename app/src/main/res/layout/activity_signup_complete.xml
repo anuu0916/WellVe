@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="20">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,36 +31,49 @@
 
     </LinearLayout>
 
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
     <ImageView
-        android:layout_width="120dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="7"
         android:src="@drawable/wellve_icon"
         android:layout_gravity="center"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:text="회원가입이 완료되었습니다!"
         android:textSize="18dp"
         android:textStyle="bold"
         android:textColor="#000"
         android:gravity="center_horizontal" />
 
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="12dp"
         android:textSize="12dp"
         android:text="이제부터 각종 유익한 비건 정보를 얻을 수 있습니다~"/>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
     <Button
         android:id="@+id/backToMainButton"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginTop="32dp"
+        android:layout_height="0dp"
+        android:layout_weight="2"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="6dp"
         android:text="메인으로 가기"

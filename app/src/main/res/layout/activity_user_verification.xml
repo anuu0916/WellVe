@@ -2,13 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
+    android:orientation="vertical"
+    android:weightSum="20">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp">
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="bottom">
 
         <Button
             android:id="@+id/userVerificationBackButton"
@@ -31,15 +32,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="bottom"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="4dp"
             android:text="1"
             android:textColor="#79c668"
             android:textSize="16sp"
@@ -48,8 +49,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="4dp"
             android:text="/3"
             android:textColor="#000000"
             android:textSize="16sp" />
@@ -57,17 +56,23 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
         android:layout_marginLeft="16dp"
         android:text="전화번호를 인증해주세요."
         android:textColor="#000000"
         android:textSize="16sp" />
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="2"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="30dp"
         android:orientation="horizontal">
 
         <Spinner
@@ -106,24 +111,29 @@
     <EditText
         android:id="@+id/userNumEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="2"
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="4dp"
         android:backgroundTint="#CCCCCC"
         android:hint="  인증번호를 입력해주세요."
-        android:paddingBottom="20dp"
+        android:paddingBottom="10dp"
         android:textSize="16sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
     <Button
         android:id="@+id/userVerificationNextButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="44dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/button_gradient"
-        android:text="다음"
+        android:text="인증하기"
         android:textColor="#FFF"
         android:textSize="16sp"
         android:textStyle="bold" />
