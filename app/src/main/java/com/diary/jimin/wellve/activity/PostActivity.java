@@ -27,11 +27,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.diary.jimin.wellve.R;
 import com.diary.jimin.wellve.model.PostInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.gun0912.tedpermission.PermissionBuilder;
 import com.gun0912.tedpermission.PermissionListener;
@@ -77,7 +80,7 @@ public class PostActivity extends AppCompatActivity {
         tedPermission();
 
 
-
+//
 //        Intent intent = getIntent();
 //        getCategory = intent.getStringExtra("setCategory");
 //        Log.d("getCategory", getCategory);
@@ -88,23 +91,23 @@ public class PostActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         init();
 
-//        DocumentReference documentReference = db.collection("users").document(user.getUid());
-//        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//                        name = document.getData().get("name").toString();
-//                        Log.d("getname", "DocumentSnapshot data: " + document.getData().get("name"));
-//                    } else {
-//                        Log.d("getname", "No such document");
-//                    }
-//                } else {
-//                    Log.d("getname", "get failed with ", task.getException());
-//                }
-//            }
-//        });
+        DocumentReference documentReference = db.collection("users").document(user.getUid());
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        name = document.getData().get("nickname").toString();
+                        Log.d("getname", "DocumentSnapshot data: " + document.getData().get("nickname"));
+                    } else {
+                        Log.d("getname", "No such document");
+                    }
+                } else {
+                    Log.d("getname", "get failed with ", task.getException());
+                }
+            }
+        });
 
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,12 +134,21 @@ public class PostActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                if (position == 0) {
+                    getCategory = "freePosts";
+                } else if (position == 1) {
+                    getCategory = "QnAPosts";
+                } else if (position == 2) {
+                    getCategory = "restaurantPosts";
+                } else if(position == 3) {
+                    getCategory = "literPosts";
+                }
+                Log.d("category", getCategory);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                getCategory = "freePosts";
             }
         });
 
@@ -173,17 +185,12 @@ public class PostActivity extends AppCompatActivity {
         title = postTitleEditText.getText().toString();
         text = postTextEditText.getText().toString();
 
-
-
         id = user.getUid();
 
         long now = System.currentTimeMillis();
         Date date = new Date(now);
         SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         time = sdfNow.format(date);
-
-
-
 
 
         if(title.length() > 0 && text.length()>0) {
