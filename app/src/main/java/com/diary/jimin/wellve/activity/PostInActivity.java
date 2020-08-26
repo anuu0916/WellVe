@@ -2,6 +2,7 @@ package com.diary.jimin.wellve.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -53,6 +54,7 @@ public class PostInActivity extends AppCompatActivity {
   //  private TextView postInLikeTextView;
     private ImageButton postInMarkButton;
     private TextView postInCommentNumText;
+    private Toolbar toolbar;
 
     private String getId;   //문서 uid
     private String getCategory; //문서 컬렉션 이름
@@ -70,8 +72,8 @@ public class PostInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_in2);
-
         init();
+
 
         Intent intent = getIntent();
         getId = intent.getStringExtra("setId");
@@ -196,6 +198,8 @@ public class PostInActivity extends AppCompatActivity {
   //      postInLikeTextView = (TextView) findViewById(R.id.postInLikeTextView);
         postInMarkButton = (ImageButton) findViewById(R.id.postInMarkButton);
         postInCommentNumText = (TextView) findViewById(R.id.postInCommentNumText);
+
+        toolbar = (Toolbar) findViewById(R.id.toolBar);
 
     }
 
