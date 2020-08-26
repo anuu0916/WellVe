@@ -75,6 +75,7 @@ public class PostInActivity extends AppCompatActivity {
         getId = intent.getStringExtra("setId");
         getCategory = intent.getStringExtra("setCategory");
 
+
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         DocumentReference documentReference = db.collection(getCategory).document(getId);

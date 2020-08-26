@@ -88,6 +88,7 @@ public class Page1Fragment extends Fragment {
             @Override
             public void onItemClick(int pos) {
                 Log.d("pagePos", "pos : "+ pos);
+                Log.d("pagePos","getpos : "+ idList.get(pos));
                 Intent intent = new Intent(getActivity(), PostInActivity.class);
                 intent.putExtra("setId", idList.get(pos));
                 intent.putExtra("setCategory", categoryList.get(pos));
@@ -138,6 +139,8 @@ public class Page1Fragment extends Fragment {
                                                             "자유 ",
                                                             String.valueOf(freeSize)
                                                     ));
+                                                    idList.add(documentSnapshot.getId());
+                                                    categoryList.add("freePosts");
                                                     recyclerView.setAdapter(adapter);
                                                     progressBar.setVisibility(View.GONE);
                                                 }
@@ -180,6 +183,9 @@ public class Page1Fragment extends Fragment {
                                                             "QnA ",
                                                             String.valueOf(QnASize)
                                                     ));
+
+                                                    idList.add(documentSnapshot.getId());
+                                                    categoryList.add("QnAPosts");
                                                     recyclerView.setAdapter(adapter);
                                                     progressBar.setVisibility(View.GONE);
                                                 }
@@ -222,6 +228,8 @@ public class Page1Fragment extends Fragment {
                                                             "식당 ",
                                                             String.valueOf(restaurantSize)
                                                     ));
+                                                    idList.add(documentSnapshot.getId());
+                                                    categoryList.add("restaurantPosts");
                                                     recyclerView.setAdapter(adapter);
                                                     progressBar.setVisibility(View.GONE);
                                                 }
@@ -263,6 +271,8 @@ public class Page1Fragment extends Fragment {
                                                             "문학 ",
                                                             String.valueOf(literSize)
                                                     ));
+                                                    idList.add(documentSnapshot.getId());
+                                                    categoryList.add("literPosts");
                                                     recyclerView.setAdapter(adapter);
                                                     progressBar.setVisibility(View.GONE);
                                                 }
