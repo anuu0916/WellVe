@@ -1,14 +1,18 @@
 package com.diary.jimin.wellve.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.diary.jimin.wellve.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class UserVerificationActivity extends AppCompatActivity {
 
@@ -16,10 +20,19 @@ public class UserVerificationActivity extends AppCompatActivity {
 
     String[] items = {"010", "011", "019"};
 
+    private Button backButton;
+    private Button userAuthNumButton;
+    private Button userVerificationNextButton;
+    private EditText userPhoneNumEditText;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_verification);
+
+        init();
 
         Spinner spinner = findViewById(R.id.singUpSpinner);
 
@@ -41,5 +54,26 @@ public class UserVerificationActivity extends AppCompatActivity {
             }
         });
 
+        userVerificationNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserVerificationActivity.this, SignupActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
+    void init() {
+        backButton = (Button)findViewById(R.id.userVerificationBackButton);
+        userAuthNumButton = (Button) findViewById(R.id.userAuthNumButton);
+        userVerificationNextButton = (Button)findViewById(R.id.userVerificationNextButton);
+        userPhoneNumEditText = (EditText)findViewById(R.id.userPhoneNumEditText);
     }
 }

@@ -1,5 +1,6 @@
 package com.diary.jimin.wellve.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class TypeCheckActivity extends AppCompatActivity {
+public class TypeCheckActivity extends Activity {
 
     private Button typePescoButton;
     private Button typeLactoovoButton;
@@ -24,6 +25,7 @@ public class TypeCheckActivity extends AppCompatActivity {
     private Button typeOvoButton;
     private Button typeVeganButton;
     private Button typeSignUpButton;
+    private Button backButton;
 
     private String nickName;
     private String type = null;
@@ -42,9 +44,12 @@ public class TypeCheckActivity extends AppCompatActivity {
         Intent intent = getIntent();
         nickName = intent.getStringExtra("nickName");
 
-
-
-
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void init() {
@@ -54,7 +59,7 @@ public class TypeCheckActivity extends AppCompatActivity {
         typeOvoButton = (Button)findViewById(R.id.typeOvoButton);
         typeVeganButton = (Button)findViewById(R.id.typeVeganButton);
         typeSignUpButton = (Button)findViewById(R.id.typeSignUpButton);
-
+        backButton = (Button)findViewById(R.id.typeCheckBackButton);
     }
 
     private void clickListener() {

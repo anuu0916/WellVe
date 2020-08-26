@@ -3,10 +3,12 @@ package com.diary.jimin.wellve.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -31,6 +33,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.gun0912.tedpermission.PermissionBuilder;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -38,6 +41,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class PostActivity extends AppCompatActivity {
 
@@ -69,8 +73,10 @@ public class PostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-
+        
         tedPermission();
+
+
 
 //        Intent intent = getIntent();
 //        getCategory = intent.getStringExtra("setCategory");
@@ -144,6 +150,8 @@ public class PostActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     private void init() {
 
@@ -303,16 +311,12 @@ public class PostActivity extends AppCompatActivity {
         PermissionListener permissionListener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                // 권한 요청 성공
                 isPermission = true;
-
             }
 
             @Override
-            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                // 권한 요청 실패
+            public void onPermissionDenied(List<String> deniedPermissions) {
                 isPermission = false;
-
             }
         };
 

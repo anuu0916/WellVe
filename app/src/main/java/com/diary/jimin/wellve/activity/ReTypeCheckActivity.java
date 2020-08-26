@@ -2,6 +2,8 @@ package com.diary.jimin.wellve.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.app.AppComponentFactory;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Text;
 
-public class ReTypeCheckActivity extends AppCompatActivity {
+public class ReTypeCheckActivity extends Activity {
 
     private Button typePescoButton;
     private Button typeLactoovoButton;
@@ -27,6 +29,7 @@ public class ReTypeCheckActivity extends AppCompatActivity {
     private Button typeOvoButton;
     private Button typeVeganButton;
     private Button typeSignUpButton;
+    private Button backButton;
 
     private String nickName;
     private String type = null;
@@ -48,6 +51,13 @@ public class ReTypeCheckActivity extends AppCompatActivity {
         Intent intent = getIntent();
         nickName = intent.getStringExtra("nickname");
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
     }
     private void init() {
         typePescoButton = (Button)findViewById(R.id.typePescoButton);
@@ -56,13 +66,14 @@ public class ReTypeCheckActivity extends AppCompatActivity {
         typeOvoButton = (Button)findViewById(R.id.typeOvoButton);
         typeVeganButton = (Button)findViewById(R.id.typeVeganButton);
         typeSignUpButton = (Button)findViewById(R.id.typeSignUpButton);
+        backButton = (Button)findViewById(R.id.typeCheckBackButton);
         topText=(TextView)findViewById(R.id.topText);
         middleText=(TextView)findViewById(R.id.middleText);
         questionText=(TextView)findViewById(R.id.questionText);
         numStep=(LinearLayout)findViewById(R.id.numStepText);
 
         topText.setText("채식주의자 단계 수정");
-        middleText.setVisibility(View.GONE);
+        middleText.setText("");
         numStep.setVisibility(View.GONE);
         questionText.setText("현재 하고 있는 채식의 단계는?");
 
