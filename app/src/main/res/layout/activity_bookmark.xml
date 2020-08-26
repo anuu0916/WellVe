@@ -11,8 +11,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp">
+        android:layout_height="?attr/actionBarSize">
 
         <Button
             android:id="@+id/bookmarkBackButton"
@@ -115,12 +114,12 @@
 
     </com.google.android.material.tabs.TabLayout>
 
-    <!-- 그냥 대충 해놨어요 수정plz... -->
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/categoryViewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="9" />
+        android:layout_weight="9" >
+    </androidx.viewpager.widget.ViewPager>
 
     <!--    <LinearLayout-->
     <!--        android:layout_width="match_parent"-->

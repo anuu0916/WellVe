@@ -8,30 +8,30 @@
     tools:context=".activity.ReTypeCheckActivity"
     android:weightSum="20">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="52dp">
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="bottom">
 
         <Button
             android:id="@+id/nicknameModifyBackButton"
             android:layout_width="12dp"
             android:layout_height="20dp"
             android:layout_marginLeft="16dp"
-            android:layout_gravity="center_vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:background="@drawable/backbutton"/>
+
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text="닉네임 수정"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="@color/colorBlack"
-            android:layout_gravity="center_horizontal"/>
+            android:textColor="@color/colorBlack" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <Space
         android:layout_width="match_parent"
@@ -52,36 +52,32 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"
-        android:layout_marginLeft="16dp">
-
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:text="닉네임"
             android:textColor="@color/colorBlack"
             android:textStyle="bold"
-            android:textSize="12sp" />
+            android:textSize="13sp"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="1"/>
 
         <EditText
             android:id="@+id/nicknameModifyEditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_height="0dp"
             android:hint=" 영문·숫자·한글 조합 2-10자리"
             android:textSize="14sp"
             android:paddingBottom="20dp"
             android:layout_marginRight="15dp"
-            android:privateImeOptions="defaultInputmode=korean"/>
+            android:layout_marginLeft="16dp"
+            android:privateImeOptions="defaultInputmode=korean"
+            android:layout_weight="2"/>
 
-    </RelativeLayout>
-<Space
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"/>
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"/>
 
     <LinearLayout
         android:layout_width="match_parent"

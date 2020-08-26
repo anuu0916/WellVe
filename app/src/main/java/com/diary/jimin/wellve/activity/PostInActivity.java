@@ -2,11 +2,13 @@ package com.diary.jimin.wellve.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -53,6 +55,7 @@ public class PostInActivity extends AppCompatActivity {
   //  private TextView postInLikeTextView;
     private ImageButton postInMarkButton;
     private TextView postInCommentNumText;
+    private Toolbar toolbar;
 
     private String getId;   //문서 uid
     private String getCategory; //문서 컬렉션 이름
@@ -70,8 +73,8 @@ public class PostInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_in2);
-
         init();
+
 
         Intent intent = getIntent();
         getId = intent.getStringExtra("setId");
@@ -197,6 +200,8 @@ public class PostInActivity extends AppCompatActivity {
         postInMarkButton = (ImageButton) findViewById(R.id.postInMarkButton);
         postInCommentNumText = (TextView) findViewById(R.id.postInCommentNumText);
 
+        toolbar = (Toolbar) findViewById(R.id.toolBar);
+
     }
 
     private void commentUpload() {
@@ -215,6 +220,11 @@ public class PostInActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 Toast.makeText(PostInActivity.this, "성공",Toast.LENGTH_SHORT).show();
+                                adapter.addItem(comment,user.getUid(),time,name);
+                                adapter.notifyDataSetChanged();
+                                postInCommentEditText.setText("");
+                                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(postInCommentEditText.getWindowToken(), 0);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {

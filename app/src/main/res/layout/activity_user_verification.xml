@@ -7,8 +7,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_height="?attr/actionBarSize"
         android:gravity="bottom">
 
         <Button
@@ -26,6 +25,7 @@
             android:layout_centerInParent="true"
             android:text="회원가입"
             android:textColor="#000000"
+            android:textStyle="bold"
             android:textSize="24sp" />
 
     </RelativeLayout>
