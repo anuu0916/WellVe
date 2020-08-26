@@ -31,6 +31,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class CameraActivity extends AppCompatActivity {
 
     private Bundle bundle = new Bundle();
@@ -40,14 +43,19 @@ public class CameraActivity extends AppCompatActivity {
     private ImageView imageView;
     private String resultText;
 
-    private String userType = "";
+    //private String userType = "";
     ViewPager vp;
 
+    private String [] VeganTypeArray = {
+            "Pesco", "LactoOvo", "Lacto", "Ovo", "Vegan"
+    };
+    ArrayList<String> VeganType = new ArrayList<>(Arrays.asList(VeganTypeArray));
+
     private static final String [] Animal = {
-            "E441젤라틴", "E542 식용 인산골", "인산골", "아교", "칼슘", "육즙", "골탄", "골분", "콜라겐", "선지",
+            "젤라틴", "인산골", "아교", "칼슘", "육즙", "골탄", "골분", "콜라겐", "선지",
             "올레오스테아린", "동물성단백질", "엘라스틴", "케라틴", "레티쿨린", "레닛", "런넷", "가죽", "펩신", "케라틴",
             "판크레아틴", "트립신", "수지", "라드", "돈유", "돈지유", "탤로", "드리핑", "마지", "말기름", "돈지", "돼지기름",
-            "우지", "쇠기름", "양지", "거위기름", "계유", "콘드로이틴", "고기"
+            /*"우지",*/ "쇠기름", "양지", "거위기름", "계유", "콘드로이틴", "고기"
     };
     private static final String [] Ocean = {
             "용연향", "자개", "조개", "캐비어", "키틴", "산호", "생선", "비늘", "어분", "부레풀", "해면", "진주",
@@ -90,29 +98,58 @@ public class CameraActivity extends AppCompatActivity {
         if(resultText != null){
             resultText = resultText.replaceAll(System.getProperty("line.separator"), " ");
 
-//            for(String s : Pesco){
-//                if(resultText.contains(s)){
-//                    type += "None";
-//                }
-//            }
-//
-//            for(String s : LactoOvo){
-//                if(resultText.contains(s)){
-//                    type += "페스코";
-//                }
-//            }
-//
-//            for(String s : Ovo){
-//                if(resultText.contains(s)){
-//                    type += "페스코, 락토오보, 락토";
-//                }
-//            }
+            for(String s : Else){
+                if(resultText.contains(s)){
+                    VeganType.remove("Vegan");
+                    Log.d("veganType", "Else : " + s);
+                    break;
+                }
+            }
 
-            for(int i=0; i<6; i++){
-                for(String s : Else){
-                    if(resultText.contains(s)){
-                        type = "None";
-                    }
+            for(String s : Insect){
+                if(resultText.contains(s)){
+                    VeganType.remove("Vegan");
+                    VeganType.remove("Ovo");
+                    Log.d("veganType", "Insect : " + s);
+                    break;
+                }
+            }
+
+            for(String s : Lacto){
+                if(resultText.contains(s)){
+                    VeganType.remove("Vegan");
+                    VeganType.remove("Ovo");
+                    Log.d("veganType", "Lacto : " + s);
+                    break;
+                }
+            }
+
+            for(String s : Ovo){
+                if(resultText.contains(s)){
+                    VeganType.remove("Vegan");
+                    VeganType.remove("Ovo");
+                    VeganType.remove("Lacto");
+                    Log.d("veganType", "Ovo : " + s);
+                    break;
+                }
+            }
+
+            for(String s : Ocean){
+                if(resultText.contains(s)){
+                    VeganType.remove("Vegan");
+                    VeganType.remove("Ovo");
+                    VeganType.remove("Lacto");
+                    VeganType.remove("LactoOvo");
+                    Log.d("veganType", "Ocean : " + s);
+                    break;
+                }
+            }
+
+            for(String s : Animal){
+                if(resultText.contains(s)){
+                    VeganType.clear();
+                    Log.d("veganType", "Animal : " + s);
+                    break;
                 }
             }
 
@@ -156,9 +193,7 @@ public class CameraActivity extends AppCompatActivity {
                 case 0:
                     FragmentCameraResult fragmentCameraResult;
                     fragmentCameraResult = new FragmentCameraResult();
-                    bundle.putString("veganType", type);
-                    bundle.putString("userType", userType);
-                    Log.d("userType", "before Result : " + type + userType);
+                    bundle.putStringArrayList("veganType", VeganType);
                     fragmentCameraResult.setArguments(bundle);
                     return fragmentCameraResult;
                 case 1:
