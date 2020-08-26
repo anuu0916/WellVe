@@ -44,6 +44,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -54,12 +55,13 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import com.diary.jimin.wellve.BuildConfig;
 import com.diary.jimin.wellve.R;
+import com.diary.jimin.wellve.activity.CameraActivity;
 import com.diary.jimin.wellve.view.AutoFitTextureView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.BuildConfig;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
@@ -116,6 +118,8 @@ public class Camera2BasicFragment extends Fragment
     private Bitmap bm;
 
     private ImageView iv_photo;
+    private TextView veganTypeResult;
+    private Bundle bundle = new Bundle();
 
     private FirebaseVisionCloudTextRecognizerOptions.Builder options;
 
@@ -457,6 +461,7 @@ public class Camera2BasicFragment extends Fragment
 
         iv_photo = view.findViewById(R.id.camera2_photo);
 
+
         return view;
     }
 
@@ -465,6 +470,7 @@ public class Camera2BasicFragment extends Fragment
         view.findViewById(R.id.cameraShootButton).setOnClickListener(this);
         view.findViewById(R.id.cameraGalleryButton).setOnClickListener(this);
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture);
+
 //        ImageView mImageView = (ImageView) view.findViewById(R.id.photo);
 
         options = new FirebaseVisionCloudTextRecognizerOptions.Builder();
@@ -1131,26 +1137,41 @@ public class Camera2BasicFragment extends Fragment
 
         Log.d("resultText", resultText);
 
-        String type = "";
-        for(String s : Pesco){
-            if(resultText.contains(s)){
-                type += "None";
-            }
-        }
+        Intent intent = new Intent(getContext(), CameraActivity.class);
+        intent.putExtra("resultText", resultText);
+        //intent.putExtra("image", bm);
+        startActivity(intent);
 
-        for(String s : LactoOvo){
-            if(resultText.contains(s)){
-                type += "페스코";
-            }
-        }
+//        String type = "";
+//        for(String s : Pesco){
+//            if(resultText.contains(s)){
+//                type += "None";
+//            }
+//        }
+//
+//        for(String s : LactoOvo){
+//            if(resultText.contains(s)){
+//                type += "페스코";
+//            }
+//        }
+//
+//        for(String s : Ovo){
+//            if(resultText.contains(s)){
+//                type += "페스코, 락토오보, 락토";
+//            }
+//        }
 
-        for(String s : Ovo){
-            if(resultText.contains(s)){
-                type += "페스코, 락토오보, 락토";
-            }
-        }
 
-        Toast.makeText(getActivity(),"비건등급 : "+ type, Toast.LENGTH_SHORT).show();
+
+
+//        FragmentCameraResult fragmentCameraResult;
+//        fragmentCameraResult = new FragmentCameraResult();
+//
+//        ((CameraActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.container, fragmentCameraResult).commit();
+//
+//        bundle.putString("veganType", type);
+//        fragmentCameraResult.setArguments(bundle);
+//        Log.d("resultText", "veganType : "+type);
     }
 
 

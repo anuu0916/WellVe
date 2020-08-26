@@ -27,6 +27,7 @@ public class NicknameModifyActivity extends AppCompatActivity {
 
     private EditText nicknameEditText;
     private Button completeButton;
+    private Button backButton;
     private FirebaseAuth mAuth;
 
     private FirebaseFirestore db;
@@ -47,11 +48,19 @@ public class NicknameModifyActivity extends AppCompatActivity {
             }
         });
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
     }
 
     private void init(){
         nicknameEditText = (EditText) findViewById(R.id.nicknameModifyEditText);
         completeButton=(Button)findViewById(R.id.nicknameModifyCompleteButton);
+        backButton = (Button)findViewById(R.id.nicknameModifyBackButton);
 
         mAuth = FirebaseAuth.getInstance();
 

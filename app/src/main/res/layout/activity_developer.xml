@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:weightSum="15"
     tools:context=".activity.DeveloperActivity">
 
     <RelativeLayout
@@ -12,7 +13,7 @@
         android:layout_marginTop="52dp">
 
         <Button
-            android:id="@+id/loginBackButton"
+            android:id="@+id/developerBackButton"
             android:layout_width="12dp"
             android:layout_height="16dp"
             android:layout_alignParentLeft="true"
@@ -31,24 +32,29 @@
 
     </RelativeLayout>
 
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
         android:text="어플을 사용하며 불편했던 점이나\n개선되었으면 하는 점을 말해주세요!"
         android:textSize="16sp"
         android:textColor="@color/colorBlack"
         android:lineSpacingExtra="6sp"
-        android:layout_marginTop="45dp"
         android:layout_marginLeft="16dp"
         />
 
     <EditText
         android:id="@+id/et_message"
         android:layout_width="380dp"
-        android:layout_height="240dp"
+        android:layout_height="0dp"
+        android:layout_weight="6"
         android:background="@drawable/developer_background"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
         android:hint="이 성분은 비건 성분이 아니에요!"
         android:gravity="top"
         android:paddingTop="16dp"
@@ -58,14 +64,18 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         />
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"/>
 
     <Button
         android:id="@+id/bt_send"
         android:layout_width="380dp"
-        android:layout_height="42dp"
-        android:background="@drawable/developer_background"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/find_password_button"
         android:stateListAnimator="@null"
-        android:layout_marginTop="16dp"
         android:layout_gravity="center_horizontal"
         android:text="보내기"
         android:textSize="16sp"
