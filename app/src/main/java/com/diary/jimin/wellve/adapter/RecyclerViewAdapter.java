@@ -1,6 +1,7 @@
 package com.diary.jimin.wellve.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,6 +98,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     int pos = getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION) {
                         mListener.onItemClick(pos);
+                        Log.d("position",""+pos);
                     }
                 }
             });
