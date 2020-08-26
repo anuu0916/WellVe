@@ -11,8 +11,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp">
+        android:layout_height="?attr/actionBarSize">
 
         <Button
             android:id="@+id/bookmarkBackButton"
