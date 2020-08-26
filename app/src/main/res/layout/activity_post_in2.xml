@@ -5,16 +5,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.PostInActivity">
-    
+    tools:context=".activity.PostInActivity"
+    android:fitsSystemWindows="true">
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="270dp"
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:fitsSystemWindows="true">
 
             <ImageView
                 android:id="@+id/postInFirstImage"
@@ -55,7 +58,8 @@
                         android:layout_centerInParent="true"
                         android:text="커뮤니티"
                         android:textColor="@color/colorWhite"
-                        android:textSize="24sp" />
+                        android:textSize="24sp"
+                        android:textStyle="bold"/>
 
                     <ImageButton
                         android:id="@+id/postInMarkButton"
@@ -108,8 +112,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never"
-        android:fillViewport="true"
-        android:scrollbars="vertical"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <LinearLayout
@@ -167,7 +169,7 @@
                 android:letterSpacing="-0.02"
                 android:text="Oh oh oh candle light, candle light 아직 잠깐만 are you ready 내가 신호를 주면하나 둘 셋 세고 눈을 떠 봐 뭣 때문에 내가 이러는지 넌 궁금해 하지만 아무 날도 아닌걸 Like Monday, Tuesday, Wednesday, Thursday"
                 android:textColor="#575757"
-                android:textSize="12sp"
+                android:textSize="13sp"
                 android:layout_marginBottom="24dp"/>
 
 
@@ -182,13 +184,14 @@
                     android:text="댓글 "
                     android:textStyle="bold"
                     android:textColor="@color/colorBlack"
-                    android:textSize="12dp"/>
+                    android:textSize="13sp"/>
 
                 <TextView
                     android:id="@+id/postInCommentNumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="5"
+                    android:textSize="13sp"
                     android:textColor="#79c668"
                     android:textStyle="bold"/>
 
@@ -200,10 +203,10 @@
                 android:background="#d4d4d4"
                 android:layout_marginTop="12dp"/>
 
-<!--            <ListView-->
-<!--                android:id="@+id/postInListView"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content" />-->
+            <ListView
+                android:id="@+id/postInListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -220,7 +223,9 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:weightSum="5"
-            android:gravity="center">
+            android:gravity="center"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <View
                 android:layout_width="0dp"
@@ -233,8 +238,11 @@
                 android:layout_height="36dp"
                 android:layout_weight="3.5"
                 android:background="@drawable/search_background"
-                android:hint="      댓글 쓰기"
-                android:textSize="12sp" />
+                android:hint="댓글 쓰기"
+                android:textSize="13sp"
+                android:inputType="textMultiLine|textNoSuggestions"
+                android:paddingLeft="15dp"
+                />
             <View
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -243,7 +251,7 @@
             <ImageButton
                 android:id="@+id/postInSubmitButton"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="45dp"
                 android:layout_weight="0.7"
                 android:background="@drawable/green_comment_btn"
                 android:src="@drawable/comment_white"/>
