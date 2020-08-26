@@ -47,6 +47,7 @@ public class Mypage3Fragment extends Fragment {
     private ProgressBar progressBar;
 
     private int commentSize;
+    private String getCategory;
 
 
     public static Mypage3Fragment getInstance() {
@@ -109,14 +110,24 @@ public class Mypage3Fragment extends Fragment {
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                 if(task.isSuccessful()) {
                                                     commentSize = 0;
+                                                    getCategory = null;
                                                     for(QueryDocumentSnapshot documentSnapshot1 : task.getResult()) {
+                                                        if(documentSnapshot1.getData().get("category").toString().equals("freePosts")) {
+                                                            getCategory = "자유 ";
+                                                        } else if(documentSnapshot1.getData().get("category").toString().equals("QnAPosts")) {
+                                                            getCategory = "QnA ";
+                                                        } else if(documentSnapshot1.getData().get("category").toString().equals("restaurantPosts")) {
+                                                            getCategory = "식당 ";
+                                                        } else if(documentSnapshot1.getData().get("category").toString().equals("literPosts")) {
+                                                            getCategory = "문학 ";
+                                                        }
                                                         commentSize++;
                                                     }
                                                     items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
                                                             "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
                                                             documentSnapshot.getData().get("title").toString(),
                                                             documentSnapshot.getData().get("time").toString(),
-                                                            documentSnapshot.getData().get("category").toString(),
+                                                            getCategory,
                                                             String.valueOf(commentSize)
                                                     ));
                                                     idList.add(documentSnapshot.getId());
