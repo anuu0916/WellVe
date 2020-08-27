@@ -166,6 +166,7 @@ public class FragmentCameraResult extends Fragment implements View.OnClickListen
 
     private TextView veganTypeResult;
     private TextView isVeganResult;
+    private String userType;
 
     private FirebaseFirestore db;
     private FirebaseUser user;
@@ -188,25 +189,9 @@ public class FragmentCameraResult extends Fragment implements View.OnClickListen
         super.onCreate(savedInstanceState);
         init();
 
-        db = FirebaseFirestore.getInstance();
-        user = FirebaseAuth.getInstance().getCurrentUser();
 
-        DocumentReference documentReference = db.collection("users").document(user.getUid());
-        Log.d("userType", "userID : "+user.getUid());
 
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()) {
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    if(documentSnapshot.exists()) {
-                        isVeganResult.setText(documentSnapshot.getData().get("type")+"");
-                    }
-                } else {
-                    Log.d("FragmentCameraResult", ""+task.getException());
-                }
-            }
-        });
+
 
 //        Intent intent = getActivity().getIntent();
 //        String veganType = getActivity().getIntent().getStringExtra("veganType");
@@ -221,8 +206,38 @@ public class FragmentCameraResult extends Fragment implements View.OnClickListen
         isVeganResult = layout.findViewById(R.id.isVeganResult);
         Bundle bundle = getArguments();
         if(bundle!=null){
-            String type = bundle.getString("veganType");
-            veganTypeResult.setText("섭취 가능 : "+type);
+            ArrayList<String> VeganType = bundle.getStringArrayList("veganType");
+
+            db = FirebaseFirestore.getInstance();
+            user = FirebaseAuth.getInstance().getCurrentUser();
+
+            DocumentReference documentReference = db.collection("users").document(user.getUid());
+
+            documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()) {
+                        DocumentSnapshot documentSnapshot = task.getResult();
+                        if(documentSnapshot.exists()) {
+                            userType = (String) documentSnapshot.getData().get("type");
+                            if(VeganType.contains(userType)){
+                                isVeganResult.setText("먹을 수 있는 제품");
+                            } else{
+                                isVeganResult.setText("먹을 수 없는 제품");
+                            }
+                        }
+                    } else {
+                        Log.d("FragmentCameraResult", ""+task.getException());
+                    }
+                }
+            });
+
+            if(VeganType.isEmpty()){
+                veganTypeResult.setText("섭취 불가");
+            } else{
+                veganTypeResult.setText("섭취 가능 : "+VeganType);
+            }
+
         }
 
         /*슬라이드애니메이션*/

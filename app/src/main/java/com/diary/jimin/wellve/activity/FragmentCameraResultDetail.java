@@ -43,12 +43,13 @@ public class FragmentCameraResultDetail extends Fragment {
                         int foodType;
                         int material;
 
-                        if((material = resultText.indexOf("원재료명")) != -1){
-                                detailResult.setText(resultText.substring(material+5));
-                        }
-                        else{
-                                detailResult.setText(resultText);
-                        }
+//                        if((material = resultText.indexOf("원재료명")) != -1){
+//                                detailResult.setText(resultText.substring(material+5));
+//                        }
+//                        else{
+//                                detailResult.setText(resultText);
+//                        }
+                        detailResult.setText(resultText);
 
                 }
 

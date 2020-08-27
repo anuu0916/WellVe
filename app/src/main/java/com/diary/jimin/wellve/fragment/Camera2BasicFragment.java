@@ -98,28 +98,13 @@ public class Camera2BasicFragment extends Fragment
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private static final int REQUEST_READ_PERMISSION = 2;
     private static final String FRAGMENT_DIALOG = "dialog";
-    private static final String [] Pesco = {
-            "E441젤라틴", "E542 식용 인산골", "인산골", "아교", "칼슘", "육즙", "골탄"
-    };
-    private static final String [] LactoOvo = {
-            "용연향", "자개", "캐비어", "키틴", "산호"
-    };
-    private static final String [] Lacto = {
-            "달걀", "난황", "난백", "난각", "알부민"
-    };
-    private static final String [] Ovo = {
-            "소젖", "우유", "버터"
-    };
-    private static final String [] Vegan = {
-            "비타민D3", "철분"
-    };
 
     private static final int PICK_IMAGE_REQUEST = 1111;
     private Bitmap bm;
 
     private ImageView iv_photo;
-    private TextView veganTypeResult;
-    private Bundle bundle = new Bundle();
+//    private TextView veganTypeResult;
+//    private Bundle bundle = new Bundle();
 
     private FirebaseVisionCloudTextRecognizerOptions.Builder options;
 
@@ -1059,9 +1044,13 @@ public class Camera2BasicFragment extends Fragment
         switch (view.getId()) {
             case R.id.cameraShootButton: {
                 takePicture();
-
+                mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
+                Log.d("image", mFile+"");
                 String filePath = mFile.getPath();
+                Log.d("image", filePath);
                 bm = BitmapFactory.decodeFile(filePath);
+                Log.d("image", bm+"");
+
                 FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bm);
 
 
@@ -1141,6 +1130,7 @@ public class Camera2BasicFragment extends Fragment
         intent.putExtra("resultText", resultText);
         //intent.putExtra("image", bm);
         startActivity(intent);
+        getActivity().finish();
 
 //        String type = "";
 //        for(String s : Pesco){

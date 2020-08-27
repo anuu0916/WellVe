@@ -2,11 +2,13 @@ package com.diary.jimin.wellve.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -52,6 +54,8 @@ public class PostInActivity extends AppCompatActivity {
 //    private Button postInLikeButton;
   //  private TextView postInLikeTextView;
     private ImageButton postInMarkButton;
+    private TextView postInCommentNumText;
+    private Toolbar toolbar;
 
     private String getId;   //문서 uid
     private String getCategory; //문서 컬렉션 이름
@@ -60,6 +64,7 @@ public class PostInActivity extends AppCompatActivity {
     private String time;
     private String name;
 
+    private int commentCount;
 
     private PostInfo postInfo;
     private PostInfo categoryInfo;
@@ -68,12 +73,14 @@ public class PostInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_in2);
-
         init();
+
 
         Intent intent = getIntent();
         getId = intent.getStringExtra("setId");
         getCategory = intent.getStringExtra("setCategory");
+
+        Log.d("PostInActivity", getId);
 
 
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -120,15 +127,23 @@ public class PostInActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
+                            commentCount=0;
                             for(QueryDocumentSnapshot document : task.getResult()) {
                                 if(document.getData().get("postId").equals(getId)) {
+                                    commentCount ++;
+
                                     adapter.addItem(document.getData().get("text").toString(),
                                             document.getData().get("id").toString(),
                                             document.getData().get("time").toString(),
                                             document.getData().get("name").toString());
                                 }
                             }
-                            commentListView.setAdapter(adapter);
+                            postInCommentNumText.setText(Integer.toString(commentCount));
+                            if (adapter.getCount()!=0) {
+                                commentListView.setAdapter(adapter);
+                            } else {
+                                Log.d("PostInActivity", "adapter is empty ?: " +adapter.getCount());
+                            }
                         }
                     }
                 });
@@ -183,6 +198,9 @@ public class PostInActivity extends AppCompatActivity {
 //        postInLikeButton = (Button) findViewById(R.id.postInLikeButton);
   //      postInLikeTextView = (TextView) findViewById(R.id.postInLikeTextView);
         postInMarkButton = (ImageButton) findViewById(R.id.postInMarkButton);
+        postInCommentNumText = (TextView) findViewById(R.id.postInCommentNumText);
+
+        toolbar = (Toolbar) findViewById(R.id.toolBar);
 
     }
 
@@ -202,6 +220,11 @@ public class PostInActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 Toast.makeText(PostInActivity.this, "성공",Toast.LENGTH_SHORT).show();
+                                adapter.addItem(comment,user.getUid(),time,name);
+                                adapter.notifyDataSetChanged();
+                                postInCommentEditText.setText("");
+                                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(postInCommentEditText.getWindowToken(), 0);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {

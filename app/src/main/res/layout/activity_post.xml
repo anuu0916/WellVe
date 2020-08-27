@@ -9,8 +9,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp">
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="bottom">
 
         <Button
             android:id="@+id/postBackButton"
@@ -114,7 +114,6 @@
                 android:textColorHint="#d4d4d4"
                 android:textSize="16sp"
                 />
-
 
         </LinearLayout>
 

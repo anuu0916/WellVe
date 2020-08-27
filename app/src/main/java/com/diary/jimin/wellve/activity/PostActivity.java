@@ -3,10 +3,14 @@ package com.diary.jimin.wellve.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -25,19 +29,27 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.diary.jimin.wellve.R;
 import com.diary.jimin.wellve.model.PostInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.gun0912.tedpermission.PermissionBuilder;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class PostActivity extends AppCompatActivity {
 
@@ -64,14 +76,17 @@ public class PostActivity extends AppCompatActivity {
     private static final int PICK_FROM_CAMERA = 2;
 
     private File tempFile;
+    private Boolean isCamera = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-
+        
         tedPermission();
 
+
+//
 //        Intent intent = getIntent();
 //        getCategory = intent.getStringExtra("setCategory");
 //        Log.d("getCategory", getCategory);
@@ -82,23 +97,23 @@ public class PostActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         init();
 
-//        DocumentReference documentReference = db.collection("users").document(user.getUid());
-//        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//                        name = document.getData().get("name").toString();
-//                        Log.d("getname", "DocumentSnapshot data: " + document.getData().get("name"));
-//                    } else {
-//                        Log.d("getname", "No such document");
-//                    }
-//                } else {
-//                    Log.d("getname", "get failed with ", task.getException());
-//                }
-//            }
-//        });
+        DocumentReference documentReference = db.collection("users").document(user.getUid());
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        name = document.getData().get("nickname").toString();
+                        Log.d("getname", "DocumentSnapshot data: " + document.getData().get("nickname"));
+                    } else {
+                        Log.d("getname", "No such document");
+                    }
+                } else {
+                    Log.d("getname", "get failed with ", task.getException());
+                }
+            }
+        });
 
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,12 +140,21 @@ public class PostActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                if (position == 0) {
+                    getCategory = "freePosts";
+                } else if (position == 1) {
+                    getCategory = "QnAPosts";
+                } else if (position == 2) {
+                    getCategory = "restaurantPosts";
+                } else if(position == 3) {
+                    getCategory = "literPosts";
+                }
+                Log.d("category", getCategory);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                getCategory = "freePosts";
             }
         });
 
@@ -144,6 +168,8 @@ public class PostActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     private void init() {
 
@@ -165,17 +191,12 @@ public class PostActivity extends AppCompatActivity {
         title = postTitleEditText.getText().toString();
         text = postTextEditText.getText().toString();
 
-
-
         id = user.getUid();
 
         long now = System.currentTimeMillis();
         Date date = new Date(now);
         SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         time = sdfNow.format(date);
-
-
-
 
 
         if(title.length() > 0 && text.length()>0) {
@@ -269,7 +290,7 @@ public class PostActivity extends AppCompatActivity {
      *  앨범에서 이미지 가져오기
      */
     private void goToAlbum() {
-
+        isCamera = false;
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
@@ -279,6 +300,8 @@ public class PostActivity extends AppCompatActivity {
     private void setImage() {
 
         ImageView imageView = findViewById(R.id.imageView);
+
+        resizeFile(tempFile, tempFile, 1280, isCamera);
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
@@ -303,16 +326,12 @@ public class PostActivity extends AppCompatActivity {
         PermissionListener permissionListener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                // 권한 요청 성공
                 isPermission = true;
-
             }
 
             @Override
-            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                // 권한 요청 실패
+            public void onPermissionDenied(List<String> deniedPermissions) {
                 isPermission = false;
-
             }
         };
 
@@ -325,5 +344,158 @@ public class PostActivity extends AppCompatActivity {
 
     }
 
-}
+    public static void resizeFile(File file, File newFile, int newWidth, Boolean isCamera) {
 
+        String TAG = "blackjin";
+
+        Bitmap originalBm = null;
+        Bitmap resizedBitmap = null;
+
+        try {
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPurgeable = true;
+            options.inDither = true;
+
+            originalBm = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+
+            if(isCamera) {
+
+                // 카메라인 경우 이미지를 상황에 맞게 회전시킨다
+                try {
+
+                    ExifInterface exif = new ExifInterface(file.getAbsolutePath());
+                    int exifOrientation = exif.getAttributeInt(
+                            ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                    int exifDegree = exifOrientationToDegrees(exifOrientation);
+                    Log.d(TAG,"exifDegree : " + exifDegree);
+
+                    originalBm = rotate(originalBm, exifDegree);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            if(originalBm == null) {
+                Log.e(TAG,("파일 에러"));
+                return;
+            }
+
+            int width = originalBm.getWidth();
+            int height = originalBm.getHeight();
+
+            float aspect, scaleWidth, scaleHeight;
+            if(width > height) {
+                if(width <= newWidth) return;
+
+                aspect = (float) width / height;
+
+                scaleWidth = newWidth;
+                scaleHeight = scaleWidth / aspect;
+
+            } else {
+
+                if(height <= newWidth) return;
+
+                aspect = (float) height / width;
+
+                scaleHeight = newWidth;
+                scaleWidth = scaleHeight / aspect;
+
+            }
+
+            // create a matrix for the manipulation
+            Matrix matrix = new Matrix();
+
+            // resize the bitmap
+            matrix.postScale(scaleWidth / width, scaleHeight / height);
+
+            // recreate the new Bitmap
+            resizedBitmap = Bitmap.createBitmap(originalBm, 0, 0, width, height, matrix, true);
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+
+                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, new FileOutputStream(newFile));
+
+            } else {
+
+                resizedBitmap.compress(Bitmap.CompressFormat.PNG, 80, new FileOutputStream(newFile));
+
+            }
+
+
+        } catch (FileNotFoundException e) {
+
+            e.printStackTrace();
+
+        } finally {
+
+            if(originalBm != null){
+                originalBm.recycle();
+            }
+
+            if (resizedBitmap != null){
+                resizedBitmap.recycle();
+            }
+        }
+
+    }
+
+    /**
+     * EXIF 정보를 회전각도로 변환하는 메서드
+     *
+     * @param exifOrientation EXIF 회전각
+     * @return 실제 각도
+     */
+    public static int exifOrientationToDegrees(int exifOrientation)
+    {
+        if(exifOrientation == ExifInterface.ORIENTATION_ROTATE_90)
+        {
+            return 90;
+        }
+        else if(exifOrientation == ExifInterface.ORIENTATION_ROTATE_180)
+        {
+            return 180;
+        }
+        else if(exifOrientation == ExifInterface.ORIENTATION_ROTATE_270)
+        {
+            return 270;
+        }
+        return 0;
+    }
+
+    /**
+     * 이미지를 회전시킵니다.
+     *
+     * @param bitmap 비트맵 이미지
+     * @param degrees 회전 각도
+     * @return 회전된 이미지
+     */
+    public static Bitmap rotate(Bitmap bitmap, int degrees)
+    {
+        if(degrees != 0 && bitmap != null)
+        {
+            Matrix m = new Matrix();
+            m.setRotate(degrees, (float) bitmap.getWidth() / 2,
+                    (float) bitmap.getHeight() / 2);
+
+            try
+            {
+                Bitmap converted = Bitmap.createBitmap(bitmap, 0, 0,
+                        bitmap.getWidth(), bitmap.getHeight(), m, true);
+                if(bitmap != converted)
+                {
+                    bitmap.recycle();
+                    bitmap = converted;
+                }
+            }
+            catch(OutOfMemoryError ex)
+            {
+                // 메모리가 부족하여 회전을 시키지 못할 경우 그냥 원본을 반환합니다.
+            }
+        }
+        return bitmap;
+    }
+}

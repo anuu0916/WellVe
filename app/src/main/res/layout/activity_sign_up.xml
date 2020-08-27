@@ -2,16 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
+    android:orientation="vertical"
+    android:weightSum="20">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp">
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="bottom">
 
         <Button
-            android:id="@+id/loginBackButton"
+            android:id="@+id/signUpBackButton"
             android:layout_width="12dp"
             android:layout_height="20dp"
             android:layout_alignParentLeft="true"
@@ -25,21 +25,27 @@
             android:layout_centerInParent="true"
             android:text="회원가입"
             android:textColor="#000000"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:textStyle="bold"/>
 
     </RelativeLayout>
 
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="bottom"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="4dp"
             android:text="2"
             android:textColor="#79c668"
             android:textSize="16sp"
@@ -48,31 +54,38 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="4dp"
             android:text="/3"
             android:textColor="#000000"
             android:textSize="16sp" />
-    </LinearLayout>r
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
         android:layout_marginLeft="16dp"
         android:text="계정정보를 입력해주세요."
         android:textColor="#000000"
         android:textSize="16sp" />
 
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="13"
         android:layout_gravity="center"
-        android:layout_marginTop="32dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="15">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_marginLeft="16dp"
             android:text="아이디"
             android:textColor="#000000"
@@ -81,21 +94,29 @@
 
         <EditText
             android:id="@+id/emailEditText"
-            android:layout_width="380dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="4dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:backgroundTint="#CCCCCC"
-            android:hint="  이메일 주소 (example@gmail.com)"
+            android:hint="이메일 주소 (example@gmail.com)"
             android:inputType="textEmailAddress"
-            android:paddingBottom="20dp"
-            android:textSize="16sp" />
+            android:paddingLeft="16dp"
+            android:paddingBottom="9dp"
+            android:textSize="16sp"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"/>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
             android:text="닉네임"
             android:textColor="#000000"
             android:textSize="14sp"
@@ -103,20 +124,28 @@
 
         <EditText
             android:id="@+id/nicknameEditText"
-            android:layout_width="380dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="4dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:backgroundTint="#CCCCCC"
-            android:hint="  영문, 숫자, 한글 조합 2-10자리"
-            android:paddingBottom="20dp"
-            android:textSize="16sp" />
+            android:hint="영문, 숫자, 한글 조합 2-10자리"
+            android:paddingLeft="16dp"
+            android:paddingBottom="9dp"
+            android:textSize="16sp"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"/>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
             android:text="비밀번호"
             android:textColor="#000000"
             android:textSize="14sp"
@@ -124,21 +153,29 @@
 
         <EditText
             android:id="@+id/pwEditText"
-            android:layout_width="380dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="4dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:backgroundTint="#CCCCCC"
             android:hint="영문, 숫자 조합 8-20자리"
             android:inputType="textPassword"
-            android:paddingBottom="20dp"
-            android:textSize="16sp" />
+            android:paddingLeft="16dp"
+            android:paddingBottom="9dp"
+            android:textSize="16sp"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"/>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
             android:text="비밀번호 확인"
             android:textColor="#000000"
             android:textSize="14sp"
@@ -146,22 +183,30 @@
 
         <EditText
             android:id="@+id/pwCheckEditText"
-            android:layout_width="380dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="4dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:backgroundTint="#CCCCCC"
             android:hint="영문, 숫자 조합 8-20자리"
             android:inputType="textPassword"
-            android:paddingBottom="20dp"
-            android:textSize="16sp" />
+            android:paddingLeft="16dp"
+            android:paddingBottom="9dp"
+            android:textSize="16sp"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"/>
 
         <Button
             android:id="@+id/signUpButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="44dp"
             android:layout_marginRight="16dp"
             android:background="@drawable/button_gradient"
             android:text="다음"

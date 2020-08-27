@@ -29,7 +29,8 @@ public class SignupActivity extends AppCompatActivity {
     private EditText pwEditText;
     private EditText pwCheckEditText;
     private EditText nicknameEditText;
-    private Button signupButton;
+    private Button signUpButton;
+    private Button backButton;
     private FirebaseAuth mAuth;
 
     private FirebaseFirestore db;
@@ -44,7 +45,7 @@ public class SignupActivity extends AppCompatActivity {
         init();
 
 
-        signupButton.setOnClickListener(new Button.OnClickListener() {
+        signUpButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isNameCheck();
@@ -52,7 +53,20 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignupActivity.this, TypeCheckActivity.class);
+                startActivity(intent);
+            }
+        });
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     void init() {
@@ -60,7 +74,8 @@ public class SignupActivity extends AppCompatActivity {
         pwEditText = (EditText)findViewById(R.id.pwEditText);
         pwCheckEditText = (EditText)findViewById(R.id.pwCheckEditText);
         nicknameEditText = (EditText)findViewById(R.id.nicknameEditText);
-        signupButton = (Button)findViewById(R.id.signUpButton);
+        signUpButton = (Button)findViewById(R.id.signUpButton);
+        backButton = (Button)findViewById(R.id.signUpBackButton);
 
         mAuth = FirebaseAuth.getInstance();
     }

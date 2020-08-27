@@ -87,8 +87,6 @@ public class Page1Fragment extends Fragment {
         adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int pos) {
-                Log.d("pagePos", "pos : "+ pos);
-                Log.d("pagePos","getpos : "+ idList.get(pos));
                 Intent intent = new Intent(getActivity(), PostInActivity.class);
                 intent.putExtra("setId", idList.get(pos));
                 intent.putExtra("setCategory", categoryList.get(pos));
