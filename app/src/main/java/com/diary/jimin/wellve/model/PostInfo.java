@@ -1,5 +1,7 @@
 package com.diary.jimin.wellve.model;
 
+import android.net.Uri;
+
 public class PostInfo {
 
     private String title;
@@ -89,7 +91,6 @@ public class PostInfo {
     public void setCategory(String category) {
         this.category = category;
     }
-
 
 
 }

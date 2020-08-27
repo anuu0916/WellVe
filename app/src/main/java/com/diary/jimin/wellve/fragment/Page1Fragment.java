@@ -2,6 +2,7 @@ package com.diary.jimin.wellve.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,13 +16,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.bumptech.glide.Glide;
 import com.diary.jimin.wellve.model.CommunityItem;
 import com.diary.jimin.wellve.R;
 import com.diary.jimin.wellve.adapter.RecyclerViewAdapter;
 import com.diary.jimin.wellve.activity.PostInActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -29,6 +33,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +56,8 @@ public class Page1Fragment extends Fragment {
     private int restaurantSize;
     private int QnASize;
     private int literSize;
+
+    private String imageURL;
 
     private ProgressBar progressBar;
 
@@ -129,14 +137,37 @@ public class Page1Fragment extends Fragment {
                                                     for(QueryDocumentSnapshot document : task.getResult()) {
                                                         freeSize++;
                                                     }
+                                                    String imageStr = documentSnapshot.getData().get("time").toString().replace("/","").replace(" ","_").replace(":","")+".jpeg";
+                                                    FirebaseStorage storage = FirebaseStorage.getInstance("gs://wellve.appspot.com");
+                                                    StorageReference storageReference = storage.getReference().child(documentSnapshot.getData().get("title")+"_"+imageStr);
 
-                                                    items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                                            "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
-                                                            documentSnapshot.getData().get("title").toString(),
-                                                            documentSnapshot.getData().get("time").toString(),
-                                                            "자유 ",
-                                                            String.valueOf(freeSize)
-                                                    ));
+                                                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                        @Override
+                                                        public void onSuccess(Uri uri) {
+                                                            imageURL = uri.toString();
+
+                                                            Log.d("path", "URL: "+imageURL);
+                                                            //imageview에 넣는 방법 찾아오기
+                                                            items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                                    imageURL,
+                                                                    documentSnapshot.getData().get("title").toString(),
+                                                                    documentSnapshot.getData().get("time").toString(),
+                                                                    "자유 ",
+                                                                    String.valueOf(freeSize)
+                                                            ));
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                                    "https://www.colorhexa.com/ffffff.png",
+                                                                    documentSnapshot.getData().get("title").toString(),
+                                                                    documentSnapshot.getData().get("time").toString(),
+                                                                    "자유 ",
+                                                                    String.valueOf(freeSize)
+                                                            ));
+                                                        }
+                                                    });
                                                     idList.add(documentSnapshot.getId());
                                                     categoryList.add("freePosts");
                                                     recyclerView.setAdapter(adapter);
