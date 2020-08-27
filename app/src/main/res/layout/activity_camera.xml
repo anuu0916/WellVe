@@ -38,6 +38,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/camera_boarder"
         android:layout_centerInParent="true"/>
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp"
         android:layout_width="match_parent"

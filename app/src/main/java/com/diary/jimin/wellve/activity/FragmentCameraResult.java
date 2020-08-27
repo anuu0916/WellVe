@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Layout;
@@ -22,6 +23,7 @@ import com.diary.jimin.wellve.R;
 import com.diary.jimin.wellve.adapter.ViewPagerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.vision.text.Line;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,6 +32,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -156,13 +162,21 @@ public class FragmentCameraResult extends Fragment {
     }
 }*/
 
-public class FragmentCameraResult extends Fragment {
+public class FragmentCameraResult extends Fragment implements View.OnClickListener {
 
     private TextView veganTypeResult;
     private TextView isVeganResult;
 
     private FirebaseFirestore db;
     private FirebaseUser user;
+
+    private FrameLayout detailPage = null;
+    private Button btn_slide;
+    private Animation ani_top = null;
+    private Animation ani_bottom = null;
+    private boolean isPageState = false;
+
+    Context context;
 
     public FragmentCameraResult() {
         // Required empty public constructor
@@ -202,7 +216,7 @@ public class FragmentCameraResult extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.fragment_camera_result, container, false);
+        FrameLayout layout = (FrameLayout) inflater.inflate(R.layout.fragment_camera_result, container, false);
         veganTypeResult = layout.findViewById(R.id.veganTypeResult);
         isVeganResult = layout.findViewById(R.id.isVeganResult);
         Bundle bundle = getArguments();
@@ -210,7 +224,46 @@ public class FragmentCameraResult extends Fragment {
             String type = bundle.getString("veganType");
             veganTypeResult.setText("섭취 가능 : "+type);
         }
+
+        /*슬라이드애니메이션*/
+        context = getContext();
+
+        View view = inflater.inflate(R.layout.fragment_camera_result, container, false);
+        detailPage = (FrameLayout) view.findViewById(R.id.detailPage);
+        btn_slide =  (Button) view.findViewById(R.id.btn_slide);
+        ani_bottom= AnimationUtils.loadAnimation(context, R.anim.translate_bottom);
+        ani_top = AnimationUtils.loadAnimation(context, R.anim.translate_top);
+
+        btn_slide.setOnClickListener(this);
+
+        detailPage.setVisibility(View.VISIBLE);
+        Log.d("slide","확인1");
+        Log.d("slide","visible");
         return layout;
+    }
+
+
+    public void onClick(View view){
+        Log.d("slide", "확인2");
+        switch (view.getId()) {
+            case R.id.btn_slide: {
+                final SlidingAnimationListener listener = new SlidingAnimationListener(detailPage, btn_slide);
+                ani_top.setAnimationListener(listener);
+                ani_bottom.setAnimationListener(listener);
+                isPageState = listener.getIsPageState();
+                Log.d("slide", "확인3");
+                if (isPageState) {
+                    Log.d("slide", "Open  Page");
+                    detailPage.startAnimation(ani_bottom);
+                } else {
+                    Log.d("slide", "Close Page");
+                    detailPage.setVisibility(View.VISIBLE);
+                    detailPage.startAnimation(ani_top);
+                }
+
+                break;
+            }
+        }
     }
 
     void init(){
