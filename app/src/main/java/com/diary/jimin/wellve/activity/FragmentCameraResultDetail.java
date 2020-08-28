@@ -3,6 +3,7 @@ package com.diary.jimin.wellve.activity;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import com.diary.jimin.wellve.R;
 
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,7 +34,7 @@ public class FragmentCameraResultDetail extends Fragment {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-                LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_camera_result_detail, container, false);
+                FrameLayout layout = (FrameLayout) inflater.inflate(R.layout.fragment_camera_result, container, false);
                 detailResult = layout.findViewById(R.id.detailResult);
                 detailFoodType = layout.findViewById(R.id.detailFoodType);
                 Bundle bundle = getArguments();

@@ -1,26 +1,28 @@
 package com.diary.jimin.wellve.activity;
 
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 public class SlidingAnimationListener implements Animation.AnimationListener {
 
     private Boolean isPageState= false;
-    private LinearLayout layout;
+    private FrameLayout layout;
     private Button button;
 
-    public SlidingAnimationListener(LinearLayout layout, Button button){
+    public SlidingAnimationListener(FrameLayout layout, Button button){
         this.layout = layout;
         this.button = button;
     }
     @Override
     public void onAnimationStart(Animation animation){
         if (isPageState){
-            button.setText("Open Page");
+            Log.d("slide","Open Page");
         } else {
-            button.setText("Close Page");
+            Log.d("slide","Close Page");
         }
     }
 

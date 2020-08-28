@@ -67,7 +67,18 @@
                         android:layout_centerVertical="true"
                         android:layout_gravity="right"
                         android:layout_marginRight="24dp"
-                        android:background="@drawable/bookmark_button" />
+                        android:background="@drawable/bookmark_button"
+                        android:visibility="visible"/>
+                    
+                    <ImageButton
+                        android:id="@+id/postModButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="24dp"
+                        android:background="@drawable/community_mod_btn"
+                        android:visibility="gone"/>
 
                 </RelativeLayout>
 
@@ -160,6 +171,11 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/postInImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/postInContentTextView"
