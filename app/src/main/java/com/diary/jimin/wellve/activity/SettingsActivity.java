@@ -38,6 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -47,6 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().getCurrentUser().delete();
                 Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
