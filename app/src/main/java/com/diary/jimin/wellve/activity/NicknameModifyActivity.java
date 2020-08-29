@@ -119,12 +119,4 @@ public class NicknameModifyActivity extends AppCompatActivity {
 
     }
 
-    private void newName(){
-        final String nickName = nicknameEditText.getText().toString();
-
-        if(nickName.length()>0){
-            mAuth.
-        }
-    }
-
 }
