@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,10 +13,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.diary.jimin.wellve.adapter.CommentAdapter;
 import com.diary.jimin.wellve.model.PostInfo;
 import com.diary.jimin.wellve.R;
@@ -32,6 +35,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -55,6 +60,7 @@ public class PostInActivity extends AppCompatActivity {
   //  private TextView postInLikeTextView;
     private ImageButton postInMarkButton;
     private TextView postInCommentNumText;
+    private ImageView postInImageView;
     private Toolbar toolbar;
 
     private String getId;   //문서 uid
@@ -63,6 +69,8 @@ public class PostInActivity extends AppCompatActivity {
     private String comment;
     private String time;
     private String name;
+
+    private String imageStr;
 
     private int commentCount;
 
@@ -104,6 +112,23 @@ public class PostInActivity extends AppCompatActivity {
                                 document.getData().get("id").toString(),
                                 document.getData().get("time").toString(),
                                 document.getData().get("name").toString());
+                        imageStr = document.getData().get("time").toString().replace("/","").replace(" ","_").replace(":","")+".jpeg";
+                        Log.d("path",imageStr);
+
+                        FirebaseStorage storage = FirebaseStorage.getInstance("gs://wellve.appspot.com");
+                        StorageReference storageReference = storage.getReference();
+                        storageReference.child(document.getData().get("title")+"_"+imageStr).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                String imageURL = uri.toString();
+                                Glide.with(getApplicationContext()).load(imageURL).into(postInImageView);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("path", ""+e);
+                            }
+                        });
 
 
                     } else {
@@ -170,9 +195,6 @@ public class PostInActivity extends AppCompatActivity {
                     db.collection("users").document(user.getUid())
                             .collection("bookmarks").document(getId)
                             .update("category", getCategory);
-//                    DocumentReference washingtonRef = db.collection("users").document(user.getUid())
-//                            .collection("bookmarks").document(getId);
-//                    washingtonRef.update("category", FieldValue.arrayUnion(getCategory));
 
                     Toast.makeText(PostInActivity.this, "북마크 성공", Toast.LENGTH_SHORT).show();
                 }
@@ -199,6 +221,7 @@ public class PostInActivity extends AppCompatActivity {
   //      postInLikeTextView = (TextView) findViewById(R.id.postInLikeTextView);
         postInMarkButton = (ImageButton) findViewById(R.id.postInMarkButton);
         postInCommentNumText = (TextView) findViewById(R.id.postInCommentNumText);
+        postInImageView = (ImageView) findViewById(R.id.postInImageView);
 
         toolbar = (Toolbar) findViewById(R.id.toolBar);
 
@@ -210,7 +233,6 @@ public class PostInActivity extends AppCompatActivity {
         SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         time = sdfNow.format(date);
 
-        //(String text, String id, String time, String name, String category, String postId)
         if(comment.length() > 0) {
             PostInfo postInfo = new PostInfo(comment, user.getUid(), time, name, getCategory, getId);
             if(user != null) {

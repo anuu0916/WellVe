@@ -38,6 +38,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.gun0912.tedpermission.PermissionBuilder;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -78,18 +81,14 @@ public class PostActivity extends AppCompatActivity {
     private File tempFile;
     private Boolean isCamera = false;
 
+    private Uri photoUri=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
         
         tedPermission();
-
-
-//
-//        Intent intent = getIntent();
-//        getCategory = intent.getStringExtra("setCategory");
-//        Log.d("getCategory", getCategory);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
@@ -195,22 +194,44 @@ public class PostActivity extends AppCompatActivity {
 
         long now = System.currentTimeMillis();
         Date date = new Date(now);
-        SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         time = sdfNow.format(date);
+
+        //filename = date + ".jpeg"
 
 
         if(title.length() > 0 && text.length()>0) {
-
-
-            PostInfo postInfo = new PostInfo(title, text, id, time, name);
-
             if(user != null) {
+                PostInfo postInfo = new PostInfo(title, text, id, time, name);
                 db.collection(getCategory)
                         .add(postInfo)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                Toast.makeText(PostActivity.this, "성공",Toast.LENGTH_SHORT).show();
+                                FirebaseStorage storage = FirebaseStorage.getInstance();
+                                SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmm");
+                                Date now2 = new Date();
+                                String filename = format.format(now2) + ".jpeg";
+
+                                Log.d(TAG, "format1: "+ time+ " format2: "+filename);
+                                if (photoUri != null) {
+                                    StorageReference storageReference = storage.getReferenceFromUrl("gs://wellve.appspot.com")
+                                            .child(title+"_"+filename);
+                                    storageReference.putFile(photoUri)
+                                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                @Override
+                                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                    Toast.makeText(PostActivity.this, "이미지 업로드 성공", Toast.LENGTH_SHORT).show();
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(PostActivity.this, "이미지가  안올라가네여 ㅡㅡ", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                }
+                                Toast.makeText(PostActivity.this, "이미지없이 성공", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         })
@@ -246,7 +267,7 @@ public class PostActivity extends AppCompatActivity {
 
         if (requestCode == PICK_FROM_ALBUM) {
 
-            Uri photoUri = data.getData();
+            photoUri = data.getData();
             Log.d(TAG, "PICK_FROM_ALBUM photoUri : " + photoUri);
 
             Cursor cursor = null;

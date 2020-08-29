@@ -1,6 +1,7 @@
 package com.diary.jimin.wellve.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,6 +65,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 .centerCrop()
                 .crossFade()
                 .into(holder.photo);
+
+//        holder.photo.setImageURI(Uri.parse(items.get(position).photo));
 
     }
 
