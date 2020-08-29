@@ -196,13 +196,12 @@ public class PostInActivity extends AppCompatActivity {
                             .collection("bookmarks").document(getId)
                             .update("category", getCategory);
 
+                    postInMarkButton.setSelected(true);
+                    postInMarkButton.setBackgroundResource(R.drawable.bookmark_yes);
                     Toast.makeText(PostInActivity.this, "북마크 성공", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-
-
 
     }
 
@@ -218,7 +217,7 @@ public class PostInActivity extends AppCompatActivity {
         postInCommentEditText = (EditText) findViewById(R.id.postInCommentEditText);
         postInSubmitButton = (ImageButton) findViewById(R.id.postInSubmitButton);
 //        postInLikeButton = (Button) findViewById(R.id.postInLikeButton);
-  //      postInLikeTextView = (TextView) findViewById(R.id.postInLikeTextView);
+//      postInLikeTextView = (TextView) findViewById(R.id.postInLikeTextView);
         postInMarkButton = (ImageButton) findViewById(R.id.postInMarkButton);
         postInCommentNumText = (TextView) findViewById(R.id.postInCommentNumText);
         postInImageView = (ImageView) findViewById(R.id.postInImageView);
