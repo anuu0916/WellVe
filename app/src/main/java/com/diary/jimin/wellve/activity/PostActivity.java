@@ -194,15 +194,15 @@ public class PostActivity extends AppCompatActivity {
 
         long now = System.currentTimeMillis();
         Date date = new Date(now);
-        SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         time = sdfNow.format(date);
 
         //filename = date + ".jpeg"
 
 
         if(title.length() > 0 && text.length()>0) {
-            if(user != null) {
-                PostInfo postInfo = new PostInfo(title, text, id, time, name);
+            if(user != null && photoUri != null) {
+                PostInfo postInfo = new PostInfo(title, text, id, time, name, true);
                 db.collection(getCategory)
                         .add(postInfo)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -214,23 +214,37 @@ public class PostActivity extends AppCompatActivity {
                                 String filename = format.format(now2) + ".jpeg";
 
                                 Log.d(TAG, "format1: "+ time+ " format2: "+filename);
-                                if (photoUri != null) {
-                                    StorageReference storageReference = storage.getReferenceFromUrl("gs://wellve.appspot.com")
-                                            .child(title+"_"+filename);
-                                    storageReference.putFile(photoUri)
-                                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                                @Override
-                                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                                    Toast.makeText(PostActivity.this, "이미지 업로드 성공", Toast.LENGTH_SHORT).show();
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(PostActivity.this, "이미지가  안올라가네여 ㅡㅡ", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                }
+                                StorageReference storageReference = storage.getReferenceFromUrl("gs://wellve.appspot.com")
+                                        .child(title+"_"+filename);
+                                storageReference.putFile(photoUri)
+                                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                            @Override
+                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                Toast.makeText(PostActivity.this, "이미지 업로드 성공", Toast.LENGTH_SHORT).show();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(PostActivity.this, "이미지가 안올라가네여 ㅡㅡ", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                finish();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(PostActivity.this, "실패", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            } else if (user != null && photoUri == null) {
+                PostInfo postInfo = new PostInfo(title, text, id, time, name);
+                db.collection(getCategory)
+                        .add(postInfo)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
                                 Toast.makeText(PostActivity.this, "이미지없이 성공", Toast.LENGTH_SHORT).show();
                                 finish();
                             }

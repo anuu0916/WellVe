@@ -11,6 +11,7 @@ public class PostInfo {
     private String name;
     private String postId;
     private String category;
+    private boolean photo;
 
     public PostInfo(String title, String text, String id, String time, String name) {
         this.title = title; //게시글 제목
@@ -18,6 +19,14 @@ public class PostInfo {
         this.id = id;       //사용자 uid
         this.time = time;   //쓴 시간
         this.name = name;   //사용자 닉네임
+    }
+   public PostInfo(String title, String text, String id, String time, String name, boolean photo) {
+        this.title = title; //게시글 제목
+        this.text = text;   //게시글 내용
+        this.id = id;       //사용자 uid
+        this.time = time;   //쓴 시간
+        this.name = name;   //사용자 닉네임
+        this.photo = photo;
     }
 
     public PostInfo(String text, String id, String time, String name, String category, String postId) {
@@ -90,6 +99,14 @@ public class PostInfo {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public Boolean getPhoto() {
+        return this.photo;
+    }
+
+    public void setPhoto(boolean photo) {
+        this.photo = photo;
     }
 
 
