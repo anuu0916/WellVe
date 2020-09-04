@@ -11,7 +11,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="bottom">
 
         <Button
             android:id="@+id/bookmarkBackButton"
@@ -28,7 +29,7 @@
             android:layout_centerInParent="true"
             android:text="마이페이지"
             android:textColor="#000000"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
     </RelativeLayout>
@@ -51,6 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,7 +63,7 @@
                 android:layout_gravity="center_horizontal"/>
 
             <TextView
-                android:id="@+id/mypage_nickname"
+                android:id="@+id/myPageNickName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="JEN 님!"

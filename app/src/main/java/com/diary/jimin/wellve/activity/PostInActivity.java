@@ -61,6 +61,7 @@ public class PostInActivity extends AppCompatActivity {
     private ImageButton postInMarkButton;
     private TextView postInCommentNumText;
     private ImageView postInImageView;
+    private Button backButton;
     private Toolbar toolbar;
 
     private String getId;   //문서 uid
@@ -196,14 +197,23 @@ public class PostInActivity extends AppCompatActivity {
                             .collection("bookmarks").document(getId)
                             .update("category", getCategory);
 
+                    postInMarkButton.setSelected(true);
+                    postInMarkButton.setBackgroundResource(R.drawable.bookmark_yes);
                     Toast.makeText(PostInActivity.this, "북마크 성공", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
+<<<<<<< HEAD
+=======
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
-
-
+>>>>>>> a56e222ab794ae6b0d245217eaa0efd5bad7dc1c
     }
 
     private void init() {
@@ -218,10 +228,11 @@ public class PostInActivity extends AppCompatActivity {
         postInCommentEditText = (EditText) findViewById(R.id.postInCommentEditText);
         postInSubmitButton = (ImageButton) findViewById(R.id.postInSubmitButton);
 //        postInLikeButton = (Button) findViewById(R.id.postInLikeButton);
-  //      postInLikeTextView = (TextView) findViewById(R.id.postInLikeTextView);
+//      postInLikeTextView = (TextView) findViewById(R.id.postInLikeTextView);
         postInMarkButton = (ImageButton) findViewById(R.id.postInMarkButton);
         postInCommentNumText = (TextView) findViewById(R.id.postInCommentNumText);
         postInImageView = (ImageView) findViewById(R.id.postInImageView);
+        backButton = (Button) findViewById(R.id.postInBackButton);
 
         toolbar = (Toolbar) findViewById(R.id.toolBar);
 

@@ -131,7 +131,7 @@ public class BookmarkActivity extends AppCompatActivity {
 
     private void init() {
         myPageProfileImage = (ImageView) findViewById(R.id.mypage_profile_image);
-        myPageNickName = (TextView) findViewById(R.id.mypage_nickname);
+        myPageNickName = (TextView) findViewById(R.id.myPageNickName);
         infoModifyButton=(Button)findViewById(R.id.infoModifyButton);
         backButton = (Button)findViewById(R.id.bookmarkBackButton);
     }

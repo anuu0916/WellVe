@@ -28,6 +28,8 @@ public class CommunityActivity extends AppCompatActivity {
     private Button communitySearchButton;
     private Button communityWriteButton;
     private Button backButton;
+
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
