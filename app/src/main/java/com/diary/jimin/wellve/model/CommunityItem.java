@@ -41,9 +41,10 @@ public class CommunityItem {
     }
 
 
-    public String getCommentStr() {
+    public String getComment() {
         return comment;
     }
+
 
 
 

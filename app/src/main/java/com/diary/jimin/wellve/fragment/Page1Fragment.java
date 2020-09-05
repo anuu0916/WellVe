@@ -125,61 +125,72 @@ public class Page1Fragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
                             for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                Boolean photoBool = (Boolean) documentSnapshot.getData().get("photo");
 
+                                if(freeSize!=0) freeSize = 0;
                                 db.collection("comments")
+                                        .orderBy("time", Query.Direction.ASCENDING)
                                         .whereEqualTo("postId",documentSnapshot.getId())
                                         .get()
                                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                             @Override
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                 if(task.isSuccessful()) {
-                                                    freeSize = 0;
+                                                    if(freeSize!=0) freeSize = 0;
                                                     for(QueryDocumentSnapshot document : task.getResult()) {
+//                                                        Log.d("comment", document.getData().get("text").toString());
                                                         freeSize++;
                                                     }
-                                                    String imageStr = documentSnapshot.getData().get("time").toString().replace("/","").replace(" ","_").replace(":","")+".jpeg";
-                                                    FirebaseStorage storage = FirebaseStorage.getInstance("gs://wellve.appspot.com");
-                                                    StorageReference storageReference = storage.getReference().child(documentSnapshot.getData().get("title")+"_"+imageStr);
 
-                                                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                        @Override
-                                                        public void onSuccess(Uri uri) {
-                                                            imageURL = uri.toString();
+//                                                    Log.d("comment", "commentPos: "+commentPos);
+//                                                    Log.d("comment", "comment:"+commentList.get(commentPos));
+                                                    if (photoBool) {
+                                                        String imageStr = documentSnapshot.getData().get("time").toString().replace("/","").replace(" ","_").replace(":","");
+                                                        String newUri = imageStr.substring(0, imageStr.length()-2);
+                                                        FirebaseStorage storage = FirebaseStorage.getInstance("gs://wellve.appspot.com");
+                                                        StorageReference storageReference = storage.getReference().child(documentSnapshot.getData().get("title")+"_"+newUri+".jpeg");
+                                                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                            @Override
+                                                            public void onSuccess(Uri uri) {
+                                                                imageURL = uri.toString();
 
-                                                            Log.d("path", "URL: "+imageURL);
-                                                            //imageview에 넣는 방법 찾아오기
-                                                            items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                                                    imageURL,
-                                                                    documentSnapshot.getData().get("title").toString(),
-                                                                    documentSnapshot.getData().get("time").toString(),
-                                                                    "자유 ",
-                                                                    String.valueOf(freeSize)
-                                                            ));
-                                                        }
-                                                    }).addOnFailureListener(new OnFailureListener() {
-                                                        @Override
-                                                        public void onFailure(@NonNull Exception e) {
-                                                            items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                                                    "https://www.colorhexa.com/ffffff.png",
-                                                                    documentSnapshot.getData().get("title").toString(),
-                                                                    documentSnapshot.getData().get("time").toString(),
-                                                                    "자유 ",
-                                                                    String.valueOf(freeSize)
-                                                            ));
-                                                        }
-                                                    });
-                                                    idList.add(documentSnapshot.getId());
-                                                    categoryList.add("freePosts");
-                                                    recyclerView.setAdapter(adapter);
-                                                    progressBar.setVisibility(View.GONE);
+                                                                items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                                        imageURL,
+                                                                        documentSnapshot.getData().get("title").toString(),
+                                                                        documentSnapshot.getData().get("time").toString(),
+                                                                        "자유 ",
+                                                                        String.valueOf(freeSize)
+                                                                ));
+//                                                                Log.d("comment", "이미지 O : "+freeSize);
+                                                                idList.add(documentSnapshot.getId());
+                                                                categoryList.add("freePosts");
+                                                                recyclerView.setAdapter(adapter);
+                                                                progressBar.setVisibility(View.GONE);
+                                                            }
+                                                        });
+                                                    } else {
+                                                        items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                                "https://www.colorhexa.com/ffffff.png",
+                                                                documentSnapshot.getData().get("title").toString(),
+                                                                documentSnapshot.getData().get("time").toString(),
+                                                                "자유 ",
+                                                                String.valueOf(freeSize)
+                                                        ));
+//                                                        Log.d("comment", "이미지 X : "+freeSize);
+                                                        idList.add(documentSnapshot.getId());
+                                                        categoryList.add("freePosts");
+                                                        recyclerView.setAdapter(adapter);
+                                                        progressBar.setVisibility(View.GONE);
+                                                    }
                                                 }
                                             }
                                         });
+
+
                             }
                         }
                     }
                 });
-
 
         collectionReference = db.collection("QnAPosts");
 
@@ -192,34 +203,68 @@ public class Page1Fragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
                             for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                Boolean photoBool = (Boolean) documentSnapshot.getData().get("photo");
 
+                                if(QnASize!=0) QnASize = 0;
                                 db.collection("comments")
+                                        .orderBy("time", Query.Direction.ASCENDING)
                                         .whereEqualTo("postId",documentSnapshot.getId())
                                         .get()
                                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                             @Override
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                 if(task.isSuccessful()) {
-                                                    QnASize = 0;
+                                                    if(QnASize!=0) QnASize = 0;
                                                     for(QueryDocumentSnapshot document : task.getResult()) {
+//                                                        Log.d("comment", document.getData().get("text").toString());
                                                         QnASize++;
                                                     }
 
-                                                    items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                                            "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
-                                                            documentSnapshot.getData().get("title").toString(),
-                                                            documentSnapshot.getData().get("time").toString(),
-                                                            "QnA ",
-                                                            String.valueOf(QnASize)
-                                                    ));
+//                                                    Log.d("comment", "commentPos: "+commentPos);
+//                                                    Log.d("comment", "comment:"+commentList.get(commentPos));
+                                                    if (photoBool) {
+                                                        String imageStr = documentSnapshot.getData().get("time").toString().replace("/","").replace(" ","_").replace(":","");
+                                                        String newUri = imageStr.substring(0, imageStr.length()-2);
+                                                        FirebaseStorage storage = FirebaseStorage.getInstance("gs://wellve.appspot.com");
+                                                        StorageReference storageReference = storage.getReference().child(documentSnapshot.getData().get("title")+"_"+newUri+".jpeg");
+                                                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                            @Override
+                                                            public void onSuccess(Uri uri) {
+                                                                imageURL = uri.toString();
 
-                                                    idList.add(documentSnapshot.getId());
-                                                    categoryList.add("QnAPosts");
-                                                    recyclerView.setAdapter(adapter);
-                                                    progressBar.setVisibility(View.GONE);
+                                                                items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                                        imageURL,
+                                                                        documentSnapshot.getData().get("title").toString(),
+                                                                        documentSnapshot.getData().get("time").toString(),
+                                                                        "QnA ",
+                                                                        String.valueOf(QnASize)
+                                                                ));
+//                                                                Log.d("comment", "이미지 O : "+freeSize);
+                                                                idList.add(documentSnapshot.getId());
+                                                                categoryList.add("QnAPosts");
+                                                                recyclerView.setAdapter(adapter);
+                                                                progressBar.setVisibility(View.GONE);
+                                                            }
+                                                        });
+                                                    } else {
+                                                        items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                                "https://www.colorhexa.com/ffffff.png",
+                                                                documentSnapshot.getData().get("title").toString(),
+                                                                documentSnapshot.getData().get("time").toString(),
+                                                                "QnA ",
+                                                                String.valueOf(QnASize)
+                                                        ));
+//                                                        Log.d("comment", "이미지 X : "+freeSize);
+                                                        idList.add(documentSnapshot.getId());
+                                                        categoryList.add("QnAPosts");
+                                                        recyclerView.setAdapter(adapter);
+                                                        progressBar.setVisibility(View.GONE);
+                                                    }
                                                 }
                                             }
                                         });
+
+
                             }
                         }
                     }
@@ -237,33 +282,68 @@ public class Page1Fragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
                             for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                Boolean photoBool = (Boolean) documentSnapshot.getData().get("photo");
 
+                                if(restaurantSize!=0) restaurantSize = 0;
                                 db.collection("comments")
+                                        .orderBy("time", Query.Direction.ASCENDING)
                                         .whereEqualTo("postId",documentSnapshot.getId())
                                         .get()
                                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                             @Override
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                 if(task.isSuccessful()) {
-                                                    restaurantSize = 0;
+                                                    if(restaurantSize!=0) restaurantSize = 0;
                                                     for(QueryDocumentSnapshot document : task.getResult()) {
+//                                                        Log.d("comment", document.getData().get("text").toString());
                                                         restaurantSize++;
                                                     }
 
-                                                    items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                                            "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
-                                                            documentSnapshot.getData().get("title").toString(),
-                                                            documentSnapshot.getData().get("time").toString(),
-                                                            "식당 ",
-                                                            String.valueOf(restaurantSize)
-                                                    ));
-                                                    idList.add(documentSnapshot.getId());
-                                                    categoryList.add("restaurantPosts");
-                                                    recyclerView.setAdapter(adapter);
-                                                    progressBar.setVisibility(View.GONE);
+//                                                    Log.d("comment", "commentPos: "+commentPos);
+//                                                    Log.d("comment", "comment:"+commentList.get(commentPos));
+                                                    if (photoBool) {
+                                                        String imageStr = documentSnapshot.getData().get("time").toString().replace("/","").replace(" ","_").replace(":","");
+                                                        String newUri = imageStr.substring(0, imageStr.length()-2);
+                                                        FirebaseStorage storage = FirebaseStorage.getInstance("gs://wellve.appspot.com");
+                                                        StorageReference storageReference = storage.getReference().child(documentSnapshot.getData().get("title")+"_"+newUri+".jpeg");
+                                                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                            @Override
+                                                            public void onSuccess(Uri uri) {
+                                                                imageURL = uri.toString();
+
+                                                                items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                                        imageURL,
+                                                                        documentSnapshot.getData().get("title").toString(),
+                                                                        documentSnapshot.getData().get("time").toString(),
+                                                                        "식당 ",
+                                                                        String.valueOf(restaurantSize)
+                                                                ));
+//                                                                Log.d("comment", "이미지 O : "+freeSize);
+                                                                idList.add(documentSnapshot.getId());
+                                                                categoryList.add("restaurantPosts");
+                                                                recyclerView.setAdapter(adapter);
+                                                                progressBar.setVisibility(View.GONE);
+                                                            }
+                                                        });
+                                                    } else {
+                                                        items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                                "https://www.colorhexa.com/ffffff.png",
+                                                                documentSnapshot.getData().get("title").toString(),
+                                                                documentSnapshot.getData().get("time").toString(),
+                                                                "식당 ",
+                                                                String.valueOf(restaurantSize)
+                                                        ));
+//                                                        Log.d("comment", "이미지 X : "+freeSize);
+                                                        idList.add(documentSnapshot.getId());
+                                                        categoryList.add("restaurantPosts");
+                                                        recyclerView.setAdapter(adapter);
+                                                        progressBar.setVisibility(View.GONE);
+                                                    }
                                                 }
                                             }
                                         });
+
+
                             }
                         }
                     }
@@ -280,38 +360,72 @@ public class Page1Fragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
                             for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                Boolean photoBool = (Boolean) documentSnapshot.getData().get("photo");
 
+                                if(literSize!=0) literSize = 0;
                                 db.collection("comments")
+                                        .orderBy("time", Query.Direction.ASCENDING)
                                         .whereEqualTo("postId",documentSnapshot.getId())
                                         .get()
                                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                             @Override
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                 if(task.isSuccessful()) {
-                                                    literSize = 0;
+                                                    if(literSize!=0) literSize = 0;
                                                     for(QueryDocumentSnapshot document : task.getResult()) {
+//                                                        Log.d("comment", document.getData().get("text").toString());
                                                         literSize++;
                                                     }
 
-                                                    items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                                            "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
-                                                            documentSnapshot.getData().get("title").toString(),
-                                                            documentSnapshot.getData().get("time").toString(),
-                                                            "문학 ",
-                                                            String.valueOf(literSize)
-                                                    ));
-                                                    idList.add(documentSnapshot.getId());
-                                                    categoryList.add("literPosts");
-                                                    recyclerView.setAdapter(adapter);
-                                                    progressBar.setVisibility(View.GONE);
+//                                                    Log.d("comment", "commentPos: "+commentPos);
+//                                                    Log.d("comment", "comment:"+commentList.get(commentPos));
+                                                    if (photoBool) {
+                                                        String imageStr = documentSnapshot.getData().get("time").toString().replace("/","").replace(" ","_").replace(":","");
+                                                        String newUri = imageStr.substring(0, imageStr.length()-2);
+                                                        FirebaseStorage storage = FirebaseStorage.getInstance("gs://wellve.appspot.com");
+                                                        StorageReference storageReference = storage.getReference().child(documentSnapshot.getData().get("title")+"_"+newUri+".jpeg");
+                                                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                            @Override
+                                                            public void onSuccess(Uri uri) {
+                                                                imageURL = uri.toString();
+
+                                                                items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                                        imageURL,
+                                                                        documentSnapshot.getData().get("title").toString(),
+                                                                        documentSnapshot.getData().get("time").toString(),
+                                                                        "문학 ",
+                                                                        String.valueOf(literSize)
+                                                                ));
+//                                                                Log.d("comment", "이미지 O : "+freeSize);
+                                                                idList.add(documentSnapshot.getId());
+                                                                categoryList.add("literPosts");
+                                                                recyclerView.setAdapter(adapter);
+                                                                progressBar.setVisibility(View.GONE);
+                                                            }
+                                                        });
+                                                    } else {
+                                                        items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                                "https://www.colorhexa.com/ffffff.png",
+                                                                documentSnapshot.getData().get("title").toString(),
+                                                                documentSnapshot.getData().get("time").toString(),
+                                                                "문학 ",
+                                                                String.valueOf(literSize)
+                                                        ));
+//                                                        Log.d("comment", "이미지 X : "+freeSize);
+                                                        idList.add(documentSnapshot.getId());
+                                                        categoryList.add("literPosts");
+                                                        recyclerView.setAdapter(adapter);
+                                                        progressBar.setVisibility(View.GONE);
+                                                    }
                                                 }
                                             }
                                         });
+
+
                             }
                         }
                     }
                 });
-
 
 
 //        adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
