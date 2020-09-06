@@ -204,8 +204,7 @@ public class PostInActivity extends AppCompatActivity {
             }
         });
 
-<<<<<<< HEAD
-=======
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -213,7 +212,7 @@ public class PostInActivity extends AppCompatActivity {
             }
         });
 
->>>>>>> a56e222ab794ae6b0d245217eaa0efd5bad7dc1c
+
     }
 
     private void init() {

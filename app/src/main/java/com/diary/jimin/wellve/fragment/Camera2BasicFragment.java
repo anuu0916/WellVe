@@ -101,8 +101,9 @@ public class Camera2BasicFragment extends Fragment
 
     private static final int PICK_IMAGE_REQUEST = 1111;
     private Bitmap bm;
-
     private ImageView iv_photo;
+
+    private int isTaken = 0;
 //    private TextView veganTypeResult;
 //    private Bundle bundle = new Bundle();
 
@@ -468,8 +469,8 @@ public class Camera2BasicFragment extends Fragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
-
+        mFile = new File(getActivity().getExternalFilesDir(null), "pic" +
+                ".jpg");
     }
 
     //갤러리 사진가져온거 결과(비트맵으로) 저장
@@ -478,15 +479,15 @@ public class Camera2BasicFragment extends Fragment
         super.onActivityResult(requestCode, resultCode, data);
 
 //        if (resultCode == RESULT_OK && data.getData() != null) {
-//            if (requestCode == PICK_IMAGE_REQUEST) {
-//                Bundle extras = data.getExtras();
-//
-//                Bitmap imageBitmap = (Bitmap) extras.get("data");
-//                ((ImageView) getActivity().findViewById(R.id.photo)).setImageBitmap(imageBitmap);
-//
-//            }
-//
-//        }
+////            if (requestCode == PICK_IMAGE_REQUEST) {
+////                Bundle extras = data.getExtras();
+////
+////                Bitmap imageBitmap = (Bitmap) extras.get("data");
+////                ((ImageView) getActivity().findViewById(R.id.photo)).setImageBitmap(imageBitmap);
+////
+////            }
+////
+////        }
         Log.d("bitmap", requestCode + "");
 
         if (requestCode == PICK_IMAGE_REQUEST) {
@@ -991,6 +992,7 @@ public class Camera2BasicFragment extends Fragment
                                                @NonNull CaptureRequest request,
                                                @NonNull TotalCaptureResult result) {
                     showToast("Saved: " + mFile);
+                    isTaken = 1;
                     Log.d(TAG, mFile.toString());
                     unlockFocus();
                 }
@@ -1044,6 +1046,9 @@ public class Camera2BasicFragment extends Fragment
         switch (view.getId()) {
             case R.id.cameraShootButton: {
                 takePicture();
+
+                while(isTaken != 1);
+
                 mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
                 Log.d("image", mFile+"");
                 String filePath = mFile.getPath();
