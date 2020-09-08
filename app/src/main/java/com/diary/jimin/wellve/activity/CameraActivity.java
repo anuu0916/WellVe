@@ -192,6 +192,7 @@ public class CameraActivity extends AppCompatActivity {
                     FragmentCameraResult fragmentCameraResult;
                     fragmentCameraResult = new FragmentCameraResult();
                     bundle.putStringArrayList("veganType", VeganType);
+                    bundle.putString("resultText", resultText);
                     fragmentCameraResult.setArguments(bundle);
                     return fragmentCameraResult;
                 case 1:

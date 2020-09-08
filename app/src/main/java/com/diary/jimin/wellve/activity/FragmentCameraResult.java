@@ -166,6 +166,7 @@ public class FragmentCameraResult extends Fragment implements View.OnClickListen
 
     private TextView veganTypeResult;
     private TextView isVeganResult;
+    private TextView detailResult;
     private String userType;
 
     private FirebaseFirestore db;
@@ -204,9 +205,11 @@ public class FragmentCameraResult extends Fragment implements View.OnClickListen
         FrameLayout layout = (FrameLayout) inflater.inflate(R.layout.fragment_camera_result, container, false);
         veganTypeResult = layout.findViewById(R.id.veganTypeResult);
         isVeganResult = layout.findViewById(R.id.isVeganResult);
+        detailResult = layout.findViewById(R.id.detailResult);
         Bundle bundle = getArguments();
         if(bundle!=null){
             ArrayList<String> VeganType = bundle.getStringArrayList("veganType");
+            String resultText = bundle.getString("resultText");
 
             db = FirebaseFirestore.getInstance();
             user = FirebaseAuth.getInstance().getCurrentUser();
@@ -237,6 +240,8 @@ public class FragmentCameraResult extends Fragment implements View.OnClickListen
             } else{
                 veganTypeResult.setText("섭취 가능 : "+VeganType);
             }
+
+            detailResult.setText(resultText);
 
         }
 
