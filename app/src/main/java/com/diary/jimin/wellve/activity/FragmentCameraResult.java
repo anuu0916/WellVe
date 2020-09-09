@@ -39,6 +39,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.view.View.OnClickListener;
 
 import org.w3c.dom.Text;
 
@@ -162,7 +163,7 @@ public class FragmentCameraResult extends Fragment {
     }
 }*/
 
-public class FragmentCameraResult extends Fragment implements View.OnClickListener {
+public class FragmentCameraResult extends Fragment {
 
     private TextView veganTypeResult;
     private TextView isVeganResult;
@@ -206,6 +207,48 @@ public class FragmentCameraResult extends Fragment implements View.OnClickListen
         veganTypeResult = layout.findViewById(R.id.veganTypeResult);
         isVeganResult = layout.findViewById(R.id.isVeganResult);
         detailResult = layout.findViewById(R.id.detailResult);
+
+
+        /*슬라이드애니메이션*/
+        context = getContext();
+
+       // View view = inflater.inflate(R.layout.fragment_camera_result,  container, false);
+        detailPage = (FrameLayout) layout.findViewById(R.id.detailPage);
+        btn_slide =  (Button) layout.findViewById(R.id.btn_slide);
+        ani_bottom= AnimationUtils.loadAnimation(context, R.anim.translate_bottom);
+        ani_top = AnimationUtils.loadAnimation(context, R.anim.translate_top);
+        Log.d("slide", "확인0");
+
+        btn_slide.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("slide", "확인2");
+                switch (v.getId()) {
+                    case R.id.btn_slide: {
+                        final SlidingAnimationListener listener = new SlidingAnimationListener(detailPage, btn_slide);
+                        ani_top.setAnimationListener(listener);
+                        ani_bottom.setAnimationListener(listener);
+                        isPageState = listener.getIsPageState();
+                        Log.d("slide", "확인3");
+                        if (isPageState) {
+                            Log.d("slide", "Open  Page");
+                            detailPage.startAnimation(ani_bottom);
+                        } else {
+                            Log.d("slide", "Close Page");
+                            detailPage.setVisibility(View.VISIBLE);
+                            detailPage.startAnimation(ani_top);
+                        }
+
+                        break;
+                    }
+                }
+            }
+        });
+
+        //detailPage.setVisibility(View.VISIBLE);
+        Log.d("slide","확인1");
+        Log.d("slide","visible");
+
+
         Bundle bundle = getArguments();
         if(bundle!=null){
             ArrayList<String> VeganType = bundle.getStringArrayList("veganType");
@@ -245,46 +288,11 @@ public class FragmentCameraResult extends Fragment implements View.OnClickListen
 
         }
 
-        /*슬라이드애니메이션*/
-        context = getContext();
 
-        View view = inflater.inflate(R.layout.fragment_camera_result, container, false);
-        detailPage = (FrameLayout) view.findViewById(R.id.detailPage);
-        btn_slide =  (Button) view.findViewById(R.id.btn_slide);
-        ani_bottom= AnimationUtils.loadAnimation(context, R.anim.translate_bottom);
-        ani_top = AnimationUtils.loadAnimation(context, R.anim.translate_top);
-
-        btn_slide.setOnClickListener(this);
-
-        detailPage.setVisibility(View.VISIBLE);
-        Log.d("slide","확인1");
-        Log.d("slide","visible");
         return layout;
     }
 
 
-    public void onClick(View view){
-        Log.d("slide", "확인2");
-        switch (view.getId()) {
-            case R.id.btn_slide: {
-                final SlidingAnimationListener listener = new SlidingAnimationListener(detailPage, btn_slide);
-                ani_top.setAnimationListener(listener);
-                ani_bottom.setAnimationListener(listener);
-                isPageState = listener.getIsPageState();
-                Log.d("slide", "확인3");
-                if (isPageState) {
-                    Log.d("slide", "Open  Page");
-                    detailPage.startAnimation(ani_bottom);
-                } else {
-                    Log.d("slide", "Close Page");
-                    detailPage.setVisibility(View.VISIBLE);
-                    detailPage.startAnimation(ani_top);
-                }
-
-                break;
-            }
-        }
-    }
 
     void init(){
         //veganTypeResult = (TextView)getActivity().findViewById(R.id.veganTypeResult);

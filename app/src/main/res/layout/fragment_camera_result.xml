@@ -51,6 +51,7 @@
                     android:src="@drawable/ocr_slide"
                     android:layout_marginRight="8dp"/>
                 <Button
+                    android:background="#ffffff"
                     android:id="@+id/btn_slide"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -117,7 +118,7 @@
         android:layout_height="match_parent"
         android:layout_marginHorizontal="24dp"
         android:background="@drawable/ocr_fragment_back"
-        android:visibility="visible">
+        android:visibility="gone">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
