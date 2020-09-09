@@ -2,6 +2,7 @@ package com.diary.jimin.wellve.activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -13,6 +14,10 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
@@ -36,6 +41,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -170,6 +176,24 @@ public class FragmentCameraResult extends Fragment {
     private TextView detailResult;
     private String userType;
 
+    private ImageView pescoImage;
+    private ImageView lactoovoImage;
+    private ImageView lactoImage;
+    private ImageView ovoImage;
+    private ImageView veganImage;
+
+    private TextView pescoText;
+    private TextView lactoovoText;
+    private TextView lactoText;
+    private TextView ovoText;
+    private TextView veganText;
+
+    private TextView pescoIngredient;
+    private TextView lactoovoIngredient;
+    private TextView lactoIngredient;
+    private TextView ovoIngredient;
+    private TextView veganIngredient;
+
     private FirebaseFirestore db;
     private FirebaseUser user;
 
@@ -178,6 +202,9 @@ public class FragmentCameraResult extends Fragment {
     private Animation ani_top = null;
     private Animation ani_bottom = null;
     private boolean isPageState = false;
+
+//    private int colorBlack = ContextCompat.getColor(getContext().getApplicationContext(), R.color.colorBlack);
+//    private int colorGray = ContextCompat.getColor(getContext().getApplicationContext(), R.color.colorGray);
 
     Context context;
 
@@ -189,15 +216,7 @@ public class FragmentCameraResult extends Fragment {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        init();
 
-
-
-
-
-//        Intent intent = getActivity().getIntent();
-//        String veganType = getActivity().getIntent().getStringExtra("veganType");
-//        veganTypeResult.setText(veganType);
 
     }
     @Override
@@ -248,6 +267,24 @@ public class FragmentCameraResult extends Fragment {
         Log.d("slide","확인1");
         Log.d("slide","visible");
 
+        pescoImage = layout.findViewById(R.id.result_pesco_image);
+        lactoovoImage = layout.findViewById(R.id.result_lactoovo_image);
+        lactoImage = layout.findViewById(R.id.result_lacto_image);
+        ovoImage = layout.findViewById(R.id.result_ovo_image);
+        veganImage = layout.findViewById(R.id.result_vegan_image);
+
+        pescoText = layout.findViewById(R.id.result_pesco_text);
+        lactoovoText = layout.findViewById(R.id.result_lactoovo_text);
+        lactoText = layout.findViewById(R.id.result_lacto_text);
+        ovoText = layout.findViewById(R.id.result_ovo_text);
+        veganText = layout.findViewById(R.id.result_vegan_text);
+
+        pescoIngredient = layout.findViewById(R.id.result_pesco_ingredient);
+        lactoovoIngredient = layout.findViewById(R.id.result_lactoovo_ingredient);
+        lactoIngredient = layout.findViewById(R.id.result_lacto_ingredient);
+        ovoIngredient = layout.findViewById(R.id.result_ovo_ingredient);
+        veganIngredient = layout.findViewById(R.id.result_vegan_ingredient);
+
 
         Bundle bundle = getArguments();
         if(bundle!=null){
@@ -286,6 +323,66 @@ public class FragmentCameraResult extends Fragment {
 
             detailResult.setText(resultText);
 
+            if(VeganType.contains("Pesco")){
+                pescoImage.setImageResource(R.drawable.result_pesco_yes);
+                pescoText.setTextColor(Color.parseColor("#000000"));
+                pescoText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            } else{
+                ArrayList<String> PescoArray = bundle.getStringArrayList("PescoIngredient");
+                pescoIngredient.setText("불가능 성분 : "+PescoArray);
+                pescoImage.setImageResource(R.drawable.result_pesco_no);
+                pescoText.setTextColor(Color.parseColor("#d4d4d4"));
+                pescoText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+            }
+
+            if(VeganType.contains("LactoOvo")){
+                lactoovoImage.setImageResource(R.drawable.result_lactoovo_yes);
+                lactoovoText.setTextColor(Color.parseColor("#000000"));
+                lactoovoText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            } else{
+                ArrayList<String> LactoOvoArray = bundle.getStringArrayList("LactoOvoIngredient");
+                lactoovoIngredient.setText("불가능 성분 : "+LactoOvoArray);
+                lactoovoImage.setImageResource(R.drawable.result_lactoovo_no);
+                lactoovoText.setTextColor(Color.parseColor("#d4d4d4"));
+                lactoovoText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+            }
+
+            if(VeganType.contains("Lacto")){
+                lactoImage.setImageResource(R.drawable.result_lacto_yes);
+                lactoText.setTextColor(Color.parseColor("#000000"));
+                lactoText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            } else{
+                ArrayList<String> LactoArray = bundle.getStringArrayList("LactoIngredient");
+                lactoIngredient.setText("불가능 성분 : "+LactoArray);
+                lactoImage.setImageResource(R.drawable.result_lacto_no);
+                lactoText.setTextColor(Color.parseColor("#d4d4d4"));
+                lactoText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+            }
+
+            if(VeganType.contains("Ovo")){
+                ovoImage.setImageResource(R.drawable.result_ovo_yes);
+                ovoText.setTextColor(Color.parseColor("#000000"));
+                ovoText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            } else{
+                ArrayList<String> OvoArray = bundle.getStringArrayList("OvoIngredient");
+                ovoIngredient.setText("불가능 성분 : "+OvoArray);
+                ovoImage.setImageResource(R.drawable.result_ovo_no);
+                ovoText.setTextColor(Color.parseColor("#d4d4d4"));
+                ovoText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+            }
+
+            if(VeganType.contains("Vegan")){
+                veganImage.setImageResource(R.drawable.result_vegan_yes);
+                veganText.setTextColor(Color.parseColor("#000000"));
+                veganText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            } else{
+                ArrayList<String> VeganArray = bundle.getStringArrayList("VeganIngredient");
+                veganIngredient.setText("불가능 성분 : "+VeganArray);
+                veganImage.setImageResource(R.drawable.result_vegan_no);
+                veganText.setTextColor(Color.parseColor("#d4d4d4"));
+                veganText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+            }
+
         }
 
 
@@ -295,6 +392,6 @@ public class FragmentCameraResult extends Fragment {
 
 
     void init(){
-        //veganTypeResult = (TextView)getActivity().findViewById(R.id.veganTypeResult);
+
     }
 }

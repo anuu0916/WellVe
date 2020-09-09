@@ -76,7 +76,11 @@ public class PostInActivity extends AppCompatActivity {
     private int commentCount;
 
     private PostInfo postInfo;
+<<<<<<< HEAD
+    private Boolean photoBool;
+=======
     private PostInfo categoryInfo;
+>>>>>>> origin/master
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +105,7 @@ public class PostInActivity extends AppCompatActivity {
                 if(task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if(document.exists()) {
+                        photoBool = (Boolean) document.getData().get("photo");
                         postInTitleTextView.setText(document.getData().get("title").toString());
                         postInContentTextView.setText(document.getData().get("text").toString());
                         postInIdTextView.setText(document.getData().get("name").toString());
@@ -197,6 +202,10 @@ public class PostInActivity extends AppCompatActivity {
                             .collection("bookmarks").document(getId)
                             .update("category", getCategory);
 
+                    db.collection("users").document(user.getUid())
+                            .collection("bookmarks").document(getId)
+                            .update("photo",photoBool);
+
                     postInMarkButton.setSelected(true);
                     postInMarkButton.setBackgroundResource(R.drawable.bookmark_yes);
                     Toast.makeText(PostInActivity.this, "북마크 성공", Toast.LENGTH_SHORT).show();
@@ -204,14 +213,12 @@ public class PostInActivity extends AppCompatActivity {
             }
         });
 
-
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-
 
     }
 

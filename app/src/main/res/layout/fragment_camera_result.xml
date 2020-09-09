@@ -190,38 +190,38 @@
                 android:textSize="14sp"/>
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ocr_caution"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="8dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="잠깐만!"
-            android:textSize="16sp"
-            android:layout_marginBottom="5dp"
-            android:textColor="#000000"
-            android:layout_gravity="center_horizontal"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="기타 코코아가공품, 바닐라필링, 쌀그릿츠"
-            android:textSize="13sp"
-            android:layout_marginBottom="5dp"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="이 성분은 제조사의 확인이 필요해요."
-            android:textSize="11sp"
-            android:layout_marginBottom="24dp"
-            android:textColor="#000000"
-            android:layout_gravity="center_horizontal"/>
+<!--        <ImageView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ocr_caution"-->
+<!--            android:layout_gravity="center_horizontal"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            />-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="잠깐만!"-->
+<!--            android:textSize="16sp"-->
+<!--            android:layout_marginBottom="5dp"-->
+<!--            android:textColor="#000000"-->
+<!--            android:layout_gravity="center_horizontal"/>-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="기타 코코아가공품, 바닐라필링, 쌀그릿츠"-->
+<!--            android:textSize="13sp"-->
+<!--            android:layout_marginBottom="5dp"-->
+<!--            android:textColor="#000000"-->
+<!--            android:textStyle="bold"-->
+<!--            android:layout_gravity="center_horizontal"/>-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="이 성분은 제조사의 확인이 필요해요."-->
+<!--            android:textSize="11sp"-->
+<!--            android:layout_marginBottom="24dp"-->
+<!--            android:textColor="#000000"-->
+<!--            android:layout_gravity="center_horizontal"/>-->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -254,6 +254,7 @@
             android:layout_marginVertical="10dp"
             android:layout_marginHorizontal="24dp">
             <ImageView
+                android:id="@+id/result_pesco_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/result_pesco_yes"
@@ -261,12 +262,19 @@
                 android:layout_gravity="center_vertical"
                 />
             <TextView
+                android:id="@+id/result_pesco_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="페스코"
                 android:textColor="#000"
                 android:textStyle="bold"
                 android:layout_gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/result_pesco_ingredient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:textColor="#d41717"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -281,18 +289,26 @@
             android:layout_marginVertical="10dp"
             android:layout_marginHorizontal="24dp">
             <ImageView
+                android:id="@+id/result_lactoovo_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/result_lactoovo_yes"
                 android:layout_marginRight="8dp"
                 android:layout_gravity="center_vertical"/>
             <TextView
+                android:id="@+id/result_lactoovo_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="락토오보"
                 android:textColor="#000"
                 android:textStyle="bold"
                 android:layout_gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/result_lactoovo_ingredient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:textColor="#d41717"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -307,12 +323,14 @@
             android:layout_marginVertical="10dp"
             android:layout_marginHorizontal="24dp">
             <ImageView
+                android:id="@+id/result_ovo_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/result_ovo_no"
                 android:layout_marginRight="8dp"
                 android:layout_gravity="center_vertical"/>
             <TextView
+                android:id="@+id/result_ovo_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="오보"
@@ -320,9 +338,9 @@
                 android:layout_marginRight="8dp"
                 android:layout_gravity="center_vertical"/>
             <TextView
+                android:id="@+id/result_ovo_ingredient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="불가능 성분 : 계란"
                 android:textColor="#d41717"/>
         </LinearLayout>
         <View
@@ -338,12 +356,14 @@
             android:layout_marginVertical="10dp"
             android:layout_marginHorizontal="24dp">
             <ImageView
+                android:id="@+id/result_lacto_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/result_lacto_no"
                 android:layout_marginRight="8dp"
                 android:layout_gravity="center_vertical"/>
             <TextView
+                android:id="@+id/result_lacto_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="락토"
@@ -351,9 +371,9 @@
                 android:textColor="#d4d4d4"
                 android:layout_gravity="center_vertical"/>
             <TextView
+                android:id="@+id/result_lacto_ingredient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="불가능 성분 : 우유"
                 android:textColor="#d41717"/>
         </LinearLayout>
         <View
@@ -368,12 +388,14 @@
             android:layout_marginVertical="10dp"
             android:layout_marginHorizontal="24dp">
             <ImageView
+                android:id="@+id/result_vegan_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/result_vegan_no"
                 android:layout_marginRight="8dp"
                 android:layout_gravity="center_vertical"/>
             <TextView
+                android:id="@+id/result_vegan_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="비건"
@@ -381,9 +403,9 @@
                 android:layout_marginRight="8dp"
                 android:layout_gravity="center_vertical"/>
             <TextView
+                android:id="@+id/result_vegan_ingredient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="불가능 성분 : 계란, 우유"
                 android:textColor="#d41717"/>
         </LinearLayout>
         <View

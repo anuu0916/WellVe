@@ -159,7 +159,7 @@ public class Page3Fragment extends Fragment {
                                                         });
                                                     } else {
                                                         items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                                                "https://www.colorhexa.com/ffffff.png",
+                                                                null,
                                                                 documentSnapshot.getData().get("title").toString(),
                                                                 documentSnapshot.getData().get("time").toString(),
                                                                 "QnA ",

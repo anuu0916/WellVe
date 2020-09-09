@@ -51,6 +51,26 @@ public class CameraActivity extends AppCompatActivity {
     };
     ArrayList<String> VeganType = new ArrayList<>(Arrays.asList(VeganTypeArray));
 
+    private String [] VeganIngredientArray = {
+    };
+    ArrayList<String> VeganIngredient = new ArrayList<>(Arrays.asList(VeganIngredientArray));
+
+    private String [] LactoOvoIngredientArray = {
+    };
+    ArrayList<String> LactoOvoIngredient = new ArrayList<>(Arrays.asList(LactoOvoIngredientArray));
+
+    private String [] LactoIngredientArray = {
+    };
+    ArrayList<String> LactoIngredient = new ArrayList<>(Arrays.asList(LactoOvoIngredientArray));
+
+    private String [] OvoIngredientArray = {
+    };
+    ArrayList<String> OvoIngredient = new ArrayList<>(Arrays.asList(OvoIngredientArray));
+
+    private String [] PescoIngredientArray = {
+    };
+    ArrayList<String> PescoIngredient = new ArrayList<>(Arrays.asList(PescoIngredientArray));
+
     private static final String [] Animal = {
             "젤라틴", "인산골", "아교", "칼슘", "육즙", "골탄", "골분", "콜라겐", "선지",
             "올레오스테아린", "동물성단백질", "엘라스틴", "케라틴", "레티쿨린", "레닛", "런넷", "가죽", "펩신", "케라틴",
@@ -99,6 +119,7 @@ public class CameraActivity extends AppCompatActivity {
             for(String s : Else){
                 if(resultText.contains(s)){
                     VeganType.remove("Vegan");
+                    VeganIngredient.add(s);
                     Log.d("veganType", "Else : " + s);
                     break;
                 }
@@ -108,6 +129,8 @@ public class CameraActivity extends AppCompatActivity {
                 if(resultText.contains(s)){
                     VeganType.remove("Vegan");
                     VeganType.remove("Ovo");
+                    VeganIngredient.add(s);
+                    OvoIngredient.add(s);
                     Log.d("veganType", "Insect : " + s);
                     break;
                 }
@@ -117,6 +140,8 @@ public class CameraActivity extends AppCompatActivity {
                 if(resultText.contains(s)){
                     VeganType.remove("Vegan");
                     VeganType.remove("Ovo");
+                    VeganIngredient.add(s);
+                    OvoIngredient.add(s);
                     Log.d("veganType", "Lacto : " + s);
                     break;
                 }
@@ -127,6 +152,9 @@ public class CameraActivity extends AppCompatActivity {
                     VeganType.remove("Vegan");
                     VeganType.remove("Ovo");
                     VeganType.remove("Lacto");
+                    VeganIngredient.add(s);
+                    OvoIngredient.add(s);
+                    LactoIngredient.add(s);
                     Log.d("veganType", "Ovo : " + s);
                     break;
                 }
@@ -138,6 +166,10 @@ public class CameraActivity extends AppCompatActivity {
                     VeganType.remove("Ovo");
                     VeganType.remove("Lacto");
                     VeganType.remove("LactoOvo");
+                    VeganIngredient.add(s);
+                    OvoIngredient.add(s);
+                    LactoIngredient.add(s);
+                    LactoOvoIngredient.add(s);
                     Log.d("veganType", "Ocean : " + s);
                     break;
                 }
@@ -146,6 +178,16 @@ public class CameraActivity extends AppCompatActivity {
             for(String s : Animal){
                 if(resultText.contains(s)){
                     VeganType.clear();
+                    bundle.putString("VeganIngredient", s);
+                    bundle.putString("OvoIngredient", s);
+                    bundle.putString("LactoIngredient", s);
+                    bundle.putString("LactoOvoIngredient", s);
+                    bundle.putString("PescoIngredient", s);
+                    VeganIngredient.add(s);
+                    OvoIngredient.add(s);
+                    LactoIngredient.add(s);
+                    LactoOvoIngredient.add(s);
+                    PescoIngredient.add(s);
                     Log.d("veganType", "Animal : " + s);
                     break;
                 }
@@ -192,6 +234,11 @@ public class CameraActivity extends AppCompatActivity {
                     FragmentCameraResult fragmentCameraResult;
                     fragmentCameraResult = new FragmentCameraResult();
                     bundle.putStringArrayList("veganType", VeganType);
+                    bundle.putStringArrayList("VeganIngredient", VeganIngredient);
+                    bundle.putStringArrayList("LactoIngredient", LactoIngredient);
+                    bundle.putStringArrayList("OvoIngredient", OvoIngredient);
+                    bundle.putStringArrayList("LactoOvoIngredient", LactoOvoIngredient);
+                    bundle.putStringArrayList("PescoIngredient", PescoIngredient);
                     bundle.putString("resultText", resultText);
                     fragmentCameraResult.setArguments(bundle);
                     return fragmentCameraResult;
