@@ -119,7 +119,7 @@ public class Mypage2Fragment extends Fragment {
                                 }
 
                                 items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                        "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
+                                        null,
                                         documentSnapshot.getData().get("text").toString(),
                                         documentSnapshot.getData().get("time").toString(),
                                         getCategory,

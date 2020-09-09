@@ -461,7 +461,7 @@ public class Camera2BasicFragment extends Fragment
 
         options = new FirebaseVisionCloudTextRecognizerOptions.Builder();
         if(!BuildConfig.DEBUG) {
-            options.enforceCertFingerprintMatch();
+           // options.enforceCertFingerprintMatch();
         }
 
     }
