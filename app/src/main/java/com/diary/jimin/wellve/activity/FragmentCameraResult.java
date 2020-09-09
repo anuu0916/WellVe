@@ -2,6 +2,7 @@ package com.diary.jimin.wellve.activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -13,6 +14,10 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
@@ -36,6 +41,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -169,6 +175,17 @@ public class FragmentCameraResult extends Fragment implements View.OnClickListen
     private TextView detailResult;
     private String userType;
 
+    private ImageView pescoImage;
+    private ImageView lactoovoImage;
+    private ImageView lactoImage;
+    private ImageView ovoImage;
+    private ImageView veganImage;
+    private TextView pescoText;
+    private TextView lactoovoText;
+    private TextView lactoText;
+    private TextView ovoText;
+    private TextView veganText;
+
     private FirebaseFirestore db;
     private FirebaseUser user;
 
@@ -177,6 +194,9 @@ public class FragmentCameraResult extends Fragment implements View.OnClickListen
     private Animation ani_top = null;
     private Animation ani_bottom = null;
     private boolean isPageState = false;
+
+//    private int colorBlack = ContextCompat.getColor(getContext().getApplicationContext(), R.color.colorBlack);
+//    private int colorGray = ContextCompat.getColor(getContext().getApplicationContext(), R.color.colorGray);
 
     Context context;
 
@@ -191,13 +211,6 @@ public class FragmentCameraResult extends Fragment implements View.OnClickListen
         init();
 
 
-
-
-
-//        Intent intent = getActivity().getIntent();
-//        String veganType = getActivity().getIntent().getStringExtra("veganType");
-//        veganTypeResult.setText(veganType);
-
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -206,6 +219,19 @@ public class FragmentCameraResult extends Fragment implements View.OnClickListen
         veganTypeResult = layout.findViewById(R.id.veganTypeResult);
         isVeganResult = layout.findViewById(R.id.isVeganResult);
         detailResult = layout.findViewById(R.id.detailResult);
+
+        pescoImage = layout.findViewById(R.id.result_pesco_image);
+        lactoovoImage = layout.findViewById(R.id.result_lactoovo_image);
+        lactoImage = layout.findViewById(R.id.result_lacto_image);
+        ovoImage = layout.findViewById(R.id.result_ovo_image);
+        veganImage = layout.findViewById(R.id.result_vegan_image);
+
+        pescoText = layout.findViewById(R.id.result_pesco_text);
+        lactoovoText = layout.findViewById(R.id.result_lactoovo_text);
+        lactoText = layout.findViewById(R.id.result_lacto_text);
+        ovoText = layout.findViewById(R.id.result_ovo_text);
+        veganText = layout.findViewById(R.id.result_vegan_text);
+
         Bundle bundle = getArguments();
         if(bundle!=null){
             ArrayList<String> VeganType = bundle.getStringArrayList("veganType");
@@ -242,6 +268,76 @@ public class FragmentCameraResult extends Fragment implements View.OnClickListen
             }
 
             detailResult.setText(resultText);
+
+            if(VeganType.contains("Pesco")){
+//                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.result_pesco_yes);
+//                pescoImage.setImageBitmap(bitmap);
+                pescoImage.setImageResource(R.drawable.result_pesco_yes);
+                pescoText.setTextColor(Color.parseColor("#000000"));
+                pescoText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            } else{
+//                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.result_pesco_no);
+//                pescoImage.setImageBitmap(bitmap);
+                pescoImage.setImageResource(R.drawable.result_pesco_no);
+                pescoText.setTextColor(Color.parseColor("#d4d4d4"));
+                pescoText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+            }
+
+            if(VeganType.contains("LactoOvo")){
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.result_lactoovo_yes);
+                lactoovoImage.setImageBitmap(bitmap);
+//                lactoovoImage.setImageResource(R.drawable.result_lactoovo_yes);
+                lactoovoText.setTextColor(Color.parseColor("#000000"));
+                lactoovoText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            } else{
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.result_lactoovo_no);
+                lactoovoImage.setImageBitmap(bitmap);
+//                lactoovoImage.setImageResource(R.drawable.result_lactoovo_no);
+                lactoovoText.setTextColor(Color.parseColor("#d4d4d4"));
+                lactoovoText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+            }
+
+            if(VeganType.contains("Lacto")){
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.result_lacto_yes);
+                lactoImage.setImageBitmap(bitmap);
+//                lactoImage.setImageResource(R.drawable.result_lacto_yes);
+                lactoText.setTextColor(Color.parseColor("#000000"));
+                lactoText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            } else{
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.result_lacto_no);
+                lactoImage.setImageBitmap(bitmap);
+//                lactoImage.setImageResource(R.drawable.result_lacto_no);
+                lactoText.setTextColor(Color.parseColor("#d4d4d4"));
+                lactoText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+            }
+
+            if(VeganType.contains("Ovo")){
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.result_ovo_yes);
+                ovoImage.setImageBitmap(bitmap);
+//                ovoImage.setImageResource(R.drawable.result_ovo_yes);
+                ovoText.setTextColor(Color.parseColor("#000000"));
+                ovoText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            } else{
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.result_ovo_no);
+                ovoImage.setImageBitmap(bitmap);
+//                ovoImage.setImageResource(R.drawable.result_ovo_no);
+                ovoText.setTextColor(Color.parseColor("#d4d4d4"));
+                ovoText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+            }
+
+            if(VeganType.contains("Vegan")){
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.result_vegan_yes);
+                veganImage.setImageBitmap(bitmap);
+//                veganImage.setImageResource(R.drawable.result_vegan_yes);
+                veganText.setTextColor(Color.parseColor("#000000"));
+                veganText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            } else{
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.result_vegan_no);
+                veganImage.setImageBitmap(bitmap);
+//                veganImage.setImageResource(R.drawable.result_vegan_no);
+                veganText.setTextColor(Color.parseColor("#d4d4d4"));
+                veganText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+            }
 
         }
 
@@ -287,6 +383,6 @@ public class FragmentCameraResult extends Fragment implements View.OnClickListen
     }
 
     void init(){
-        //veganTypeResult = (TextView)getActivity().findViewById(R.id.veganTypeResult);
+
     }
 }
