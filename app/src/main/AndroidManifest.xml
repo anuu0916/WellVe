@@ -27,7 +27,6 @@
         <activity android:name=".activity.NicknameModifyActivity" />
         <activity android:name=".activity.ReTypeCheckActivity" />
         <activity android:name=".activity.DeveloperActivity" />
-        <activity android:name=".activity.OcrActivity" />
         <activity android:name=".activity.Signup_complete_Activity" />
         <activity android:name=".activity.CameraActivity" />
         <activity android:name=".activity.BookmarkActivity" />
