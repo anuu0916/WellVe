@@ -3,6 +3,7 @@ package com.diary.jimin.wellve.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.diary.jimin.wellve.adapter.CommentAdapter;
 import com.diary.jimin.wellve.model.PostInfo;
 import com.diary.jimin.wellve.R;
@@ -50,14 +52,13 @@ public class PostInActivity extends AppCompatActivity {
     private TextView postInDateTextView;
     private FirebaseFirestore db;
     private FirebaseUser user;
+    private CircleImageView postProfileImage;
 
     private ListView commentListView;
     private CommentAdapter adapter;
 
     private EditText postInCommentEditText;
     private ImageButton postInSubmitButton;
-//    private Button postInLikeButton;
-  //  private TextView postInLikeTextView;
     private ImageButton postInMarkButton;
     private TextView postInCommentNumText;
     private ImageView postInImageView;
@@ -107,6 +108,35 @@ public class PostInActivity extends AppCompatActivity {
                         postInContentTextView.setText(document.getData().get("text").toString());
                         postInIdTextView.setText(document.getData().get("name").toString());
                         postInDateTextView.setText(document.getData().get("time").toString());
+
+                        DocumentReference documentReference1 = db.collection("users").document(document.getData().get("id").toString());
+                        documentReference1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if(task.isSuccessful()) {
+                                    DocumentSnapshot documentSnapshot = task.getResult();
+                                    if(documentSnapshot.getData().get("profileImageUrl") == null) {
+                                        postProfileImage.setImageResource(R.drawable.default_user);
+                                    } else {
+                                        FirebaseStorage storage = FirebaseStorage.getInstance("gs://wellve.appspot.com");
+                                        StorageReference storageReference = storage.getReference().child(documentSnapshot.getData().get("profileImageUrl").toString());
+                                        storageReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Uri> task) {
+                                                if (task.isSuccessful()) {
+                                                    Glide.with(PostInActivity.this)
+                                                            .load(task.getResult())
+                                                            .apply(new RequestOptions().centerCrop())
+                                                            .into(postProfileImage);
+                                                } else {
+                                                    Toast.makeText(PostInActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
 
                         name = document.getData().get("name").toString();
 
@@ -230,12 +260,11 @@ public class PostInActivity extends AppCompatActivity {
         commentListView = (ListView) findViewById(R.id.postInListView);
         postInCommentEditText = (EditText) findViewById(R.id.postInCommentEditText);
         postInSubmitButton = (ImageButton) findViewById(R.id.postInSubmitButton);
-//        postInLikeButton = (Button) findViewById(R.id.postInLikeButton);
-//      postInLikeTextView = (TextView) findViewById(R.id.postInLikeTextView);
         postInMarkButton = (ImageButton) findViewById(R.id.postInMarkButton);
         postInCommentNumText = (TextView) findViewById(R.id.postInCommentNumText);
         postInImageView = (ImageView) findViewById(R.id.postInImageView);
         backButton = (Button) findViewById(R.id.postInBackButton);
+        postProfileImage = (CircleImageView)findViewById(R.id.post_profile_image);
 
         toolbar = (Toolbar) findViewById(R.id.toolBar);
 
