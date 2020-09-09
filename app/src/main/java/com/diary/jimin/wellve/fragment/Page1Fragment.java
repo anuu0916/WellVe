@@ -142,6 +142,7 @@ public class Page1Fragment extends Fragment {
                                                         freeSize++;
                                                     }
 
+
 //                                                    Log.d("comment", "commentPos: "+commentPos);
 //                                                    Log.d("comment", "comment:"+commentList.get(commentPos));
                                                     if (photoBool) {
