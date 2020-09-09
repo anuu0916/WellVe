@@ -72,11 +72,11 @@ public class PostInActivity extends AppCompatActivity {
     private String name;
 
     private String imageStr;
+    private String newUri;
 
     private int commentCount;
 
     private PostInfo postInfo;
-    private PostInfo categoryInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,12 +113,12 @@ public class PostInActivity extends AppCompatActivity {
                                 document.getData().get("id").toString(),
                                 document.getData().get("time").toString(),
                                 document.getData().get("name").toString());
-                        imageStr = document.getData().get("time").toString().replace("/","").replace(" ","_").replace(":","")+".jpeg";
-                        Log.d("path",imageStr);
-
-                        FirebaseStorage storage = FirebaseStorage.getInstance("gs://wellve.appspot.com");
-                        StorageReference storageReference = storage.getReference();
-                        storageReference.child(document.getData().get("title")+"_"+imageStr).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        //title_20200828_2141
+                        String imageStr = document.getData().get("time").toString().replace("/","").replace(" ","_").replace(":","");
+                        String newUri = imageStr.substring(0, imageStr.length()-2);
+                        FirebaseStorage storage1 = FirebaseStorage.getInstance("gs://wellve.appspot.com");
+                        StorageReference storageReference = storage1.getReference().child(document.getData().get("title")+"_"+newUri+".jpeg");
+                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
                                 String imageURL = uri.toString();
@@ -130,6 +130,8 @@ public class PostInActivity extends AppCompatActivity {
                                 Log.d("path", ""+e);
                             }
                         });
+                        Log.d("path",imageStr);
+
 
 
                     } else {
@@ -204,10 +206,7 @@ public class PostInActivity extends AppCompatActivity {
             }
         });
 
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/master
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,10 +214,6 @@ public class PostInActivity extends AppCompatActivity {
             }
         });
 
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
     }
 
     private void init() {
