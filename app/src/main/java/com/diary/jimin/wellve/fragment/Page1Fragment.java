@@ -171,7 +171,7 @@ public class Page1Fragment extends Fragment {
                                                         });
                                                     } else {
                                                         items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                                                "https://www.colorhexa.com/ffffff.png",
+                                                                null,
                                                                 documentSnapshot.getData().get("title").toString(),
                                                                 documentSnapshot.getData().get("time").toString(),
                                                                 "자유 ",
@@ -249,7 +249,7 @@ public class Page1Fragment extends Fragment {
                                                         });
                                                     } else {
                                                         items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                                                "https://www.colorhexa.com/ffffff.png",
+                                                                null,
                                                                 documentSnapshot.getData().get("title").toString(),
                                                                 documentSnapshot.getData().get("time").toString(),
                                                                 "QnA ",
@@ -328,7 +328,7 @@ public class Page1Fragment extends Fragment {
                                                         });
                                                     } else {
                                                         items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                                                "https://www.colorhexa.com/ffffff.png",
+                                                                null,
                                                                 documentSnapshot.getData().get("title").toString(),
                                                                 documentSnapshot.getData().get("time").toString(),
                                                                 "식당 ",
@@ -406,7 +406,7 @@ public class Page1Fragment extends Fragment {
                                                         });
                                                     } else {
                                                         items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                                                "https://www.colorhexa.com/ffffff.png",
+                                                                null,
                                                                 documentSnapshot.getData().get("title").toString(),
                                                                 documentSnapshot.getData().get("time").toString(),
                                                                 "문학 ",
