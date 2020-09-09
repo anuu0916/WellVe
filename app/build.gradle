@@ -48,5 +48,7 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3' // 멀티 덱스
     //ted permission
     implementation "gun0912.ted:tedpermission:2.2.3"
+    implementation 'com.firebaseui:firebase-ui-storage:6.2.0'
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
 }
 apply plugin: 'com.google.gms.google-services'

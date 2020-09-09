@@ -2,6 +2,7 @@ package com.diary.jimin.wellve.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.diary.jimin.wellve.model.CommunityItem;
 import com.diary.jimin.wellve.R;
 import com.diary.jimin.wellve.adapter.RecyclerViewAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,6 +29,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +56,8 @@ public class Mypage1Fragment extends Fragment {
     private int QnASize;
     private int restaurantSize;
     private int literSize;
+
+    private String imageURL;
 
     public static Mypage1Fragment getInstance() {
         Mypage1Fragment mypage1Fragment = new Mypage1Fragment();
@@ -112,6 +118,7 @@ public class Mypage1Fragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
                             for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                Boolean photoBool = (Boolean) documentSnapshot.getData().get("photo");
                                 db.collection("comments")
                                         .whereEqualTo("postId", documentSnapshot.getId())
                                         .get()
@@ -124,17 +131,45 @@ public class Mypage1Fragment extends Fragment {
                                                         freeSize++;
                                                     }
 
-                                                    items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                                            "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
-                                                            documentSnapshot.getData().get("title").toString(),
-                                                            documentSnapshot.getData().get("time").toString(),
-                                                            "자유 ",
-                                                            String.valueOf(freeSize)
-                                                    ));
-                                                    idList.add(documentSnapshot.getId());
-                                                    categoryList.add("freePosts");
-                                                    recyclerView.setAdapter(adapter);
-                                                    progressBar.setVisibility(View.GONE);
+                                                    if (photoBool) {
+                                                        String imageStr = documentSnapshot.getData().get("time").toString().replace("/","").replace(" ","_").replace(":","");
+                                                        String newUri = imageStr.substring(0, imageStr.length()-2);
+                                                        FirebaseStorage storage = FirebaseStorage.getInstance("gs://wellve.appspot.com");
+                                                        StorageReference storageReference = storage.getReference().child(documentSnapshot.getData().get("title")+"_"+newUri+".jpeg");
+                                                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                            @Override
+                                                            public void onSuccess(Uri uri) {
+                                                                imageURL = uri.toString();
+
+                                                                items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                                        imageURL,
+                                                                        documentSnapshot.getData().get("title").toString(),
+                                                                        documentSnapshot.getData().get("time").toString(),
+                                                                        "자유 ",
+                                                                        String.valueOf(freeSize)
+                                                                ));
+//                                                                Log.d("comment", "이미지 O : "+freeSize);
+                                                                idList.add(documentSnapshot.getId());
+                                                                categoryList.add("freePosts");
+                                                                recyclerView.setAdapter(adapter);
+                                                                progressBar.setVisibility(View.GONE);
+                                                            }
+                                                        });
+                                                    } else {
+                                                        items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                                null,
+                                                                documentSnapshot.getData().get("title").toString(),
+                                                                documentSnapshot.getData().get("time").toString(),
+                                                                "자유 ",
+                                                                String.valueOf(freeSize)
+                                                        ));
+                                                        idList.add(documentSnapshot.getId());
+                                                        categoryList.add("freePosts");
+                                                        recyclerView.setAdapter(adapter);
+                                                        progressBar.setVisibility(View.GONE);
+                                                    }
+
+
 
                                                 }
                                             }
@@ -157,6 +192,7 @@ public class Mypage1Fragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
                             for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                Boolean photoBool = (Boolean) documentSnapshot.getData().get("photo");
                                 db.collection("comments")
                                         .whereEqualTo("postId", documentSnapshot.getId())
                                         .get()
@@ -169,17 +205,42 @@ public class Mypage1Fragment extends Fragment {
                                                         QnASize++;
                                                     }
 
-                                                    items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                                            "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
-                                                            documentSnapshot.getData().get("title").toString(),
-                                                            documentSnapshot.getData().get("time").toString(),
-                                                            "QnA ",
-                                                            String.valueOf(QnASize)
-                                                    ));
-                                                    idList.add(documentSnapshot.getId());
-                                                    categoryList.add("QnAPosts");
-                                                    recyclerView.setAdapter(adapter);
-                                                    progressBar.setVisibility(View.GONE);
+                                                    if (photoBool) {
+                                                        String imageStr = documentSnapshot.getData().get("time").toString().replace("/","").replace(" ","_").replace(":","");
+                                                        String newUri = imageStr.substring(0, imageStr.length()-2);
+                                                        FirebaseStorage storage = FirebaseStorage.getInstance("gs://wellve.appspot.com");
+                                                        StorageReference storageReference = storage.getReference().child(documentSnapshot.getData().get("title")+"_"+newUri+".jpeg");
+                                                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                            @Override
+                                                            public void onSuccess(Uri uri) {
+                                                                imageURL = uri.toString();
+
+                                                                items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                                        imageURL,
+                                                                        documentSnapshot.getData().get("title").toString(),
+                                                                        documentSnapshot.getData().get("time").toString(),
+                                                                        "QnA ",
+                                                                        String.valueOf(QnASize)
+                                                                ));
+                                                                idList.add(documentSnapshot.getId());
+                                                                categoryList.add("QnAPosts");
+                                                                recyclerView.setAdapter(adapter);
+                                                                progressBar.setVisibility(View.GONE);
+                                                            }
+                                                        });
+                                                    } else {
+                                                        items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                                null,
+                                                                documentSnapshot.getData().get("title").toString(),
+                                                                documentSnapshot.getData().get("time").toString(),
+                                                                "QnA ",
+                                                                String.valueOf(QnASize)
+                                                        ));
+                                                        idList.add(documentSnapshot.getId());
+                                                        categoryList.add("QnAPosts");
+                                                        recyclerView.setAdapter(adapter);
+                                                        progressBar.setVisibility(View.GONE);
+                                                    }
 
                                                 }
                                             }
@@ -201,6 +262,7 @@ public class Mypage1Fragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
                             for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                Boolean photoBool = (Boolean) documentSnapshot.getData().get("photo");
                                 db.collection("comments")
                                         .whereEqualTo("postId", documentSnapshot.getId())
                                         .get()
@@ -213,17 +275,43 @@ public class Mypage1Fragment extends Fragment {
                                                         restaurantSize++;
                                                     }
 
-                                                    items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                                            "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
-                                                            documentSnapshot.getData().get("title").toString(),
-                                                            documentSnapshot.getData().get("time").toString(),
-                                                            "식당 ",
-                                                            String.valueOf(restaurantSize)
-                                                    ));
-                                                    idList.add(documentSnapshot.getId());
-                                                    categoryList.add("restaurantPosts");
-                                                    recyclerView.setAdapter(adapter);
-                                                    progressBar.setVisibility(View.GONE);
+                                                    if (photoBool) {
+                                                        String imageStr = documentSnapshot.getData().get("time").toString().replace("/","").replace(" ","_").replace(":","");
+                                                        String newUri = imageStr.substring(0, imageStr.length()-2);
+                                                        FirebaseStorage storage = FirebaseStorage.getInstance("gs://wellve.appspot.com");
+                                                        StorageReference storageReference = storage.getReference().child(documentSnapshot.getData().get("title")+"_"+newUri+".jpeg");
+                                                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                            @Override
+                                                            public void onSuccess(Uri uri) {
+                                                                imageURL = uri.toString();
+
+                                                                items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                                        imageURL,
+                                                                        documentSnapshot.getData().get("title").toString(),
+                                                                        documentSnapshot.getData().get("time").toString(),
+                                                                        "식당 ",
+                                                                        String.valueOf(restaurantSize)
+                                                                ));
+//                                                                Log.d("comment", "이미지 O : "+freeSize);
+                                                                idList.add(documentSnapshot.getId());
+                                                                categoryList.add("restaurantPosts");
+                                                                recyclerView.setAdapter(adapter);
+                                                                progressBar.setVisibility(View.GONE);
+                                                            }
+                                                        });
+                                                    } else {
+                                                        items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                                null,
+                                                                documentSnapshot.getData().get("title").toString(),
+                                                                documentSnapshot.getData().get("time").toString(),
+                                                                "식당 ",
+                                                                String.valueOf(restaurantSize)
+                                                        ));
+                                                        idList.add(documentSnapshot.getId());
+                                                        categoryList.add("restaurantPosts");
+                                                        recyclerView.setAdapter(adapter);
+                                                        progressBar.setVisibility(View.GONE);
+                                                    }
 
                                                 }
                                             }
@@ -245,6 +333,7 @@ public class Mypage1Fragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
                             for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                Boolean photoBool = (Boolean) documentSnapshot.getData().get("photo");
                                 db.collection("comments")
                                         .whereEqualTo("postId", documentSnapshot.getId())
                                         .get()
@@ -257,17 +346,43 @@ public class Mypage1Fragment extends Fragment {
                                                         literSize++;
                                                     }
 
-                                                    items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-                                                            "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
-                                                            documentSnapshot.getData().get("title").toString(),
-                                                            documentSnapshot.getData().get("time").toString(),
-                                                            "QnA ",
-                                                            String.valueOf(literSize)
-                                                    ));
-                                                    idList.add(documentSnapshot.getId());
-                                                    categoryList.add("literPosts");
-                                                    recyclerView.setAdapter(adapter);
-                                                    progressBar.setVisibility(View.GONE);
+                                                    if (photoBool) {
+                                                        String imageStr = documentSnapshot.getData().get("time").toString().replace("/","").replace(" ","_").replace(":","");
+                                                        String newUri = imageStr.substring(0, imageStr.length()-2);
+                                                        FirebaseStorage storage = FirebaseStorage.getInstance("gs://wellve.appspot.com");
+                                                        StorageReference storageReference = storage.getReference().child(documentSnapshot.getData().get("title")+"_"+newUri+".jpeg");
+                                                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                            @Override
+                                                            public void onSuccess(Uri uri) {
+                                                                imageURL = uri.toString();
+
+                                                                items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                                        imageURL,
+                                                                        documentSnapshot.getData().get("title").toString(),
+                                                                        documentSnapshot.getData().get("time").toString(),
+                                                                        "문학 ",
+                                                                        String.valueOf(literSize)
+                                                                ));
+//                                                                Log.d("comment", "이미지 O : "+freeSize);
+                                                                idList.add(documentSnapshot.getId());
+                                                                categoryList.add("literPosts");
+                                                                recyclerView.setAdapter(adapter);
+                                                                progressBar.setVisibility(View.GONE);
+                                                            }
+                                                        });
+                                                    } else {
+                                                        items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
+                                                                null,
+                                                                documentSnapshot.getData().get("title").toString(),
+                                                                documentSnapshot.getData().get("time").toString(),
+                                                                "문학 ",
+                                                                String.valueOf(literSize)
+                                                        ));
+                                                        idList.add(documentSnapshot.getId());
+                                                        categoryList.add("literPosts");
+                                                        recyclerView.setAdapter(adapter);
+                                                        progressBar.setVisibility(View.GONE);
+                                                    }
 
                                                 }
                                             }

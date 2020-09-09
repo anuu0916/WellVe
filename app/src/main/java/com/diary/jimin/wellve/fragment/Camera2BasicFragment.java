@@ -43,6 +43,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,6 +71,7 @@ import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import com.google.firebase.ml.vision.text.RecognizedLanguage;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -102,6 +104,7 @@ public class Camera2BasicFragment extends Fragment
     private static final int PICK_IMAGE_REQUEST = 1111;
     private Bitmap bm;
     private ImageView iv_photo;
+    private ImageButton backButton;
 
     private int isTaken = 0;
 //    private TextView veganTypeResult;
@@ -446,6 +449,14 @@ public class Camera2BasicFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_camera2_basic, container, false);
 
         iv_photo = view.findViewById(R.id.camera2_photo);
+        backButton = view.findViewById(R.id.camera_backbutton);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
 
 
         return view;
@@ -461,7 +472,7 @@ public class Camera2BasicFragment extends Fragment
 
         options = new FirebaseVisionCloudTextRecognizerOptions.Builder();
         if(!BuildConfig.DEBUG) {
-            options.enforceCertFingerprintMatch();
+           // options.enforceCertFingerprintMatch();
         }
 
     }
@@ -1131,9 +1142,10 @@ public class Camera2BasicFragment extends Fragment
 
         Log.d("resultText", resultText);
 
+
         Intent intent = new Intent(getContext(), CameraActivity.class);
         intent.putExtra("resultText", resultText);
-        //intent.putExtra("image", bm);
+
         startActivity(intent);
         getActivity().finish();
 

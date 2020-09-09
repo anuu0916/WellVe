@@ -76,6 +76,7 @@ public class PostInActivity extends AppCompatActivity {
     private int commentCount;
 
     private PostInfo postInfo;
+    private Boolean photoBool;
     private PostInfo categoryInfo;
 
     @Override
@@ -101,6 +102,7 @@ public class PostInActivity extends AppCompatActivity {
                 if(task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if(document.exists()) {
+                        photoBool = (Boolean) document.getData().get("photo");
                         postInTitleTextView.setText(document.getData().get("title").toString());
                         postInContentTextView.setText(document.getData().get("text").toString());
                         postInIdTextView.setText(document.getData().get("name").toString());
@@ -196,6 +198,10 @@ public class PostInActivity extends AppCompatActivity {
                     db.collection("users").document(user.getUid())
                             .collection("bookmarks").document(getId)
                             .update("category", getCategory);
+
+                    db.collection("users").document(user.getUid())
+                            .collection("bookmarks").document(getId)
+                            .update("photo",photoBool);
 
                     postInMarkButton.setSelected(true);
                     postInMarkButton.setBackgroundResource(R.drawable.bookmark_yes);

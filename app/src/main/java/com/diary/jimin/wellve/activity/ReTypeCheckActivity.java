@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AppComponentFactory;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -49,7 +50,10 @@ public class ReTypeCheckActivity extends Activity {
         clickListener();
 
         Intent intent = getIntent();
-        nickName = intent.getStringExtra("nickname");
+        nickName = intent.getStringExtra("getNickname");
+        profileImage = intent.getStringExtra("getUri");
+        Log.d("retype", nickName +", "+profileImage);
+
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
