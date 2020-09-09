@@ -1137,36 +1137,7 @@ public class Camera2BasicFragment extends Fragment
         startActivity(intent);
         getActivity().finish();
 
-//        String type = "";
-//        for(String s : Pesco){
-//            if(resultText.contains(s)){
-//                type += "None";
-//            }
-//        }
-//
-//        for(String s : LactoOvo){
-//            if(resultText.contains(s)){
-//                type += "페스코";
-//            }
-//        }
-//
-//        for(String s : Ovo){
-//            if(resultText.contains(s)){
-//                type += "페스코, 락토오보, 락토";
-//            }
-//        }
 
-
-
-
-//        FragmentCameraResult fragmentCameraResult;
-//        fragmentCameraResult = new FragmentCameraResult();
-//
-//        ((CameraActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.container, fragmentCameraResult).commit();
-//
-//        bundle.putString("veganType", type);
-//        fragmentCameraResult.setArguments(bundle);
-//        Log.d("resultText", "veganType : "+type);
     }
 
 
