@@ -50,6 +50,7 @@ import android.view.View.OnClickListener;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /*public class FragmentCameraResult extends Fragment {
@@ -318,7 +319,13 @@ public class FragmentCameraResult extends Fragment {
             if(VeganType.isEmpty()){
                 veganTypeResult.setText("섭취 불가");
             } else{
-                veganTypeResult.setText("섭취 가능 : "+VeganType);
+                StringBuilder sb = new StringBuilder();
+                for(String s : VeganType){
+                    sb.append(s);
+                    sb.append(",");
+                }
+                sb.setLength(sb.length()-1);
+                veganTypeResult.setText("섭취 가능 : "+ sb);
             }
 
             detailResult.setText(resultText);
@@ -328,8 +335,14 @@ public class FragmentCameraResult extends Fragment {
                 pescoText.setTextColor(Color.parseColor("#000000"));
                 pescoText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
             } else{
+                StringBuilder sb = new StringBuilder();
                 ArrayList<String> PescoArray = bundle.getStringArrayList("PescoIngredient");
-                pescoIngredient.setText("불가능 성분 : "+PescoArray);
+                for(String s : PescoArray){
+                    sb.append(s);
+                    sb.append(",");
+                }
+                sb.setLength(sb.length()-1);
+                pescoIngredient.setText("불가능 성분 : "+ sb);
                 pescoImage.setImageResource(R.drawable.result_pesco_no);
                 pescoText.setTextColor(Color.parseColor("#d4d4d4"));
                 pescoText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
@@ -340,8 +353,14 @@ public class FragmentCameraResult extends Fragment {
                 lactoovoText.setTextColor(Color.parseColor("#000000"));
                 lactoovoText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
             } else{
+                StringBuilder sb = new StringBuilder();
                 ArrayList<String> LactoOvoArray = bundle.getStringArrayList("LactoOvoIngredient");
-                lactoovoIngredient.setText("불가능 성분 : "+LactoOvoArray);
+                for(String s : LactoOvoArray){
+                    sb.append(s);
+                    sb.append(",");
+                }
+                sb.setLength(sb.length()-1);
+                lactoovoIngredient.setText("불가능 성분 : "+ sb);
                 lactoovoImage.setImageResource(R.drawable.result_lactoovo_no);
                 lactoovoText.setTextColor(Color.parseColor("#d4d4d4"));
                 lactoovoText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
@@ -352,8 +371,14 @@ public class FragmentCameraResult extends Fragment {
                 lactoText.setTextColor(Color.parseColor("#000000"));
                 lactoText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
             } else{
+                StringBuilder sb = new StringBuilder();
                 ArrayList<String> LactoArray = bundle.getStringArrayList("LactoIngredient");
-                lactoIngredient.setText("불가능 성분 : "+LactoArray);
+                for(String s : LactoArray){
+                    sb.append(s);
+                    sb.append(",");
+                }
+                sb.setLength(sb.length()-1);
+                lactoIngredient.setText("불가능 성분 : "+sb);
                 lactoImage.setImageResource(R.drawable.result_lacto_no);
                 lactoText.setTextColor(Color.parseColor("#d4d4d4"));
                 lactoText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
@@ -364,8 +389,14 @@ public class FragmentCameraResult extends Fragment {
                 ovoText.setTextColor(Color.parseColor("#000000"));
                 ovoText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
             } else{
+                StringBuilder sb = new StringBuilder();
                 ArrayList<String> OvoArray = bundle.getStringArrayList("OvoIngredient");
-                ovoIngredient.setText("불가능 성분 : "+OvoArray);
+                for(String s : OvoArray){
+                    sb.append(s);
+                    sb.append(",");
+                }
+                sb.setLength(sb.length()-1);
+                ovoIngredient.setText("불가능 성분 : "+sb);
                 ovoImage.setImageResource(R.drawable.result_ovo_no);
                 ovoText.setTextColor(Color.parseColor("#d4d4d4"));
                 ovoText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
@@ -376,8 +407,14 @@ public class FragmentCameraResult extends Fragment {
                 veganText.setTextColor(Color.parseColor("#000000"));
                 veganText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
             } else{
+                StringBuilder sb = new StringBuilder();
                 ArrayList<String> VeganArray = bundle.getStringArrayList("VeganIngredient");
-                veganIngredient.setText("불가능 성분 : "+VeganArray);
+                for(String s : VeganArray){
+                    sb.append(s);
+                    sb.append(",");
+                }
+                sb.setLength(sb.length()-1);
+                veganIngredient.setText("불가능 성분 : "+sb);
                 veganImage.setImageResource(R.drawable.result_vegan_no);
                 veganText.setTextColor(Color.parseColor("#d4d4d4"));
                 veganText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);

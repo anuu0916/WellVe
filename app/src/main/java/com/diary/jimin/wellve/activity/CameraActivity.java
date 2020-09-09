@@ -121,7 +121,7 @@ public class CameraActivity extends AppCompatActivity {
                     VeganType.remove("Vegan");
                     VeganIngredient.add(s);
                     Log.d("veganType", "Else : " + s);
-                    break;
+                    //break;
                 }
             }
 
@@ -132,7 +132,7 @@ public class CameraActivity extends AppCompatActivity {
                     VeganIngredient.add(s);
                     OvoIngredient.add(s);
                     Log.d("veganType", "Insect : " + s);
-                    break;
+                    //break;
                 }
             }
 
@@ -143,7 +143,7 @@ public class CameraActivity extends AppCompatActivity {
                     VeganIngredient.add(s);
                     OvoIngredient.add(s);
                     Log.d("veganType", "Lacto : " + s);
-                    break;
+                    //break;
                 }
             }
 
@@ -156,7 +156,7 @@ public class CameraActivity extends AppCompatActivity {
                     OvoIngredient.add(s);
                     LactoIngredient.add(s);
                     Log.d("veganType", "Ovo : " + s);
-                    break;
+                    //break;
                 }
             }
 
@@ -171,7 +171,7 @@ public class CameraActivity extends AppCompatActivity {
                     LactoIngredient.add(s);
                     LactoOvoIngredient.add(s);
                     Log.d("veganType", "Ocean : " + s);
-                    break;
+                    //break;
                 }
             }
 
@@ -189,7 +189,7 @@ public class CameraActivity extends AppCompatActivity {
                     LactoOvoIngredient.add(s);
                     PescoIngredient.add(s);
                     Log.d("veganType", "Animal : " + s);
-                    break;
+                    //break;
                 }
             }
 
