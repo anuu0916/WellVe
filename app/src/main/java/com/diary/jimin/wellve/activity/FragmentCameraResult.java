@@ -180,11 +180,18 @@ public class FragmentCameraResult extends Fragment implements View.OnClickListen
     private ImageView lactoImage;
     private ImageView ovoImage;
     private ImageView veganImage;
+
     private TextView pescoText;
     private TextView lactoovoText;
     private TextView lactoText;
     private TextView ovoText;
     private TextView veganText;
+
+    private TextView pescoIngredient;
+    private TextView lactoovoIngredient;
+    private TextView lactoIngredient;
+    private TextView ovoIngredient;
+    private TextView veganIngredient;
 
     private FirebaseFirestore db;
     private FirebaseUser user;
@@ -208,7 +215,6 @@ public class FragmentCameraResult extends Fragment implements View.OnClickListen
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        init();
 
 
     }
@@ -231,6 +237,12 @@ public class FragmentCameraResult extends Fragment implements View.OnClickListen
         lactoText = layout.findViewById(R.id.result_lacto_text);
         ovoText = layout.findViewById(R.id.result_ovo_text);
         veganText = layout.findViewById(R.id.result_vegan_text);
+
+        pescoIngredient = layout.findViewById(R.id.result_pesco_ingredient);
+        lactoovoIngredient = layout.findViewById(R.id.result_lactoovo_ingredient);
+        lactoIngredient = layout.findViewById(R.id.result_lacto_ingredient);
+        ovoIngredient = layout.findViewById(R.id.result_ovo_ingredient);
+        veganIngredient = layout.findViewById(R.id.result_vegan_ingredient);
 
         Bundle bundle = getArguments();
         if(bundle!=null){
@@ -270,71 +282,61 @@ public class FragmentCameraResult extends Fragment implements View.OnClickListen
             detailResult.setText(resultText);
 
             if(VeganType.contains("Pesco")){
-//                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.result_pesco_yes);
-//                pescoImage.setImageBitmap(bitmap);
                 pescoImage.setImageResource(R.drawable.result_pesco_yes);
                 pescoText.setTextColor(Color.parseColor("#000000"));
                 pescoText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
             } else{
-//                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.result_pesco_no);
-//                pescoImage.setImageBitmap(bitmap);
+                ArrayList<String> PescoArray = bundle.getStringArrayList("PescoIngredient");
+                pescoIngredient.setText("불가능 성분 : "+PescoArray);
                 pescoImage.setImageResource(R.drawable.result_pesco_no);
                 pescoText.setTextColor(Color.parseColor("#d4d4d4"));
                 pescoText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
             }
 
             if(VeganType.contains("LactoOvo")){
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.result_lactoovo_yes);
-                lactoovoImage.setImageBitmap(bitmap);
-//                lactoovoImage.setImageResource(R.drawable.result_lactoovo_yes);
+                lactoovoImage.setImageResource(R.drawable.result_lactoovo_yes);
                 lactoovoText.setTextColor(Color.parseColor("#000000"));
                 lactoovoText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
             } else{
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.result_lactoovo_no);
-                lactoovoImage.setImageBitmap(bitmap);
-//                lactoovoImage.setImageResource(R.drawable.result_lactoovo_no);
+                ArrayList<String> LactoOvoArray = bundle.getStringArrayList("LactoOvoIngredient");
+                lactoovoIngredient.setText("불가능 성분 : "+LactoOvoArray);
+                lactoovoImage.setImageResource(R.drawable.result_lactoovo_no);
                 lactoovoText.setTextColor(Color.parseColor("#d4d4d4"));
                 lactoovoText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
             }
 
             if(VeganType.contains("Lacto")){
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.result_lacto_yes);
-                lactoImage.setImageBitmap(bitmap);
-//                lactoImage.setImageResource(R.drawable.result_lacto_yes);
+                lactoImage.setImageResource(R.drawable.result_lacto_yes);
                 lactoText.setTextColor(Color.parseColor("#000000"));
                 lactoText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
             } else{
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.result_lacto_no);
-                lactoImage.setImageBitmap(bitmap);
-//                lactoImage.setImageResource(R.drawable.result_lacto_no);
+                ArrayList<String> LactoArray = bundle.getStringArrayList("LactoIngredient");
+                lactoIngredient.setText("불가능 성분 : "+LactoArray);
+                lactoImage.setImageResource(R.drawable.result_lacto_no);
                 lactoText.setTextColor(Color.parseColor("#d4d4d4"));
                 lactoText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
             }
 
             if(VeganType.contains("Ovo")){
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.result_ovo_yes);
-                ovoImage.setImageBitmap(bitmap);
-//                ovoImage.setImageResource(R.drawable.result_ovo_yes);
+                ovoImage.setImageResource(R.drawable.result_ovo_yes);
                 ovoText.setTextColor(Color.parseColor("#000000"));
                 ovoText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
             } else{
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.result_ovo_no);
-                ovoImage.setImageBitmap(bitmap);
-//                ovoImage.setImageResource(R.drawable.result_ovo_no);
+                ArrayList<String> OvoArray = bundle.getStringArrayList("OvoIngredient");
+                ovoIngredient.setText("불가능 성분 : "+OvoArray);
+                ovoImage.setImageResource(R.drawable.result_ovo_no);
                 ovoText.setTextColor(Color.parseColor("#d4d4d4"));
                 ovoText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
             }
 
             if(VeganType.contains("Vegan")){
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.result_vegan_yes);
-                veganImage.setImageBitmap(bitmap);
-//                veganImage.setImageResource(R.drawable.result_vegan_yes);
+                veganImage.setImageResource(R.drawable.result_vegan_yes);
                 veganText.setTextColor(Color.parseColor("#000000"));
                 veganText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
             } else{
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.result_vegan_no);
-                veganImage.setImageBitmap(bitmap);
-//                veganImage.setImageResource(R.drawable.result_vegan_no);
+                ArrayList<String> VeganArray = bundle.getStringArrayList("VeganIngredient");
+                veganIngredient.setText("불가능 성분 : "+VeganArray);
+                veganImage.setImageResource(R.drawable.result_vegan_no);
                 veganText.setTextColor(Color.parseColor("#d4d4d4"));
                 veganText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
             }

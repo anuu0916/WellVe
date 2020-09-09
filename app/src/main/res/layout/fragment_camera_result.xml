@@ -268,6 +268,12 @@
                 android:textColor="#000"
                 android:textStyle="bold"
                 android:layout_gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/result_pesco_ingredient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:textColor="#d41717"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -296,6 +302,12 @@
                 android:textColor="#000"
                 android:textStyle="bold"
                 android:layout_gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/result_lactoovo_ingredient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:textColor="#d41717"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -325,9 +337,9 @@
                 android:layout_marginRight="8dp"
                 android:layout_gravity="center_vertical"/>
             <TextView
+                android:id="@+id/result_ovo_ingredient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="불가능 성분 : 계란"
                 android:textColor="#d41717"/>
         </LinearLayout>
         <View
@@ -358,9 +370,9 @@
                 android:textColor="#d4d4d4"
                 android:layout_gravity="center_vertical"/>
             <TextView
+                android:id="@+id/result_lacto_ingredient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="불가능 성분 : 우유"
                 android:textColor="#d41717"/>
         </LinearLayout>
         <View
@@ -390,9 +402,9 @@
                 android:layout_marginRight="8dp"
                 android:layout_gravity="center_vertical"/>
             <TextView
+                android:id="@+id/result_vegan_ingredient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="불가능 성분 : 계란, 우유"
                 android:textColor="#d41717"/>
         </LinearLayout>
         <View
