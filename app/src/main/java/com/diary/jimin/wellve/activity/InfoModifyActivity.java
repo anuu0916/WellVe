@@ -12,6 +12,7 @@ import com.diary.jimin.wellve.R;
 public class InfoModifyActivity extends AppCompatActivity {
 
     private Button veganModifyButton;
+    private Button modifyPhotoButton;
     private Button nicknameModifyButton;
     private Button backButton;
 
@@ -44,10 +45,18 @@ public class InfoModifyActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        modifyPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     void init(){
         veganModifyButton = (Button)findViewById(R.id.infoVeganModifyButton);
+        modifyPhotoButton = (Button)findViewById(R.id.modifyPhotoButton);
         nicknameModifyButton=(Button)findViewById(R.id.nicknameModifyButton);
         backButton = (Button)findViewById(R.id.infoModifyBackButton);
     }

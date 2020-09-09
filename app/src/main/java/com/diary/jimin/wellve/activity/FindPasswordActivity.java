@@ -22,7 +22,6 @@ import com.google.firebase.auth.FirebaseAuth;
 public class FindPasswordActivity extends AppCompatActivity {
 
     private Button tmpPwButton;
-    private Button findIdButton;
     private Button backButton;
     private EditText findPwEmailEditText;
 
@@ -59,14 +58,6 @@ public class FindPasswordActivity extends AppCompatActivity {
             }
         });
 
-        findIdButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(FindPasswordActivity.this, FindIdActivity.class);
-                startActivity(intent);
-            }
-        });
-
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +68,6 @@ public class FindPasswordActivity extends AppCompatActivity {
 
     private void init() {
         tmpPwButton = (Button) findViewById(R.id.tmpPwButton);
-        findIdButton = (Button) findViewById(R.id.findIdButton);
         backButton = (Button) findViewById(R.id.findPwBackButton);
         findPwEmailEditText = (EditText) findViewById(R.id.findPwEmailEditText);
 
@@ -105,9 +95,6 @@ public class FindPasswordActivity extends AppCompatActivity {
         tmpPwButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (tmpPwButton.isSelected()) {
-                }
-                else if(findIdButton.isSelected()){
-
                 }
 
             }
