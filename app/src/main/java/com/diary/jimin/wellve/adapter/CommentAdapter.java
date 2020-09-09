@@ -1,24 +1,49 @@
 package com.diary.jimin.wellve.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.diary.jimin.wellve.R;
 import com.diary.jimin.wellve.model.PostInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CommentAdapter extends BaseAdapter {
+
+    private FirebaseFirestore db;
+    private FirebaseUser user;
+    private ImageButton deleteButton;
+    private String deleteStr;
+
+
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
 //    private ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>() ;
     private ArrayList<PostInfo> listViewItemList = new ArrayList<PostInfo>() ;
     private TableLayout listItemLayout;
-
 
     // Adapter에 사용되는 데이터의 개수를 리턴. : 필수 구현
     @Override
@@ -47,6 +72,7 @@ public class CommentAdapter extends BaseAdapter {
         TextView textView = (TextView) convertView.findViewById(R.id.context) ;
         TextView timeTextView = (TextView) convertView.findViewById(R.id.userTime);
 
+
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         PostInfo postInfo = listViewItemList.get(position);
 
@@ -54,6 +80,66 @@ public class CommentAdapter extends BaseAdapter {
         textView.setText(postInfo.getText());
         titleTextView.setText(postInfo.getName());
         timeTextView.setText(postInfo.getTime());
+        deleteButton = (ImageButton)convertView.findViewById(R.id.commentDeleteButton);
+
+
+
+
+        deleteButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Log.d("CommentActivity",textView.getText().toString());
+
+                db = FirebaseFirestore.getInstance();
+                CollectionReference collectionReference1 = db.collection("comments");
+                collectionReference1
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()) {
+                                    for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                        if (documentSnapshot.get("text").equals(textView.getText().toString()) ) {
+                                                Log.d("CommentActivity",documentSnapshot.getData().toString());
+                                                Log.d("CommentActivity",documentSnapshot.getId());
+                                                deleteStr = documentSnapshot.getId();
+
+                                        }
+                                    }
+                                }
+                            }
+                        });
+
+                Snackbar.make(view,"댓글 삭제",Snackbar.LENGTH_SHORT).setAction("OK",new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+
+                        if(deleteStr != null) {
+                            db = FirebaseFirestore.getInstance();
+                            user= FirebaseAuth.getInstance().getCurrentUser();
+                            db.collection("comments").document(deleteStr)
+                                    .delete()
+                                    .addOnSuccessListener(new OnSuccessListener<Void>(){
+                                        @Override
+                                        public void onSuccess(Void aVoid){
+                                            Toast.makeText(view.getContext(), "댓글 삭제 완료", Toast.LENGTH_SHORT).show();
+                                            listViewItemList.remove(position);
+                                            notifyDataSetChanged();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(view.getContext(), "댓글 삭제 실패", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                            }
+                        }
+
+                }).show();
+            }
+        });
+
 
         return convertView;
     }
@@ -83,8 +169,10 @@ public class CommentAdapter extends BaseAdapter {
         listViewItemList.add(item);
     }
 
+    public void clearItem(int position) {
 
-    public void clearItem() {
-        listViewItemList.clear();
+
+
     }
+
 }

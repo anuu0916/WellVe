@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Camera;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -32,6 +33,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -42,8 +45,10 @@ public class CameraActivity extends AppCompatActivity {
 //    private String type = "";
     private Bitmap bm;
     private String resultText;
+    private String[] resultArray;
 
     private ImageView photo;
+    private String isStr;
 
 
     //private String userType = "";
@@ -82,7 +87,7 @@ public class CameraActivity extends AppCompatActivity {
     };
     private static final String [] Ocean = {
             "용연향", "자개", "조개", "캐비어", "키틴", "산호", "생선", "비늘", "어분", "부레풀", "해면", "진주",
-            "알", "경랍", "어유", "간유", "경유", "바다표범", "키토산"
+            /*"알",*/ "경랍", "어유", "간유", "경유", "바다표범", "키토산"
     };
     private static final String [] Ovo= {
             "달걀", "난황", "난백", "난각", "알부민"
@@ -113,13 +118,33 @@ public class CameraActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         resultText = intent.getStringExtra("resultText");
+        isStr = intent.getStringExtra("isStr");
 
         if (resultText == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, Camera2BasicFragment.newInstance())
                     .commit();
         }else {
+            try {
+                Log.d("inputStream", "try");
+                InputStream inputStream = getApplicationContext().getContentResolver().openInputStream(Uri.parse(isStr));
+                bm = BitmapFactory.decodeStream(inputStream);
+                photo.setImageBitmap(bm);
+
+            } catch (FileNotFoundException e) {
+                bm = BitmapFactory.decodeFile(isStr);
+                photo.setImageBitmap(bm);
+                e.printStackTrace();
+                Log.d("inputStream", "no");
+            }
+
             resultText = resultText.replaceAll(System.getProperty("line.separator"), " ");
+            resultArray = resultText.split(",");
+            ArrayList<String> resultList = new ArrayList<>();
+            for(String s : resultArray){
+                resultList.add(s);
+            }
+            Log.d("resultText", resultArray+"");
 
             for(String s : Else){
                 if(resultText.contains(s)){
@@ -202,17 +227,17 @@ public class CameraActivity extends AppCompatActivity {
             vp.setAdapter(new pagerAdapter(getSupportFragmentManager()));
             vp.setCurrentItem(0);
 
-            FragmentCameraResult fragmentCameraResult;
-            fragmentCameraResult = new FragmentCameraResult();
-            bundle.putStringArrayList("veganType", VeganType);
-            bundle.putStringArrayList("VeganIngredient", VeganIngredient);
-            bundle.putStringArrayList("LactoIngredient", LactoIngredient);
-            bundle.putStringArrayList("OvoIngredient", OvoIngredient);
-            bundle.putStringArrayList("LactoOvoIngredient", LactoOvoIngredient);
-            bundle.putStringArrayList("PescoIngredient", PescoIngredient);
-            bundle.putString("resultText", resultText);
-            fragmentCameraResult.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragmentCameraResult).commit();
+//            FragmentCameraResult fragmentCameraResult;
+//            fragmentCameraResult = new FragmentCameraResult();
+//            bundle.putStringArrayList("veganType", VeganType);
+//            bundle.putStringArrayList("VeganIngredient", VeganIngredient);
+//            bundle.putStringArrayList("LactoIngredient", LactoIngredient);
+//            bundle.putStringArrayList("OvoIngredient", OvoIngredient);
+//            bundle.putStringArrayList("LactoOvoIngredient", LactoOvoIngredient);
+//            bundle.putStringArrayList("PescoIngredient", PescoIngredient);
+//            bundle.putString("resultText", resultText);
+//            fragmentCameraResult.setArguments(bundle);
+//            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragmentCameraResult).commit();
         }
 
 

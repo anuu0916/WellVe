@@ -62,8 +62,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         Glide.with(context)
                 .load(url)
-                .centerCrop()
-                .crossFade()
                 .into(holder.photo);
 
 //        holder.photo.setImageURI(Uri.parse(items.get(position).photo));
