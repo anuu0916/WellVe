@@ -9,6 +9,7 @@ import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,11 +38,13 @@ import java.util.Arrays;
 public class CameraActivity extends AppCompatActivity {
 
     private Bundle bundle = new Bundle();
-    private Bundle detailbundle = new Bundle();
+    private Bundle bundle2 = new Bundle();
 //    private String type = "";
-//    private Bitmap bm;
-    private ImageView imageView;
+    private Bitmap bm;
     private String resultText;
+
+    private ImageView photo;
+
 
     //private String userType = "";
     ViewPager vp;
@@ -61,7 +64,7 @@ public class CameraActivity extends AppCompatActivity {
 
     private String [] LactoIngredientArray = {
     };
-    ArrayList<String> LactoIngredient = new ArrayList<>(Arrays.asList(LactoOvoIngredientArray));
+    ArrayList<String> LactoIngredient = new ArrayList<>(Arrays.asList(LactoIngredientArray));
 
     private String [] OvoIngredientArray = {
     };
@@ -102,18 +105,20 @@ public class CameraActivity extends AppCompatActivity {
 
         init();
 
-        if (null == savedInstanceState) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, Camera2BasicFragment.newInstance())
-                    .commit();
-        }
+//        if (null == savedInstanceState) {
+//            getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.container, Camera2BasicFragment.newInstance())
+//                    .commit();
+//        }
 
         Intent intent = getIntent();
         resultText = intent.getStringExtra("resultText");
-        //byte[] byteArray = getIntent().getByteArrayExtra("image");
-        //imageView.setImageBitmap(bm);
 
-        if(resultText != null){
+        if (resultText == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, Camera2BasicFragment.newInstance())
+                    .commit();
+        }else {
             resultText = resultText.replaceAll(System.getProperty("line.separator"), " ");
 
             for(String s : Else){
@@ -197,13 +202,20 @@ public class CameraActivity extends AppCompatActivity {
             vp.setAdapter(new pagerAdapter(getSupportFragmentManager()));
             vp.setCurrentItem(0);
 
-            //bm = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-            //getSupportFragmentManager().beginTransaction().replace(R.id.container, fragmentCameraResult).commit();
+            FragmentCameraResult fragmentCameraResult;
+            fragmentCameraResult = new FragmentCameraResult();
+            bundle.putStringArrayList("veganType", VeganType);
+            bundle.putStringArrayList("VeganIngredient", VeganIngredient);
+            bundle.putStringArrayList("LactoIngredient", LactoIngredient);
+            bundle.putStringArrayList("OvoIngredient", OvoIngredient);
+            bundle.putStringArrayList("LactoOvoIngredient", LactoOvoIngredient);
+            bundle.putStringArrayList("PescoIngredient", PescoIngredient);
+            bundle.putString("resultText", resultText);
+            fragmentCameraResult.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragmentCameraResult).commit();
         }
 
 
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
-//                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     View.OnClickListener movePageListener = new View.OnClickListener()
@@ -228,8 +240,6 @@ public class CameraActivity extends AppCompatActivity {
         {
             switch(position)
             {
-//                case 0:
-//                    return new CameraBlankFragment();
                 case 0:
                     FragmentCameraResult fragmentCameraResult;
                     fragmentCameraResult = new FragmentCameraResult();
@@ -242,12 +252,12 @@ public class CameraActivity extends AppCompatActivity {
                     bundle.putString("resultText", resultText);
                     fragmentCameraResult.setArguments(bundle);
                     return fragmentCameraResult;
-                case 1:
-                    FragmentCameraResultDetail fragmentCameraResultDetail;
-                    fragmentCameraResultDetail = new FragmentCameraResultDetail();
-                    detailbundle.putString("resultText", resultText);
-                    fragmentCameraResultDetail.setArguments(detailbundle);
-                    return fragmentCameraResultDetail;
+//                case 1:
+//                    FragmentCameraResultDetail fragmentCameraResultDetail;
+//                    fragmentCameraResultDetail = new FragmentCameraResultDetail();
+//                    detailbundle.putString("resultText", resultText);
+//                    fragmentCameraResultDetail.setArguments(detailbundle);
+//                    return fragmentCameraResultDetail;
                 default:
                     return null;
             }
@@ -255,11 +265,11 @@ public class CameraActivity extends AppCompatActivity {
         @Override
         public int getCount()
         {
-            return 2;
+            return 1;
         }
     }
 
     void init(){
-        imageView = (ImageView)findViewById(R.id.cameraPhoto);
+        photo = (ImageView)findViewById(R.id.cameraPhoto);
     }
 }

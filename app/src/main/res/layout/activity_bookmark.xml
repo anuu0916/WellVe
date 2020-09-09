@@ -41,7 +41,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="40dp"
-        android:background="@drawable/mypage_profile" />
+        android:background="@drawable/default_user" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -66,7 +66,7 @@
                 android:id="@+id/myPageNickName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="JEN 님!"
+                android:text=""
                 android:textColor="@color/colorSelect"
                 android:textSize="16sp"
                 android:layout_gravity="center_horizontal"/>

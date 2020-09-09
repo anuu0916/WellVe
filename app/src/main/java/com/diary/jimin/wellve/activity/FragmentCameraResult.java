@@ -426,9 +426,4 @@ public class FragmentCameraResult extends Fragment {
         return layout;
     }
 
-
-
-    void init(){
-
-    }
 }
