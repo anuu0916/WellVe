@@ -76,11 +76,8 @@ public class PostInActivity extends AppCompatActivity {
     private int commentCount;
 
     private PostInfo postInfo;
-<<<<<<< HEAD
     private Boolean photoBool;
-=======
     private PostInfo categoryInfo;
->>>>>>> origin/master
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
