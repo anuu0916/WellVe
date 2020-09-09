@@ -118,5 +118,6 @@ public class NicknameModifyActivity extends AppCompatActivity {
                 });
 
     }
+    
 
 }
