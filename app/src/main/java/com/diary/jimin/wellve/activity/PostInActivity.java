@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -41,7 +42,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class PostInActivity extends AppCompatActivity {
 
@@ -53,6 +56,8 @@ public class PostInActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseUser user;
     private CircleImageView postProfileImage;
+    private ImageButton deleteButton;
+
 
     private ListView commentListView;
     private CommentAdapter adapter;
@@ -79,6 +84,7 @@ public class PostInActivity extends AppCompatActivity {
     private PostInfo postInfo;
     private Boolean photoBool;
     private PostInfo categoryInfo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,6 +214,8 @@ public class PostInActivity extends AppCompatActivity {
 
 
 
+
+
         postInSubmitButton.setOnClickListener(new View.OnClickListener() {  //댓글 전송
             @Override
             public void onClick(View v) {
@@ -256,6 +264,8 @@ public class PostInActivity extends AppCompatActivity {
         postInIdTextView = (TextView) findViewById(R.id.postInIdTextView);
         postInDateTextView = (TextView) findViewById(R.id.postInDateTextView);
         db = FirebaseFirestore.getInstance();
+        deleteButton = (ImageButton)findViewById(R.id.commentDeleteButton);
+
 
         commentListView = (ListView) findViewById(R.id.postInListView);
         postInCommentEditText = (EditText) findViewById(R.id.postInCommentEditText);
