@@ -36,7 +36,7 @@ public class FragmentCameraResultDetail extends Fragment {
         {
                 FrameLayout layout = (FrameLayout) inflater.inflate(R.layout.fragment_camera_result, container, false);
                 detailResult = layout.findViewById(R.id.detailResult);
-                detailFoodType = layout.findViewById(R.id.detailFoodType);
+                //detailFoodType = layout.findViewById(R.id.detailFoodType);
                 Bundle bundle = getArguments();
                 if(bundle != null){
                         String resultText = bundle.getString("resultText");
