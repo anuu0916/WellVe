@@ -351,38 +351,39 @@ public class PostInActivity extends AppCompatActivity {
                                 });
 
 
-                    } else {
-                        deleteStr = getId.toString();
-                        Log.d("out123", deleteStr);
-                        Snackbar.make(v, "게시물 삭제", Snackbar.LENGTH_SHORT).setAction("OK", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                if (deleteStr != null) {
-                                    db.collection(getCategory).document(deleteStr)
-                                            .delete()
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Log.d("out123", getCategory);
-                                                    Toast.makeText(view.getContext(), "게시물 삭제 완료", Toast.LENGTH_SHORT).show();
-                                                    Intent intent = new Intent(PostInActivity.this, CommunityActivity.class);
-                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                    startActivity(intent);
-
-                                                    //           listViewItemList.remove(pos);
-                                                    //          notifyDataSetChanged();
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(view.getContext(), "게시물 삭제 실패", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                }
-                            }
-                        }).show();
                     }
+                } else {
+                    deleteStr = getId.toString();
+                    Log.d("out123", deleteStr);
+                    Snackbar.make(v, "게시물 삭제", Snackbar.LENGTH_SHORT).setAction("OK", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (deleteStr != null) {
+                                db.collection(getCategory).document(deleteStr)
+                                        .delete()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d("out123", getCategory);
+                                                Toast.makeText(view.getContext(), "게시물 삭제 완료", Toast.LENGTH_SHORT).show();
+//                                                Intent intent = new Intent(PostInActivity.this, CommunityActivity.class);
+//                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                                                startActivity(intent);
+                                                finish();
+
+                                                //           listViewItemList.remove(pos);
+                                                //          notifyDataSetChanged();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(view.getContext(), "게시물 삭제 실패", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+                        }
+                    }).show();
                 }
             }
 
