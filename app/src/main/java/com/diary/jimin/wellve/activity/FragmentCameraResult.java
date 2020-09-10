@@ -252,6 +252,7 @@ public class FragmentCameraResult extends Fragment {
                         if (isPageState) {
                             Log.d("slide", "Open  Page");
                             detailPage.startAnimation(ani_bottom);
+
                         } else {
                             Log.d("slide", "Close Page");
                             detailPage.setVisibility(View.VISIBLE);

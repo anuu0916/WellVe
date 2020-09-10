@@ -216,6 +216,7 @@ public class PostActivity extends AppCompatActivity {
                                 Log.d(TAG, "format1: "+ time+ " format2: "+filename);
                                 StorageReference storageReference = storage.getReferenceFromUrl("gs://wellve.appspot.com")
                                         .child(title+"_"+filename);
+                                Log.d(TAG, "filename : " + title+"_"+filename);
                                 storageReference.putFile(photoUri)
                                         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                             @Override

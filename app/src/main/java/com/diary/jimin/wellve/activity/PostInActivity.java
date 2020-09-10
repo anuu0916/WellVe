@@ -98,6 +98,7 @@ public class PostInActivity extends AppCompatActivity {
         getCategory = intent.getStringExtra("setCategory");
 
         Log.d("PostInActivity", getId);
+        Log.d("PostInActivity", getCategory);
 
 
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -151,15 +152,17 @@ public class PostInActivity extends AppCompatActivity {
                                 document.getData().get("id").toString(),
                                 document.getData().get("time").toString(),
                                 document.getData().get("name").toString());
-                        imageStr = document.getData().get("time").toString().replace("/","").replace(" ","_").replace(":","")+".jpeg";
-                        Log.d("path",imageStr);
+                        imageStr = document.getData().get("time").toString().replace("/","").replace(" ","_").replace(":","");
+                        String newUri = imageStr.substring(0, imageStr.length()-2);
 
                         FirebaseStorage storage = FirebaseStorage.getInstance("gs://wellve.appspot.com");
-                        StorageReference storageReference = storage.getReference();
-                        storageReference.child(document.getData().get("title")+"_"+imageStr).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        StorageReference storageReference = storage.getReference(document.getData().get("title")+"_"+newUri+".jpeg");
+
+                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
                                 String imageURL = uri.toString();
+                                Log.d("postInImageView", imageURL);
                                 Glide.with(getApplicationContext()).load(imageURL).into(postInImageView);
                             }
                         }).addOnFailureListener(new OnFailureListener() {
