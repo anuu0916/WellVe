@@ -62,13 +62,13 @@
                     <ImageButton
                         android:id="@+id/postInMarkButton"
                         android:layout_width="16dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_gravity="right"
                         android:layout_marginRight="24dp"
-                        android:background="@drawable/bookmark_button"
-                        android:visibility="visible"/>
+                        android:background="@color/transparent"
+                        android:visibility="visible" />
                     
                     <ImageButton
                         android:id="@+id/postModButton"

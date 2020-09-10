@@ -82,6 +82,7 @@ public class PostInActivity extends AppCompatActivity {
     private String name;
 
     private String imageStr;
+    private String deleteStr;
 
     private int commentCount;
 
@@ -89,6 +90,7 @@ public class PostInActivity extends AppCompatActivity {
     private Boolean photoBool;
     private PostInfo categoryInfo;
 
+    private Boolean isUser=false; //글쓴이인지 구
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,14 +135,6 @@ public class PostInActivity extends AppCompatActivity {
         //Log.d("PostInActivity", );
 
         Log.d("PostInActivity",user.getUid());
-//        if(user.getUid().equals(getId)){
-//            BitmapDrawable deleteImg = (BitmapDrawable)getResources().getDrawable(R.drawable.community_mod_btn);
-//            postInMarkButton.setImageDrawable(deleteImg);
-//
-//        } else{
-//            BitmapDrawable deleteImg = (BitmapDrawable)getResources().getDrawable(R.drawable.bookmark_button);
-//            postInMarkButton.setImageDrawable(deleteImg);
-//        }
 
 //        DocumentReference documentReference1 = db.collection("users").document(user.getUid());
 //
@@ -205,6 +199,16 @@ public class PostInActivity extends AppCompatActivity {
                                                 }
                                             }
                                         });
+                                    }
+
+                                    //bookmarkButton 사용자에 따라 변경
+                                   if(user.getUid().equals(document.getData().get("id").toString())){
+                                        postInMarkButton.setBackgroundResource(R.drawable.community_mod_btn);
+                                        isUser=true;
+
+                                    } else{
+                                        postInMarkButton.setBackgroundResource(R.drawable.bookmark_button);
+                                        isUser=false;
                                     }
                                 }
                             }
@@ -314,22 +318,55 @@ public class PostInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("getId", user.getUid());
-                if (postInfo != null) {
-                    db.collection("users").document(user.getUid())
-                            .collection("bookmarks").document(getId)
-                            .set(postInfo);
+                if(isUser==false){
+                    if (postInfo != null) {
+                        db.collection("users").document(user.getUid())
+                                .collection("bookmarks").document(getId)
+                                .set(postInfo);
 
-                    db.collection("users").document(user.getUid())
-                            .collection("bookmarks").document(getId)
-                            .update("category", getCategory);
+                        db.collection("users").document(user.getUid())
+                                .collection("bookmarks").document(getId)
+                                .update("category", getCategory);
 
-                    db.collection("users").document(user.getUid())
-                            .collection("bookmarks").document(getId)
-                            .update("photo", photoBool);
+                        db.collection("users").document(user.getUid())
+                                .collection("bookmarks").document(getId)
+                                .update("photo", photoBool);
 
-                    postInMarkButton.setSelected(true);
-                    postInMarkButton.setBackgroundResource(R.drawable.bookmark_yes);
-                    Toast.makeText(PostInActivity.this, "북마크 성공", Toast.LENGTH_SHORT).show();
+                        postInMarkButton.setSelected(true);
+                        postInMarkButton.setBackgroundResource(R.drawable.bookmark_yes);
+                        Toast.makeText(PostInActivity.this, "북마크 성공", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    deleteStr=getId.toString();
+                    Log.d("out123",deleteStr);
+                    Snackbar.make(v,"게시물 삭제",Snackbar.LENGTH_SHORT).setAction("OK", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if(deleteStr != null){
+                                db.collection(getCategory).document(deleteStr)
+                                        .delete()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>(){
+                                            @Override
+                                            public void onSuccess(Void aVoid){
+                                                Log.d("out123",getCategory);
+                                                Toast.makeText(view.getContext(), "게시물 삭제 완료", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(PostInActivity.this,CommunityActivity.class);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                startActivity(intent);
+
+                                     //           listViewItemList.remove(pos);
+                                      //          notifyDataSetChanged();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(view.getContext(), "게시물 삭제 실패", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+                        }
+                    }).show();
                 }
             }
         });
