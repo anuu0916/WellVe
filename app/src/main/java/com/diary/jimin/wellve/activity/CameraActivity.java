@@ -1,10 +1,14 @@
 package com.diary.jimin.wellve.activity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Camera;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -13,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -34,6 +39,7 @@ import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -97,16 +103,17 @@ public class CameraActivity extends AppCompatActivity {
             "달걀", "난황", "난백", "난각", "알부민"
     };
     private static final String [] Lacto = {
-            "젖", "카세인", "락토오스", "유당", "유청", "락티톨", "우유", "버터"
+            "젖", "카세인", "락토오스", "유당", "유청", "락티톨", "우유", "버터", "탈지분유", "전지분유"
     };
     private static final String [] Insect = {
             "꿀", "벌 화분", "비폴렌", "봉독", "벌침", "밀랍", "로열젤리", "프로폴리스",
-            "E120 코치닐", "카민", "카르민", "달팽이", "곤충"
+            "E120 코치닐", "카민", "카르민", "달팽이", "곤충", "셸락"
     };
     private static final String [] Else = {
             "비타민D3", "철분", "혈액"
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,15 +138,76 @@ public class CameraActivity extends AppCompatActivity {
         }else {
             try {
                 Log.d("inputStream", "try");
-                InputStream inputStream = getApplicationContext().getContentResolver().openInputStream(Uri.parse(isStr));
+                Uri uri = Uri.parse(isStr);
+                InputStream inputStream = getApplicationContext().getContentResolver().openInputStream(uri);
                 bm = BitmapFactory.decodeStream(inputStream);
-                photo.setImageBitmap(bm);
+
+                Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+                cursor.moveToNext();
+                String filepath = cursor.getString(cursor.getColumnIndex("_data"));
+                cursor.close();
+
+                ExifInterface ei = new ExifInterface(filepath);
+                int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                        ExifInterface.ORIENTATION_UNDEFINED);
+
+                Bitmap rotatedBitmap = null;
+                switch (orientation) {
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        rotatedBitmap = rotateImage(bm, 90);
+                        break;
+
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        rotatedBitmap = rotateImage(bm, 180);
+                        break;
+
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        rotatedBitmap = rotateImage(bm, 270);
+                        break;
+
+                    case ExifInterface.ORIENTATION_NORMAL:
+                    default:
+                        rotatedBitmap = bm;
+                }
+
+                photo.setImageBitmap(rotatedBitmap);
 
             } catch (FileNotFoundException e) {
                 bm = BitmapFactory.decodeFile(isStr);
-                photo.setImageBitmap(bm);
+                ExifInterface ei = null;
+                try {
+                    ei = new ExifInterface(isStr);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                        ExifInterface.ORIENTATION_UNDEFINED);
+
+                Bitmap rotatedBitmap = null;
+                switch (orientation) {
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        rotatedBitmap = rotateImage(bm, 90);
+                        break;
+
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        rotatedBitmap = rotateImage(bm, 180);
+                        break;
+
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        rotatedBitmap = rotateImage(bm, 270);
+                        break;
+
+                    case ExifInterface.ORIENTATION_NORMAL:
+                    default:
+                        rotatedBitmap = bm;
+                }
+
+                photo.setImageBitmap(rotatedBitmap);
+
                 e.printStackTrace();
                 Log.d("inputStream", "no");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
             resultText = resultText.replaceAll(System.getProperty("line.separator"), " ");
@@ -151,7 +219,7 @@ public class CameraActivity extends AppCompatActivity {
             Log.d("resultText", resultList+"");
 
             for(String s : resultList){
-                if(s.contains("가공품") || s.contains("씨즈닝")){
+                if(s.contains("가공품") || s.contains("씨즈닝") || s.contains("시즈닝")){
                     Unknown.add(s);
                 }
             }
@@ -251,6 +319,12 @@ public class CameraActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private static Bitmap rotateImage(Bitmap source, float angle){
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 
     View.OnClickListener movePageListener = new View.OnClickListener()

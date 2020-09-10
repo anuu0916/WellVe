@@ -27,6 +27,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.ExifInterface;
 import android.media.Image;
 import android.media.ImageReader;
 import android.net.Uri;
@@ -522,7 +523,30 @@ public class Camera2BasicFragment extends Fragment
                     bm = BitmapFactory.decodeStream(is);
                     is.close();
                     Log.d("bitmap", "bm: " + bm);
-                    iv_photo.setImageBitmap(bm);
+
+                    ExifInterface ei = new ExifInterface(mFile.getPath());
+                    int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                            ExifInterface.ORIENTATION_UNDEFINED);
+
+                    Bitmap rotatedBitmap = null;
+                    switch (orientation) {
+                        case ExifInterface.ORIENTATION_ROTATE_90:
+                            rotatedBitmap = rotateImage(bm, 90);
+                            break;
+
+                        case ExifInterface.ORIENTATION_ROTATE_180:
+                            rotatedBitmap = rotateImage(bm, 180);
+                            break;
+
+                        case ExifInterface.ORIENTATION_ROTATE_270:
+                            rotatedBitmap = rotateImage(bm, 270);
+                            break;
+
+                        case ExifInterface.ORIENTATION_NORMAL:
+                        default:
+                            rotatedBitmap = bm;
+                    }
+                    iv_photo.setImageBitmap(rotatedBitmap);
 
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -662,6 +686,12 @@ public class Camera2BasicFragment extends Fragment
                 }
             }
         }
+    }
+
+    private static Bitmap rotateImage(Bitmap source, float angle){
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 
     /**
