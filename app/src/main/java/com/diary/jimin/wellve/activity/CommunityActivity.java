@@ -95,7 +95,7 @@ public class CommunityActivity extends AppCompatActivity {
 
 
     }
-
+    
     void init() {
         communitySearchButton = (Button)findViewById(R.id.communitySearchButton);
         communityWriteButton = (Button)findViewById(R.id.communityWriteButton);
