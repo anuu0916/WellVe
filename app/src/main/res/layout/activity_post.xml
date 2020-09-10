@@ -96,7 +96,9 @@
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="24dp" />
+                android:paddingLeft="24dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"/>
 
             <EditText
                 android:id="@+id/postTextEditText"
