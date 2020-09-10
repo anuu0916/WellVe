@@ -3,6 +3,7 @@ package com.diary.jimin.wellve.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.content.Intent;
@@ -108,21 +109,22 @@ public class PostInActivity extends AppCompatActivity {
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() { //게시글 데이터 가져오기
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    if(document.exists()) {
+                    if (document.exists()) {
                         photoBool = (Boolean) document.getData().get("photo");
                         postInTitleTextView.setText(document.getData().get("title").toString());
                         postInContentTextView.setText(document.getData().get("text").toString());
                         postInIdTextView.setText(document.getData().get("name").toString());
                         postInDateTextView.setText(document.getData().get("time").toString());
-                        if(getCategory.equals("freePosts")) {
+                        if (getCategory.equals("freePosts")) {
                             postInCategory.setText("자유");
-                        } else if(getCategory.equals("QnAPosts")) {
+                            Log.d("PostInActivity", "test");
+                        } else if (getCategory.equals("QnAPosts")) {
                             postInCategory.setText("QnA");
-                        } else if(getCategory.equals("literPosts")) {
+                        } else if (getCategory.equals("literPosts")) {
                             postInCategory.setText("문학");
-                        } else if(getCategory.equals("restaurantPosts")) {
+                        } else if (getCategory.equals("restaurantPosts")) {
                             postInCategory.setText("식당");
                         }
 
@@ -130,9 +132,9 @@ public class PostInActivity extends AppCompatActivity {
                         documentReference1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if(task.isSuccessful()) {
+                                if (task.isSuccessful()) {
                                     DocumentSnapshot documentSnapshot = task.getResult();
-                                    if(documentSnapshot.getData().get("profileImageUrl") == null) {
+                                    if (documentSnapshot.getData().get("profileImageUrl") == null) {
                                         postProfileImage.setImageResource(R.drawable.default_user);
                                     } else {
                                         FirebaseStorage storage = FirebaseStorage.getInstance("gs://wellve.appspot.com");
@@ -162,11 +164,11 @@ public class PostInActivity extends AppCompatActivity {
                                 document.getData().get("id").toString(),
                                 document.getData().get("time").toString(),
                                 document.getData().get("name").toString());
-                        imageStr = document.getData().get("time").toString().replace("/","").replace(" ","_").replace(":","");
-                        String newUri = imageStr.substring(0, imageStr.length()-2);
+                        imageStr = document.getData().get("time").toString().replace("/", "").replace(" ", "_").replace(":", "");
+                        String newUri = imageStr.substring(0, imageStr.length() - 2);
 
                         FirebaseStorage storage = FirebaseStorage.getInstance("gs://wellve.appspot.com");
-                        StorageReference storageReference = storage.getReference(document.getData().get("title")+"_"+newUri+".jpeg");
+                        StorageReference storageReference = storage.getReference(document.getData().get("title") + "_" + newUri + ".jpeg");
 
                         storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
@@ -178,7 +180,7 @@ public class PostInActivity extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.d("path", ""+e);
+                                Log.d("path", "" + e);
                             }
                         });
 
@@ -203,11 +205,11 @@ public class PostInActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
-                            commentCount=0;
-                            for(QueryDocumentSnapshot document : task.getResult()) {
-                                if(document.getData().get("postId").equals(getId)) {
-                                    commentCount ++;
+                        if (task.isSuccessful()) {
+                            commentCount = 0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if (document.getData().get("postId").equals(getId)) {
+                                    commentCount++;
 
                                     adapter.addItem(document.getData().get("text").toString(),
                                             document.getData().get("id").toString(),
@@ -216,16 +218,33 @@ public class PostInActivity extends AppCompatActivity {
                                 }
                             }
                             postInCommentNumText.setText(Integer.toString(commentCount));
-                            if (adapter.getCount()!=0) {
+                            if (adapter.getCount() != 0) {
                                 commentListView.setAdapter(adapter);
                             } else {
-                                Log.d("PostInActivity", "adapter is empty ?: " +adapter.getCount());
+                                Log.d("PostInActivity", "adapter is empty ?: " + adapter.getCount());
                             }
                         }
                     }
                 });
 
+        db.collection("users").document(user.getUid()).collection("bookmarks").document(getId).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            if (documentSnapshot.exists()) {
+                                Log.d("testLog", "DocumentSnapshot successfully updated!");
+                                //초록색으로 바꾸기
+                                postInMarkButton.setBackgroundResource(R.drawable.bookmark_yes);
+                                Log.d("testLog", documentSnapshot.getData().toString());
+                            }
+                        } else {
+                            Log.d("testLog", "DocumentSnapshot successfully updated!");
+                        }
 
+                    }
+                });
 
 
 
@@ -240,8 +259,8 @@ public class PostInActivity extends AppCompatActivity {
         postInMarkButton.setOnClickListener(new View.OnClickListener() { //북마크
             @Override
             public void onClick(View v) {
-                Log.d("getId",user.getUid());
-                if(postInfo != null) {
+                Log.d("getId", user.getUid());
+                if (postInfo != null) {
                     db.collection("users").document(user.getUid())
                             .collection("bookmarks").document(getId)
                             .set(postInfo);
@@ -252,7 +271,7 @@ public class PostInActivity extends AppCompatActivity {
 
                     db.collection("users").document(user.getUid())
                             .collection("bookmarks").document(getId)
-                            .update("photo",photoBool);
+                            .update("photo", photoBool);
 
                     postInMarkButton.setSelected(true);
                     postInMarkButton.setBackgroundResource(R.drawable.bookmark_yes);
@@ -278,7 +297,7 @@ public class PostInActivity extends AppCompatActivity {
         postInDateTextView = (TextView) findViewById(R.id.postInDateTextView);
         postInCategory = (TextView) findViewById(R.id.postInCategory);
         db = FirebaseFirestore.getInstance();
-        deleteButton = (ImageButton)findViewById(R.id.commentDeleteButton);
+        deleteButton = (ImageButton) findViewById(R.id.commentDeleteButton);
 
 
         commentListView = (ListView) findViewById(R.id.postInListView);
@@ -288,7 +307,7 @@ public class PostInActivity extends AppCompatActivity {
         postInCommentNumText = (TextView) findViewById(R.id.postInCommentNumText);
         postInImageView = (ImageView) findViewById(R.id.postInImageView);
         backButton = (Button) findViewById(R.id.postInBackButton);
-        postProfileImage = (CircleImageView)findViewById(R.id.post_profile_image);
+        postProfileImage = (CircleImageView) findViewById(R.id.post_profile_image);
 
         toolbar = (Toolbar) findViewById(R.id.toolBar);
 
@@ -300,16 +319,16 @@ public class PostInActivity extends AppCompatActivity {
         SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         time = sdfNow.format(date);
 
-        if(comment.length() > 0) {
+        if (comment.length() > 0) {
             PostInfo postInfo = new PostInfo(comment, user.getUid(), time, name, getCategory, getId);
-            if(user != null) {
+            if (user != null) {
                 db.collection("comments")
                         .add(postInfo)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                Toast.makeText(PostInActivity.this, "성공",Toast.LENGTH_SHORT).show();
-                                adapter.addItem(comment,user.getUid(),time,name);
+                                Toast.makeText(PostInActivity.this, "성공", Toast.LENGTH_SHORT).show();
+                                adapter.addItem(comment, user.getUid(), time, name);
                                 adapter.notifyDataSetChanged();
                                 postInCommentEditText.setText("");
                                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -319,7 +338,7 @@ public class PostInActivity extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(PostInActivity.this, "실패",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PostInActivity.this, "실패", Toast.LENGTH_SHORT).show();
                             }
                         });
             }
