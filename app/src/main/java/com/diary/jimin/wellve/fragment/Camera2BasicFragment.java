@@ -47,6 +47,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -111,6 +112,7 @@ public class Camera2BasicFragment extends Fragment
 
     private String isStr;
     private Uri mImageCaptureUri;
+    private ProgressBar progressBar;
 
     private int isTaken = 0;
 //    private TextView veganTypeResult;
@@ -456,6 +458,7 @@ public class Camera2BasicFragment extends Fragment
 
         iv_photo = view.findViewById(R.id.camera2_photo);
         backButton = view.findViewById(R.id.camera_backbutton);
+        progressBar = view.findViewById(R.id.progressBar);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -521,20 +524,6 @@ public class Camera2BasicFragment extends Fragment
                     Log.d("bitmap", "bm: " + bm);
                     iv_photo.setImageBitmap(bm);
 
-//                    mImageCaptureUri = data.getData();
-//                    cropImage();
-
-//                    Bundle extras = data.getExtras();
-//                    if(extras != null){
-//                        InputStream is = getContext().getContentResolver().openInputStream(data.getData());
-//                        isStr = data.getData().toString();
-//                        Log.d("bitmap", "data:" + data.getData());
-//                        bm = BitmapFactory.decodeStream(is);
-//                        is.close();
-//
-//                        Log.d("bitmap", "bm: " + bm);
-//                        iv_photo.setImageBitmap(bm);
-//                    }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -547,6 +536,8 @@ public class Camera2BasicFragment extends Fragment
                 Log.d("bitmap", data + "");
             }
         }
+
+        progressBar.setVisibility(View.VISIBLE);
 
         FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bm);
 
@@ -569,6 +560,7 @@ public class Camera2BasicFragment extends Fragment
                                 // ...
                                 extractText(firebaseVisionText);
                                 Log.d("image", "success");
+                                progressBar.setVisibility(GONE);
                             }
                         })
                         .addOnFailureListener(
@@ -578,6 +570,7 @@ public class Camera2BasicFragment extends Fragment
                                         // Task failed with an exception
                                         // ...
                                         Log.d("image", "fail");
+                                        progressBar.setVisibility(GONE);
                                     }
                                 });
 
@@ -1081,6 +1074,7 @@ public class Camera2BasicFragment extends Fragment
             case R.id.cameraShootButton: {
                 takePicture();
 
+                progressBar.setVisibility(View.VISIBLE);
                 while(isTaken != 1);
 
                 mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
@@ -1112,6 +1106,7 @@ public class Camera2BasicFragment extends Fragment
                                         // ...
                                         extractText(firebaseVisionText);
                                         Log.d("image", "success");
+                                        progressBar.setVisibility(GONE);
                                     }
                                 })
                                 .addOnFailureListener(
@@ -1121,6 +1116,7 @@ public class Camera2BasicFragment extends Fragment
                                                 // Task failed with an exception
                                                 // ...
                                                 Log.d("image", "fail");
+                                                progressBar.setVisibility(GONE);
                                             }
                                         });
 
