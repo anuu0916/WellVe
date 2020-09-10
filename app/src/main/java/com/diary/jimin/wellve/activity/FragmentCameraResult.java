@@ -275,7 +275,7 @@ public class FragmentCameraResult extends Fragment {
             public void onClick(View v){
                 Log.d("slide", "Close Page");
                 detailPage.startAnimation(ani_bottom);
-                detailPage.setVisibility(View.INVISIBLE);
+                detailPage.setVisibility(View.GONE);
 //                switch(v.getId()){
 //                    case R.id.down_slide: {
 //                        Log.d("slide", "Close Page");

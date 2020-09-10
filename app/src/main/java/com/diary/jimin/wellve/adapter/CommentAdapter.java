@@ -31,6 +31,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class CommentAdapter extends BaseAdapter {
 
@@ -38,6 +39,11 @@ public class CommentAdapter extends BaseAdapter {
     private FirebaseUser user;
     private ImageButton deleteButton;
     private String deleteStr;
+    private String name;
+
+    public TextView titleTextView;
+    public TextView textView;
+    public TextView timeTextView;
 
 
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
@@ -68,13 +74,14 @@ public class CommentAdapter extends BaseAdapter {
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
-        TextView titleTextView = (TextView) convertView.findViewById(R.id.userID) ;
-        TextView textView = (TextView) convertView.findViewById(R.id.context) ;
-        TextView timeTextView = (TextView) convertView.findViewById(R.id.userTime);
+        titleTextView = (TextView) convertView.findViewById(R.id.userID) ;
+        textView = (TextView) convertView.findViewById(R.id.context) ;
+        timeTextView = (TextView) convertView.findViewById(R.id.userTime);
 
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         PostInfo postInfo = listViewItemList.get(position);
+        //현재 사용자 nickName 받아와서 댓글 쓸 때 반영되게
 
 //         아이템 내 각 위젯에 데이터 반영 ( Test 중 )
         textView.setText(postInfo.getText());
