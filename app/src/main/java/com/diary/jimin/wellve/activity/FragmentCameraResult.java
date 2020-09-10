@@ -44,6 +44,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 
@@ -198,8 +199,9 @@ public class FragmentCameraResult extends Fragment {
     private FirebaseFirestore db;
     private FirebaseUser user;
 
-    private FrameLayout detailPage = null;
+    private ScrollView detailPage = null;
     private Button btn_slide;
+    private Button down_slide;
     private Animation ani_top = null;
     private Animation ani_bottom = null;
     private boolean isPageState = false;
@@ -233,35 +235,52 @@ public class FragmentCameraResult extends Fragment {
         context = getContext();
 
        // View view = inflater.inflate(R.layout.fragment_camera_result,  container, false);
-        detailPage = (FrameLayout) layout.findViewById(R.id.detailPage);
+        detailPage = (ScrollView) layout.findViewById(R.id.detailPage);
         btn_slide =  (Button) layout.findViewById(R.id.btn_slide);
         ani_bottom= AnimationUtils.loadAnimation(context, R.anim.translate_bottom);
         ani_top = AnimationUtils.loadAnimation(context, R.anim.translate_top);
+        down_slide= (Button) layout.findViewById(R.id.down_slide);
         Log.d("slide", "확인0");
+
+        final SlidingAnimationListener listener = new SlidingAnimationListener(detailPage, btn_slide);
+        ani_top.setAnimationListener(listener);
+        ani_bottom.setAnimationListener(listener);
 
         btn_slide.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.d("slide", "확인2");
-                switch (v.getId()) {
-                    case R.id.btn_slide: {
-                        final SlidingAnimationListener listener = new SlidingAnimationListener(detailPage, btn_slide);
-                        ani_top.setAnimationListener(listener);
-                        ani_bottom.setAnimationListener(listener);
-                        isPageState = listener.getIsPageState();
-                        Log.d("slide", "확인3");
-                        if (isPageState) {
-                            Log.d("slide", "Open  Page");
-                            detailPage.startAnimation(ani_bottom);
+                Log.d("slide", "Open Page");
+                detailPage.setVisibility(View.VISIBLE);
+                detailPage.startAnimation(ani_top);
+//                switch (v.getId()) {
+//                    case R.id.btn_slide: {
+//                        Log.d("slide", "Open Page");
+//                        detailPage.setVisibility(View.VISIBLE);
+//                        detailPage.startAnimation(ani_top);
+//                        break;
+//                    }
+//                }
+            }
+        });
 
-                        } else {
-                            Log.d("slide", "Close Page");
-                            detailPage.setVisibility(View.VISIBLE);
-                            detailPage.startAnimation(ani_top);
-                        }
+        final SlidingAnimationListener listener2 = new SlidingAnimationListener(detailPage, down_slide);
+        ani_top.setAnimationListener(listener2);
+        ani_bottom.setAnimationListener(listener2);
 
-                        break;
-                    }
-                }
+        down_slide.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Log.d("slide", "Close Page");
+                detailPage.startAnimation(ani_bottom);
+                detailPage.setVisibility(View.GONE);
+//                switch(v.getId()){
+//                    case R.id.down_slide: {
+//                        Log.d("slide", "Close Page");
+//                        detailPage.startAnimation(ani_bottom);
+//                        detailPage.setVisibility(View.INVISIBLE);
+//                        break;
+//                    }
+//                }
             }
         });
 
@@ -292,6 +311,7 @@ public class FragmentCameraResult extends Fragment {
         if(bundle!=null){
             ArrayList<String> VeganType = bundle.getStringArrayList("veganType");
             String resultText = bundle.getString("resultText");
+            ArrayList<String> Unknwon = bundle.getStringArrayList("Unknown");
 
             db = FirebaseFirestore.getInstance();
             user = FirebaseAuth.getInstance().getCurrentUser();
@@ -316,6 +336,12 @@ public class FragmentCameraResult extends Fragment {
                     }
                 }
             });
+
+            if(Unknwon.isEmpty()){
+
+            } else{
+
+            }
 
             if(VeganType.isEmpty()){
                 veganTypeResult.setText("섭취 불가");
