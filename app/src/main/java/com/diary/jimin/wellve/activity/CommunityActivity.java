@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.diary.jimin.wellve.R;
+import com.diary.jimin.wellve.adapter.PagerAdapter;
 import com.diary.jimin.wellve.adapter.VPAdapter;
 import com.diary.jimin.wellve.fragment.Page1Fragment;
 import com.diary.jimin.wellve.fragment.Page2Fragment;
@@ -22,12 +23,13 @@ import androidx.viewpager.widget.ViewPager;
 public class CommunityActivity extends AppCompatActivity {
 
 
-    private ViewPager vp;
-    private VPAdapter vpAdapter;
-    private TabLayout tab;
     private Button communitySearchButton;
     private Button communityWriteButton;
     private Button backButton;
+
+    private PagerAdapter adapter;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
 
     
     @Override
@@ -37,10 +39,35 @@ public class CommunityActivity extends AppCompatActivity {
 
         init();
 
-        vp = findViewById(R.id.categoryViewPager);
+
         communitySearchButton = findViewById(R.id.communitySearchButton);
         communityWriteButton = findViewById(R.id.communityWriteButton);
-        getTabs();
+
+        tabLayout = findViewById(R.id.tab);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager = findViewById(R.id.categoryViewPager);
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
 
         communityWriteButton.setOnClickListener(new View.OnClickListener() {
@@ -68,36 +95,12 @@ public class CommunityActivity extends AppCompatActivity {
 
 
     }
-
+    
     void init() {
         communitySearchButton = (Button)findViewById(R.id.communitySearchButton);
         communityWriteButton = (Button)findViewById(R.id.communityWriteButton);
         backButton = (Button)findViewById(R.id.categoryBackButton);
     }
 
-    public void getTabs() {
-
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                vpAdapter = new VPAdapter(getSupportFragmentManager());
-
-                vpAdapter.addFragment(Page1Fragment.getInstance(),"전체");
-                vpAdapter.addFragment(Page2Fragment.getInstance(),"자유");
-                vpAdapter.addFragment(Page3Fragment.getInstance(),"QnA");
-                vpAdapter.addFragment(Page4Fragment.getInstance(),"식당");
-                vpAdapter.addFragment(Page5Fragment.getInstance(),"문학");
-
-                vp.setAdapter(vpAdapter);
-
-                tab = findViewById(R.id.tab);
-                tab.setupWithViewPager(vp);
-
-
-            }
-        });
-
-
-    }
 }
 

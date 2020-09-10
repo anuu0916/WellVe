@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -72,14 +74,16 @@ public class PostInActivity extends AppCompatActivity {
     private Button backButton;
     private Toolbar toolbar;
 
-    private String getId;   //문서 uid
+    private String getId;   //문서 id
     private String getCategory; //문서 컬렉션 이름
+    private String postId; //문서 uid
 
     private String comment;
     private String time;
     private String name;
 
     private String imageStr;
+    private String deleteStr;
 
     private int commentCount;
 
@@ -87,6 +91,7 @@ public class PostInActivity extends AppCompatActivity {
     private Boolean photoBool;
     private PostInfo categoryInfo;
 
+    private Boolean isUser=false; //글쓴이인지 구
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +119,7 @@ public class PostInActivity extends AppCompatActivity {
                     DocumentSnapshot documentSnapshot = task.getResult();
                     if(documentSnapshot.exists()) {
                         name = documentSnapshot.getData().get("nickname").toString();
+
                     } else {
                         Log.d("commentAdapter", "No such document");
                     }
@@ -123,7 +129,13 @@ public class PostInActivity extends AppCompatActivity {
             }
         });
 
-        DocumentReference documentReference = db.collection(getCategory).document(getId);
+
+
+        //  postId=
+        //Log.d("PostInActivity", );
+
+        Log.d("PostInActivity",user.getUid());
+
 //        DocumentReference documentReference1 = db.collection("users").document(user.getUid());
 //
 //        documentReference1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -141,6 +153,7 @@ public class PostInActivity extends AppCompatActivity {
 //            }
 //        });
 
+        DocumentReference documentReference = db.collection(getCategory).document(getId);
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() { //게시글 데이터 가져오기
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -188,11 +201,20 @@ public class PostInActivity extends AppCompatActivity {
                                             }
                                         });
                                     }
+
+                                    //bookmarkButton 사용자에 따라 변경
+                                   if(user.getUid().equals(document.getData().get("id").toString())){
+                                        postInMarkButton.setBackgroundResource(R.drawable.community_mod_btn);
+                                        isUser=true;
+
+                                    } else{
+                                        postInMarkButton.setBackgroundResource(R.drawable.bookmark_button);
+                                        isUser=false;
+                                    }
                                 }
                             }
                         });
 
-//                        name = document.getData().get("name").toString();
 
                         postInfo = new PostInfo(document.getData().get("title").toString(),
                                 document.getData().get("text").toString(),
@@ -221,7 +243,7 @@ public class PostInActivity extends AppCompatActivity {
 
 
                     } else {
-                        Toast.makeText(PostInActivity.this, "No such document", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PostInActivity.this, "No such document " + document.exists(), Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(PostInActivity.this, "get failed with " + task.getException(), Toast.LENGTH_SHORT).show();
@@ -262,6 +284,7 @@ public class PostInActivity extends AppCompatActivity {
                     }
                 });
 
+
         db.collection("users").document(user.getUid()).collection("bookmarks").document(getId).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -272,6 +295,7 @@ public class PostInActivity extends AppCompatActivity {
                                 Log.d("testLog", "DocumentSnapshot successfully updated!");
                                 //초록색으로 바꾸기
                                 postInMarkButton.setBackgroundResource(R.drawable.bookmark_yes);
+                                postInMarkButton.setSelected(true);
                                 Log.d("testLog", documentSnapshot.getData().toString());
                             }
                         } else {
@@ -280,7 +304,6 @@ public class PostInActivity extends AppCompatActivity {
 
                     }
                 });
-
 
 
         postInSubmitButton.setOnClickListener(new View.OnClickListener() {  //댓글 전송
@@ -295,34 +318,87 @@ public class PostInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("getId", user.getUid());
-                if (postInfo != null) {
-                    db.collection("users").document(user.getUid())
-                            .collection("bookmarks").document(getId)
-                            .set(postInfo);
+                if (isUser == false) {
+                    if (!postInMarkButton.isSelected()) {
+                        if (postInfo != null) {
+                            db.collection("users").document(user.getUid())
+                                    .collection("bookmarks").document(getId)
+                                    .set(postInfo);
 
-                    db.collection("users").document(user.getUid())
-                            .collection("bookmarks").document(getId)
-                            .update("category", getCategory);
+                            db.collection("users").document(user.getUid())
+                                    .collection("bookmarks").document(getId)
+                                    .update("category", getCategory);
 
-                    db.collection("users").document(user.getUid())
-                            .collection("bookmarks").document(getId)
-                            .update("photo", photoBool);
+                            db.collection("users").document(user.getUid())
+                                    .collection("bookmarks").document(getId)
+                                    .update("photo", photoBool);
 
-                    postInMarkButton.setSelected(true);
-                    postInMarkButton.setBackgroundResource(R.drawable.bookmark_yes);
-                    Toast.makeText(PostInActivity.this, "북마크 성공", Toast.LENGTH_SHORT).show();
+                            postInMarkButton.setSelected(true);
+                            postInMarkButton.setBackgroundResource(R.drawable.bookmark_yes);
+                            Toast.makeText(PostInActivity.this, "북마크 성공", Toast.LENGTH_SHORT).show();
+                        }
+                    } else if (postInMarkButton.isSelected()) {
+                        postInMarkButton.setBackgroundResource(R.drawable.bookmark_button);
+                        postInMarkButton.setSelected(false);
+                        db.collection("users").document(user.getUid())
+                                .collection("bookmarks").document(getId)
+                                .delete()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(PostInActivity.this, "북마크 삭제", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+
+                    }
+                } else {
+                    deleteStr = getId.toString();
+                    Log.d("out123", deleteStr);
+                    Snackbar.make(v, "게시물 삭제", Snackbar.LENGTH_SHORT).setAction("OK", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (deleteStr != null) {
+                                db.collection(getCategory).document(deleteStr)
+                                        .delete()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d("out123", getCategory);
+                                                Toast.makeText(view.getContext(), "게시물 삭제 완료", Toast.LENGTH_SHORT).show();
+//                                                Intent intent = new Intent(PostInActivity.this, CommunityActivity.class);
+//                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                                                startActivity(intent);
+                                                finish();
+
+                                                //           listViewItemList.remove(pos);
+                                                //          notifyDataSetChanged();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(view.getContext(), "게시물 삭제 실패", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+                        }
+                    }).show();
                 }
             }
+
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        backButton.setOnClickListener(new View.OnClickListener()
+
+            {
+                @Override
+                public void onClick (View v){
                 onBackPressed();
             }
-        });
+            });
 
-    }
+        }
 
     private void init() {
 
