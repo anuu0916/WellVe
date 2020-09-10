@@ -216,6 +216,7 @@ public class PostActivity extends AppCompatActivity {
                                 Log.d(TAG, "format1: "+ time+ " format2: "+filename);
                                 StorageReference storageReference = storage.getReferenceFromUrl("gs://wellve.appspot.com")
                                         .child(title+"_"+filename);
+                                Log.d(TAG, "filename : " + title+"_"+filename);
                                 storageReference.putFile(photoUri)
                                         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                             @Override
@@ -386,9 +387,9 @@ public class PostActivity extends AppCompatActivity {
         Bitmap originalBm = null;
         Bitmap resizedBitmap = null;
 
-        try {
+        BitmapFactory.Options options = new BitmapFactory.Options();
 
-            BitmapFactory.Options options = new BitmapFactory.Options();
+        try {
             options.inPurgeable = true;
             options.inDither = true;
 
@@ -445,7 +446,7 @@ public class PostActivity extends AppCompatActivity {
             Matrix matrix = new Matrix();
 
             // resize the bitmap
-            matrix.postScale(scaleWidth / width, scaleHeight / height);
+            matrix.postScale(scaleWidth / width, height);
 
             // recreate the new Bitmap
             resizedBitmap = Bitmap.createBitmap(originalBm, 0, 0, width, height, matrix, true);

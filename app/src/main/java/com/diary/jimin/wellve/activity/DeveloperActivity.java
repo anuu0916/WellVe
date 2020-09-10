@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.diary.jimin.wellve.R;
 
@@ -33,6 +34,12 @@ public class DeveloperActivity extends AppCompatActivity {
             }
         });
 
+        bt_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendEmail();
+            }
+        });
 //        etMessage = (EditText)findViewById(R.id.et_message);
     }
 
@@ -46,6 +53,19 @@ public class DeveloperActivity extends AppCompatActivity {
 //
 //    }
 
+    private void sendEmail(){
+        String text = et_message.getText().toString();
+
+        if(text.length()>0){
+            Toast.makeText(DeveloperActivity.this, "전송 성공! 소중한 의견 감사합니다.", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(DeveloperActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+        else{
+            Toast.makeText(DeveloperActivity.this, "내용을 입력하세요.", Toast.LENGTH_SHORT).show();
+        }
+    }
     private void init() {
         bt_send = (Button) findViewById(R.id.bt_send);
         backButton = (Button)findViewById(R.id.developerBackButton);
