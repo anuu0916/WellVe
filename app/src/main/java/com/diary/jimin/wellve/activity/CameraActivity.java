@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -135,42 +136,48 @@ public class CameraActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, Camera2BasicFragment.newInstance())
                     .commit();
-        }else {
+        }else if(!resultText.contains(",")){
+            Toast.makeText(CameraActivity.this, "원재료명을 촬영해주세요!", Toast.LENGTH_SHORT).show();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, Camera2BasicFragment.newInstance())
+                    .commit();
+        }
+        else {
             try {
                 Log.d("inputStream", "try");
                 Uri uri = Uri.parse(isStr);
                 InputStream inputStream = getApplicationContext().getContentResolver().openInputStream(uri);
                 bm = BitmapFactory.decodeStream(inputStream);
 
-                Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-                cursor.moveToNext();
-                String filepath = cursor.getString(cursor.getColumnIndex("_data"));
-                cursor.close();
+//                Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+//                cursor.moveToNext();
+//                String filepath = cursor.getString(cursor.getColumnIndex("_data"));
+//                cursor.close();
+//
+//                ExifInterface ei = new ExifInterface(filepath);
+//                int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+//                        ExifInterface.ORIENTATION_UNDEFINED);
+//
+//                Bitmap rotatedBitmap = null;
+//                switch (orientation) {
+//                    case ExifInterface.ORIENTATION_ROTATE_90:
+//                        rotatedBitmap = rotateImage(bm, 90);
+//                        break;
+//
+//                    case ExifInterface.ORIENTATION_ROTATE_180:
+//                        rotatedBitmap = rotateImage(bm, 180);
+//                        break;
+//
+//                    case ExifInterface.ORIENTATION_ROTATE_270:
+//                        rotatedBitmap = rotateImage(bm, 270);
+//                        break;
+//
+//                    case ExifInterface.ORIENTATION_NORMAL:
+//                    default:
+//                        rotatedBitmap = bm;
+//                }
 
-                ExifInterface ei = new ExifInterface(filepath);
-                int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                        ExifInterface.ORIENTATION_UNDEFINED);
-
-                Bitmap rotatedBitmap = null;
-                switch (orientation) {
-                    case ExifInterface.ORIENTATION_ROTATE_90:
-                        rotatedBitmap = rotateImage(bm, 90);
-                        break;
-
-                    case ExifInterface.ORIENTATION_ROTATE_180:
-                        rotatedBitmap = rotateImage(bm, 180);
-                        break;
-
-                    case ExifInterface.ORIENTATION_ROTATE_270:
-                        rotatedBitmap = rotateImage(bm, 270);
-                        break;
-
-                    case ExifInterface.ORIENTATION_NORMAL:
-                    default:
-                        rotatedBitmap = bm;
-                }
-
-                photo.setImageBitmap(rotatedBitmap);
+                photo.setImageBitmap(bm);
 
             } catch (FileNotFoundException e) {
                 bm = BitmapFactory.decodeFile(isStr);

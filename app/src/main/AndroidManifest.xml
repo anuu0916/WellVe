@@ -60,6 +60,8 @@
         <activity android:name=".activity.FindIdActivity" />
         <activity android:name=".activity.FindPasswordCompleteActivity" />
         <activity android:name=".activity.FindPasswordActivity" />
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
     </application>
 
 </manifest>
