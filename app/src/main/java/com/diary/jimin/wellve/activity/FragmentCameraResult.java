@@ -292,6 +292,7 @@ public class FragmentCameraResult extends Fragment {
         if(bundle!=null){
             ArrayList<String> VeganType = bundle.getStringArrayList("veganType");
             String resultText = bundle.getString("resultText");
+            ArrayList<String> Unknwon = bundle.getStringArrayList("Unknown");
 
             db = FirebaseFirestore.getInstance();
             user = FirebaseAuth.getInstance().getCurrentUser();
@@ -316,6 +317,12 @@ public class FragmentCameraResult extends Fragment {
                     }
                 }
             });
+
+            if(Unknwon.isEmpty()){
+
+            } else{
+
+            }
 
             if(VeganType.isEmpty()){
                 veganTypeResult.setText("섭취 불가");
