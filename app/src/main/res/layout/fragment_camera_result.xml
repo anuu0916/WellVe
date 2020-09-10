@@ -4,16 +4,12 @@
     android:layout_height="match_parent"
     android:id="@+id/relayout"
     android:animateLayoutChanges="true">
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
     <com.diary.jimin.wellve.view.AutoFitTextureView
         android:id="@+id/texture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginHorizontal="16dp"/>
+        android:layout_alignParentTop="true"/>
 
 
 
@@ -39,7 +35,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center_horizontal"
+            android:layout_marginTop="50dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,8 +51,8 @@
                     android:background="#ffffff"
                     android:id="@+id/btn_slide"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="위로 올려 상세정보 확인하기"
+                    android:layout_height="28dp"
+                    android:text="눌러서 상세정보 확인하기"
                     android:textColor="#000000"
                     android:textSize="13sp"/>
             </LinearLayout>
@@ -64,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_marginTop="4dp">
+                android:layout_marginTop="1dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -111,23 +108,48 @@
 
     </FrameLayout>
 
+<ScrollView
+    android:id="@+id/detailPage"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:visibility="invisible"
+    android:layout_gravity="bottom"
+    android:fillViewport="true">
     <FrameLayout
-        android:id="@+id/detailPage"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="24dp"
-        android:background="@drawable/ocr_fragment_back"
-        android:visibility="gone">
+        android:background="@drawable/ocr_fragment_back">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="24dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ocr_down"
+            android:layout_marginRight="8dp"/>
+        <Button
+            android:background="#ffffff"
+            android:id="@+id/down_slide"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:text="눌러서 아래로 내리기"
+            android:textColor="#000000"
+            android:textSize="13sp"/>
+    </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="52dp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="24dp">
 
             <TextView
@@ -417,7 +439,9 @@
 
 </LinearLayout>
     </FrameLayout>
+</ScrollView>
+
 
     <!--숨겨둔 페이지 끝 (슬라이드)-->
 </FrameLayout>
-</FrameLayout>
+
