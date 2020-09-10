@@ -66,6 +66,7 @@ public class PostInActivity extends AppCompatActivity {
     private ImageButton postInSubmitButton;
     private ImageButton postInMarkButton;
     private TextView postInCommentNumText;
+    private TextView postInCategory;
     private ImageView postInImageView;
     private Button backButton;
     private Toolbar toolbar;
@@ -115,6 +116,15 @@ public class PostInActivity extends AppCompatActivity {
                         postInContentTextView.setText(document.getData().get("text").toString());
                         postInIdTextView.setText(document.getData().get("name").toString());
                         postInDateTextView.setText(document.getData().get("time").toString());
+                        if(getCategory.equals("freePosts")) {
+                            postInCategory.setText("자유");
+                        } else if(getCategory.equals("QnAPosts")) {
+                            postInCategory.setText("QnA");
+                        } else if(getCategory.equals("literPosts")) {
+                            postInCategory.setText("문학");
+                        } else if(getCategory.equals("restaurantPosts")) {
+                            postInCategory.setText("식당");
+                        }
 
                         DocumentReference documentReference1 = db.collection("users").document(document.getData().get("id").toString());
                         documentReference1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -266,6 +276,7 @@ public class PostInActivity extends AppCompatActivity {
         postInContentTextView = (TextView) findViewById(R.id.postInContentTextView);
         postInIdTextView = (TextView) findViewById(R.id.postInIdTextView);
         postInDateTextView = (TextView) findViewById(R.id.postInDateTextView);
+        postInCategory = (TextView) findViewById(R.id.postInCategory);
         db = FirebaseFirestore.getInstance();
         deleteButton = (ImageButton)findViewById(R.id.commentDeleteButton);
 
