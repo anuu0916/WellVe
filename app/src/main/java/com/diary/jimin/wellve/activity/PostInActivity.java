@@ -104,8 +104,26 @@ public class PostInActivity extends AppCompatActivity {
 
 
         user = FirebaseAuth.getInstance().getCurrentUser();
+        adapter = new CommentAdapter();
 
         DocumentReference documentReference = db.collection(getCategory).document(getId);
+//        DocumentReference documentReference1 = db.collection("users").document(user.getUid());
+//
+//        documentReference1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if(task.isSuccessful()){
+//                    DocumentSnapshot document1 = task.getResult();
+//                    if(document1.exists()){
+//                        adapter.titleTextView.setText((CharSequence) document1.getData().get("nickname"));
+//                    }
+//                }
+//                else {
+//                    Log.d("PostInActivity", ""+task.getException());
+//                }
+//            }
+//        });
+
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() { //게시글 데이터 가져오기
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -195,7 +213,6 @@ public class PostInActivity extends AppCompatActivity {
         });
 
 
-        adapter = new CommentAdapter();
         db = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = db.collection("comments");
         //댓글 데이터 리스트 가져오기
