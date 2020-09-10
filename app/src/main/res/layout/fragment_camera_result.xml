@@ -108,18 +108,12 @@
 
     </FrameLayout>
 
-<ScrollView
-    android:id="@+id/detailPage"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clickable="true"
-    android:visibility="gone"
-    android:layout_gravity="bottom"
-    android:fillViewport="true">
     <FrameLayout
+        android:id="@+id/detailPage"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:background="@drawable/ocr_fragment_back">
 <LinearLayout
     android:layout_width="match_parent"
@@ -186,6 +180,17 @@
 <!--                android:layout_gravity="left"-->
 <!--                android:textColor="#000000" />-->
 <!--        </LinearLayout>-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:visibility="visible"
+        android:layout_gravity="bottom"
+        android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -447,12 +452,9 @@
             android:background="#d4d4d4"
             android:layout_marginHorizontal="24dp"
             />
-
+    </LinearLayout>
+    </ScrollView>
 </LinearLayout>
     </FrameLayout>
-</ScrollView>
-
-
     <!--숨겨둔 페이지 끝 (슬라이드)-->
 </FrameLayout>
-
