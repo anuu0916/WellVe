@@ -29,8 +29,10 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.provider.MediaStore;
@@ -43,6 +45,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,6 +73,7 @@ import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import com.google.firebase.ml.vision.text.RecognizedLanguage;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -100,8 +104,13 @@ public class Camera2BasicFragment extends Fragment
     private static final String FRAGMENT_DIALOG = "dialog";
 
     private static final int PICK_IMAGE_REQUEST = 1111;
+    private static final int CROP_FROM_CAMERA = 2;
     private Bitmap bm;
     private ImageView iv_photo;
+    private ImageButton backButton;
+
+    private String isStr;
+    private Uri mImageCaptureUri;
 
     private int isTaken = 0;
 //    private TextView veganTypeResult;
@@ -446,6 +455,14 @@ public class Camera2BasicFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_camera2_basic, container, false);
 
         iv_photo = view.findViewById(R.id.camera2_photo);
+        backButton = view.findViewById(R.id.camera_backbutton);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
 
 
         return view;
@@ -473,34 +490,51 @@ public class Camera2BasicFragment extends Fragment
                 ".jpg");
     }
 
+    private void cropImage(){
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(mImageCaptureUri, "image/*");
+
+        intent.putExtra("outputX", 90);
+        intent.putExtra("outputY", 90);
+        intent.putExtra("scale", true);
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, CROP_FROM_CAMERA);
+    }
+
     //갤러리 사진가져온거 결과(비트맵으로) 저장
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-//        if (resultCode == RESULT_OK && data.getData() != null) {
-////            if (requestCode == PICK_IMAGE_REQUEST) {
-////                Bundle extras = data.getExtras();
-////
-////                Bitmap imageBitmap = (Bitmap) extras.get("data");
-////                ((ImageView) getActivity().findViewById(R.id.photo)).setImageBitmap(imageBitmap);
-////
-////            }
-////
-////        }
         Log.d("bitmap", requestCode + "");
 
         if (requestCode == PICK_IMAGE_REQUEST) {
             if (resultCode == RESULT_OK && data != null) {
                 try {
                     Log.d("bitmap", "ok");
+
                     InputStream is = getContext().getContentResolver().openInputStream(data.getData());
+                    isStr = data.getData().toString();
                     Log.d("bitmap", "data:" + data.getData());
                     bm = BitmapFactory.decodeStream(is);
                     is.close();
-
                     Log.d("bitmap", "bm: " + bm);
                     iv_photo.setImageBitmap(bm);
+
+//                    mImageCaptureUri = data.getData();
+//                    cropImage();
+
+//                    Bundle extras = data.getExtras();
+//                    if(extras != null){
+//                        InputStream is = getContext().getContentResolver().openInputStream(data.getData());
+//                        isStr = data.getData().toString();
+//                        Log.d("bitmap", "data:" + data.getData());
+//                        bm = BitmapFactory.decodeStream(is);
+//                        is.close();
+//
+//                        Log.d("bitmap", "bm: " + bm);
+//                        iv_photo.setImageBitmap(bm);
+//                    }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -1053,6 +1087,7 @@ public class Camera2BasicFragment extends Fragment
                 Log.d("image", mFile+"");
                 String filePath = mFile.getPath();
                 Log.d("image", filePath);
+                isStr = filePath;
                 bm = BitmapFactory.decodeFile(filePath);
                 Log.d("image", bm+"");
 
@@ -1131,9 +1166,11 @@ public class Camera2BasicFragment extends Fragment
 
         Log.d("resultText", resultText);
 
+
         Intent intent = new Intent(getContext(), CameraActivity.class);
         intent.putExtra("resultText", resultText);
-        //intent.putExtra("image", bm);
+        intent.putExtra("isStr",isStr);
+
         startActivity(intent);
         getActivity().finish();
 

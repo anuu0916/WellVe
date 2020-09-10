@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Camera;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,17 +33,23 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class CameraActivity extends AppCompatActivity {
 
     private Bundle bundle = new Bundle();
-    private Bundle detailbundle = new Bundle();
+    private Bundle bundle2 = new Bundle();
 //    private String type = "";
-//    private Bitmap bm;
-    private ImageView imageView;
+    private Bitmap bm;
     private String resultText;
+    private String[] resultArray;
+
+    private ImageView photo;
+    private String isStr;
+
 
     //private String userType = "";
     ViewPager vp;
@@ -61,7 +69,7 @@ public class CameraActivity extends AppCompatActivity {
 
     private String [] LactoIngredientArray = {
     };
-    ArrayList<String> LactoIngredient = new ArrayList<>(Arrays.asList(LactoOvoIngredientArray));
+    ArrayList<String> LactoIngredient = new ArrayList<>(Arrays.asList(LactoIngredientArray));
 
     private String [] OvoIngredientArray = {
     };
@@ -79,7 +87,7 @@ public class CameraActivity extends AppCompatActivity {
     };
     private static final String [] Ocean = {
             "용연향", "자개", "조개", "캐비어", "키틴", "산호", "생선", "비늘", "어분", "부레풀", "해면", "진주",
-            "알", "경랍", "어유", "간유", "경유", "바다표범", "키토산"
+            /*"알",*/ "경랍", "어유", "간유", "경유", "바다표범", "키토산"
     };
     private static final String [] Ovo= {
             "달걀", "난황", "난백", "난각", "알부민"
@@ -102,19 +110,41 @@ public class CameraActivity extends AppCompatActivity {
 
         init();
 
-        if (null == savedInstanceState) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, Camera2BasicFragment.newInstance())
-                    .commit();
-        }
+//        if (null == savedInstanceState) {
+//            getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.container, Camera2BasicFragment.newInstance())
+//                    .commit();
+//        }
 
         Intent intent = getIntent();
         resultText = intent.getStringExtra("resultText");
-        //byte[] byteArray = getIntent().getByteArrayExtra("image");
-        //imageView.setImageBitmap(bm);
+        isStr = intent.getStringExtra("isStr");
 
-        if(resultText != null){
+        if (resultText == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, Camera2BasicFragment.newInstance())
+                    .commit();
+        }else {
+            try {
+                Log.d("inputStream", "try");
+                InputStream inputStream = getApplicationContext().getContentResolver().openInputStream(Uri.parse(isStr));
+                bm = BitmapFactory.decodeStream(inputStream);
+                photo.setImageBitmap(bm);
+
+            } catch (FileNotFoundException e) {
+                bm = BitmapFactory.decodeFile(isStr);
+                photo.setImageBitmap(bm);
+                e.printStackTrace();
+                Log.d("inputStream", "no");
+            }
+
             resultText = resultText.replaceAll(System.getProperty("line.separator"), " ");
+            resultArray = resultText.split(",");
+            ArrayList<String> resultList = new ArrayList<>();
+            for(String s : resultArray){
+                resultList.add(s);
+            }
+            Log.d("resultText", resultArray+"");
 
             for(String s : Else){
                 if(resultText.contains(s)){
@@ -197,13 +227,20 @@ public class CameraActivity extends AppCompatActivity {
             vp.setAdapter(new pagerAdapter(getSupportFragmentManager()));
             vp.setCurrentItem(0);
 
-            //bm = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-            //getSupportFragmentManager().beginTransaction().replace(R.id.container, fragmentCameraResult).commit();
+//            FragmentCameraResult fragmentCameraResult;
+//            fragmentCameraResult = new FragmentCameraResult();
+//            bundle.putStringArrayList("veganType", VeganType);
+//            bundle.putStringArrayList("VeganIngredient", VeganIngredient);
+//            bundle.putStringArrayList("LactoIngredient", LactoIngredient);
+//            bundle.putStringArrayList("OvoIngredient", OvoIngredient);
+//            bundle.putStringArrayList("LactoOvoIngredient", LactoOvoIngredient);
+//            bundle.putStringArrayList("PescoIngredient", PescoIngredient);
+//            bundle.putString("resultText", resultText);
+//            fragmentCameraResult.setArguments(bundle);
+//            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragmentCameraResult).commit();
         }
 
 
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
-//                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     View.OnClickListener movePageListener = new View.OnClickListener()
@@ -228,8 +265,6 @@ public class CameraActivity extends AppCompatActivity {
         {
             switch(position)
             {
-//                case 0:
-//                    return new CameraBlankFragment();
                 case 0:
                     FragmentCameraResult fragmentCameraResult;
                     fragmentCameraResult = new FragmentCameraResult();
@@ -242,12 +277,12 @@ public class CameraActivity extends AppCompatActivity {
                     bundle.putString("resultText", resultText);
                     fragmentCameraResult.setArguments(bundle);
                     return fragmentCameraResult;
-                case 1:
-                    FragmentCameraResultDetail fragmentCameraResultDetail;
-                    fragmentCameraResultDetail = new FragmentCameraResultDetail();
-                    detailbundle.putString("resultText", resultText);
-                    fragmentCameraResultDetail.setArguments(detailbundle);
-                    return fragmentCameraResultDetail;
+//                case 1:
+//                    FragmentCameraResultDetail fragmentCameraResultDetail;
+//                    fragmentCameraResultDetail = new FragmentCameraResultDetail();
+//                    detailbundle.putString("resultText", resultText);
+//                    fragmentCameraResultDetail.setArguments(detailbundle);
+//                    return fragmentCameraResultDetail;
                 default:
                     return null;
             }
@@ -255,11 +290,11 @@ public class CameraActivity extends AppCompatActivity {
         @Override
         public int getCount()
         {
-            return 2;
+            return 1;
         }
     }
 
     void init(){
-        imageView = (ImageView)findViewById(R.id.cameraPhoto);
+        photo = (ImageView)findViewById(R.id.cameraPhoto);
     }
 }

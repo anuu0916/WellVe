@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:weightSum="10"
     tools:context=".activity.MainActivity"
@@ -34,14 +35,25 @@
 
     </RelativeLayout>
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/mypage_profile_image"
         android:layout_width="72dp"
         android:layout_height="72dp"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/colorGray"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="40dp"
-        android:background="@drawable/mypage_profile" />
+        />
+
+<!--    <ImageView-->
+<!--        android:id="@+id/mypage_profile_image"-->
+<!--        android:layout_width="72dp"-->
+<!--        android:layout_height="72dp"-->
+<!--        android:layout_alignParentLeft="true"-->
+<!--        android:layout_marginLeft="16dp"-->
+<!--        android:layout_marginTop="40dp"-->
+<!--        android:background="@drawable/default_user" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -66,7 +78,7 @@
                 android:id="@+id/myPageNickName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="JEN 님!"
+                android:text=""
                 android:textColor="@color/colorSelect"
                 android:textSize="16sp"
                 android:layout_gravity="center_horizontal"/>

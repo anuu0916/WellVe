@@ -3,9 +3,11 @@ package com.diary.jimin.wellve.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
@@ -15,12 +17,18 @@ import android.widget.Toast;
 
 import com.diary.jimin.wellve.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
@@ -31,6 +39,7 @@ public class NicknameModifyActivity extends AppCompatActivity {
     private Button backButton;
     private FirebaseAuth mAuth;
 
+    private FirebaseUser currentUser;
     private FirebaseFirestore db;
 
     @Override
@@ -46,6 +55,7 @@ public class NicknameModifyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 isNameCheck();
+                modifyNickname();
             }
         });
 
@@ -89,7 +99,7 @@ public class NicknameModifyActivity extends AppCompatActivity {
 
     public void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        currentUser = mAuth.getCurrentUser();
     }
 
     private void isNameCheck() {
@@ -108,16 +118,37 @@ public class NicknameModifyActivity extends AppCompatActivity {
                                 }
 
                             }
-                            Intent intent = new Intent(NicknameModifyActivity.this, BookmarkActivity.class);
-                            intent.putExtra("nickName",nickName);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                            finish();
                         }
                     }
                 });
 
     }
-    
+
+    private void modifyNickname(){
+        final String nickName = nicknameEditText.getText().toString();
+
+        if(nickName.length()>0){
+            db.collection("users").document(currentUser.getUid())
+                    .update("nickname", nickName)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d("nicknameModify", "DocumentSnapshot successfully updated!");
+                            Intent intent = new Intent(NicknameModifyActivity.this, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+//                            finish();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w("nicknameModify", "Error updating document", e);
+                        }
+                    });
+
+
+        }
+    }
 
 }
