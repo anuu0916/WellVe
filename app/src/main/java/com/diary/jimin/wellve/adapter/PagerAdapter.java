@@ -1,5 +1,9 @@
 package com.diary.jimin.wellve.adapter;
 
+import android.os.Parcelable;
+
+import com.diary.jimin.wellve.fragment.Mypage2Fragment;
+import com.diary.jimin.wellve.fragment.Mypage3Fragment;
 import com.diary.jimin.wellve.fragment.Page1Fragment;
 import com.diary.jimin.wellve.fragment.Page2Fragment;
 import com.diary.jimin.wellve.fragment.Page3Fragment;
@@ -7,6 +11,7 @@ import com.diary.jimin.wellve.fragment.Page4Fragment;
 import com.diary.jimin.wellve.fragment.Page5Fragment;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -47,5 +52,10 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         return num;
+    }
+
+    @Override
+    public void restoreState(@Nullable Parcelable state, @Nullable ClassLoader loader) {
+        super.restoreState(state, loader);
     }
 }

@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -128,10 +129,9 @@ public class PostInActivity extends AppCompatActivity {
             }
         });
 
-        DocumentReference documentReference = db.collection(getCategory).document(getId);
 
 
-      //  postId=
+        //  postId=
         //Log.d("PostInActivity", );
 
         Log.d("PostInActivity",user.getUid());
@@ -153,6 +153,7 @@ public class PostInActivity extends AppCompatActivity {
 //            }
 //        });
 
+        DocumentReference documentReference = db.collection(getCategory).document(getId);
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() { //게시글 데이터 가져오기
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -214,7 +215,6 @@ public class PostInActivity extends AppCompatActivity {
                             }
                         });
 
-//                        name = document.getData().get("name").toString();
 
                         postInfo = new PostInfo(document.getData().get("title").toString(),
                                 document.getData().get("text").toString(),
@@ -243,7 +243,7 @@ public class PostInActivity extends AppCompatActivity {
 
 
                     } else {
-                        Toast.makeText(PostInActivity.this, "No such document", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PostInActivity.this, "No such document " + document.exists(), Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(PostInActivity.this, "get failed with " + task.getException(), Toast.LENGTH_SHORT).show();
@@ -295,6 +295,7 @@ public class PostInActivity extends AppCompatActivity {
                                 Log.d("testLog", "DocumentSnapshot successfully updated!");
                                 //초록색으로 바꾸기
                                 postInMarkButton.setBackgroundResource(R.drawable.bookmark_yes);
+                                postInMarkButton.setSelected(true);
                                 Log.d("testLog", documentSnapshot.getData().toString());
                             }
                         } else {
@@ -303,7 +304,6 @@ public class PostInActivity extends AppCompatActivity {
 
                     }
                 });
-
 
 
         postInSubmitButton.setOnClickListener(new View.OnClickListener() {  //댓글 전송
@@ -318,67 +318,86 @@ public class PostInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("getId", user.getUid());
-                if(isUser==false){
-                    if (postInfo != null) {
-                        db.collection("users").document(user.getUid())
-                                .collection("bookmarks").document(getId)
-                                .set(postInfo);
+                if (isUser == false) {
+                    if (!postInMarkButton.isSelected()) {
+                        if (postInfo != null) {
+                            db.collection("users").document(user.getUid())
+                                    .collection("bookmarks").document(getId)
+                                    .set(postInfo);
 
-                        db.collection("users").document(user.getUid())
-                                .collection("bookmarks").document(getId)
-                                .update("category", getCategory);
+                            db.collection("users").document(user.getUid())
+                                    .collection("bookmarks").document(getId)
+                                    .update("category", getCategory);
 
-                        db.collection("users").document(user.getUid())
-                                .collection("bookmarks").document(getId)
-                                .update("photo", photoBool);
+                            db.collection("users").document(user.getUid())
+                                    .collection("bookmarks").document(getId)
+                                    .update("photo", photoBool);
 
-                        postInMarkButton.setSelected(true);
-                        postInMarkButton.setBackgroundResource(R.drawable.bookmark_yes);
-                        Toast.makeText(PostInActivity.this, "북마크 성공", Toast.LENGTH_SHORT).show();
-                    }
-                }else{
-                    deleteStr=getId.toString();
-                    Log.d("out123",deleteStr);
-                    Snackbar.make(v,"게시물 삭제",Snackbar.LENGTH_SHORT).setAction("OK", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if(deleteStr != null){
-                                db.collection(getCategory).document(deleteStr)
-                                        .delete()
-                                        .addOnSuccessListener(new OnSuccessListener<Void>(){
-                                            @Override
-                                            public void onSuccess(Void aVoid){
-                                                Log.d("out123",getCategory);
-                                                Toast.makeText(view.getContext(), "게시물 삭제 완료", Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(PostInActivity.this,CommunityActivity.class);
-                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                startActivity(intent);
-
-                                     //           listViewItemList.remove(pos);
-                                      //          notifyDataSetChanged();
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(view.getContext(), "게시물 삭제 실패", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                            }
+                            postInMarkButton.setSelected(true);
+                            postInMarkButton.setBackgroundResource(R.drawable.bookmark_yes);
+                            Toast.makeText(PostInActivity.this, "북마크 성공", Toast.LENGTH_SHORT).show();
                         }
-                    }).show();
+                    } else if (postInMarkButton.isSelected()) {
+                        postInMarkButton.setBackgroundResource(R.drawable.bookmark_button);
+                        postInMarkButton.setSelected(false);
+                        db.collection("users").document(user.getUid())
+                                .collection("bookmarks").document(getId)
+                                .delete()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(PostInActivity.this, "북마크 삭제", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+
+                    } else {
+                        deleteStr = getId.toString();
+                        Log.d("out123", deleteStr);
+                        Snackbar.make(v, "게시물 삭제", Snackbar.LENGTH_SHORT).setAction("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (deleteStr != null) {
+                                    db.collection(getCategory).document(deleteStr)
+                                            .delete()
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d("out123", getCategory);
+                                                    Toast.makeText(view.getContext(), "게시물 삭제 완료", Toast.LENGTH_SHORT).show();
+                                                    Intent intent = new Intent(PostInActivity.this, CommunityActivity.class);
+                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                    startActivity(intent);
+
+                                                    //           listViewItemList.remove(pos);
+                                                    //          notifyDataSetChanged();
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(view.getContext(), "게시물 삭제 실패", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                }
+                            }
+                        }).show();
+                    }
                 }
             }
+
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        backButton.setOnClickListener(new View.OnClickListener()
+
+            {
+                @Override
+                public void onClick (View v){
                 onBackPressed();
             }
-        });
+            });
 
-    }
+        }
 
     private void init() {
 
