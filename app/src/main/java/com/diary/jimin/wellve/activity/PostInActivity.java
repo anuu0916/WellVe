@@ -106,6 +106,23 @@ public class PostInActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         adapter = new CommentAdapter();
 
+        DocumentReference documentReference1 = db.collection("users").document(user.getUid());
+        documentReference1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if(documentSnapshot.exists()) {
+                        name = documentSnapshot.getData().get("nickname").toString();
+                    } else {
+                        Log.d("commentAdapter", "No such document");
+                    }
+                }else {
+
+                }
+            }
+        });
+
         DocumentReference documentReference = db.collection(getCategory).document(getId);
 //        DocumentReference documentReference1 = db.collection("users").document(user.getUid());
 //
@@ -175,7 +192,7 @@ public class PostInActivity extends AppCompatActivity {
                             }
                         });
 
-                        name = document.getData().get("name").toString();
+//                        name = document.getData().get("name").toString();
 
                         postInfo = new PostInfo(document.getData().get("title").toString(),
                                 document.getData().get("text").toString(),
@@ -232,6 +249,7 @@ public class PostInActivity extends AppCompatActivity {
                                             document.getData().get("id").toString(),
                                             document.getData().get("time").toString(),
                                             document.getData().get("name").toString());
+
                                 }
                             }
                             postInCommentNumText.setText(Integer.toString(commentCount));
