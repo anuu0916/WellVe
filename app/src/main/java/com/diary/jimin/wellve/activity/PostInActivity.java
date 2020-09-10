@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -72,8 +73,9 @@ public class PostInActivity extends AppCompatActivity {
     private Button backButton;
     private Toolbar toolbar;
 
-    private String getId;   //문서 uid
+    private String getId;   //문서 id
     private String getCategory; //문서 컬렉션 이름
+    private String postId; //문서 uid
 
     private String comment;
     private String time;
@@ -114,6 +116,7 @@ public class PostInActivity extends AppCompatActivity {
                     DocumentSnapshot documentSnapshot = task.getResult();
                     if(documentSnapshot.exists()) {
                         name = documentSnapshot.getData().get("nickname").toString();
+
                     } else {
                         Log.d("commentAdapter", "No such document");
                     }
@@ -124,6 +127,21 @@ public class PostInActivity extends AppCompatActivity {
         });
 
         DocumentReference documentReference = db.collection(getCategory).document(getId);
+
+
+      //  postId=
+        //Log.d("PostInActivity", );
+
+        Log.d("PostInActivity",user.getUid());
+//        if(user.getUid().equals(getId)){
+//            BitmapDrawable deleteImg = (BitmapDrawable)getResources().getDrawable(R.drawable.community_mod_btn);
+//            postInMarkButton.setImageDrawable(deleteImg);
+//
+//        } else{
+//            BitmapDrawable deleteImg = (BitmapDrawable)getResources().getDrawable(R.drawable.bookmark_button);
+//            postInMarkButton.setImageDrawable(deleteImg);
+//        }
+
 //        DocumentReference documentReference1 = db.collection("users").document(user.getUid());
 //
 //        documentReference1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -261,6 +279,7 @@ public class PostInActivity extends AppCompatActivity {
                         }
                     }
                 });
+
 
         db.collection("users").document(user.getUid()).collection("bookmarks").document(getId).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
