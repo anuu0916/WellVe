@@ -67,7 +67,7 @@ public class BookmarkActivity extends AppCompatActivity {
     private Button backButton;
 
     private ViewPager viewPager;
-    private PagerAdapter pageAdapter;
+    private VPAdapter pageAdapter;
     private TabLayout tabLayout;
 
     @Override
@@ -88,9 +88,10 @@ public class BookmarkActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tab);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        pageAdapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        pageAdapter = new VPAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager = findViewById(R.id.categoryViewPager);
         viewPager.setAdapter(pageAdapter);
+
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -111,9 +112,6 @@ public class BookmarkActivity extends AppCompatActivity {
             }
         });
 
-
-        CollectionReference document = db.collection("users").document(user.getUid())
-                .collection("bookmarks");
 
         DocumentReference document2 = db.collection("users").document(user.getUid());
 
@@ -168,6 +166,12 @@ public class BookmarkActivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        pageAdapter.notifyDataSetChanged();
     }
 
     private void init() {

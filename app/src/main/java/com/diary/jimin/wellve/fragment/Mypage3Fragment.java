@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.diary.jimin.wellve.activity.BookmarkActivity;
 import com.diary.jimin.wellve.activity.PostInActivity;
 import com.diary.jimin.wellve.model.CommunityItem;
 import com.diary.jimin.wellve.R;
@@ -79,6 +80,7 @@ public class Mypage3Fragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new RecyclerViewAdapter(context, items);
+        Log.d("bookmarks",""+items.size());
 
         adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
@@ -109,6 +111,7 @@ public class Mypage3Fragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
                             for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                Log.d("mypage",documentSnapshot.getData().toString());
                                 Boolean photoBool = (Boolean) documentSnapshot.getData().get("photo");
                                 db.collection("comments")
                                         .whereEqualTo("postId", documentSnapshot.getId())
@@ -153,7 +156,7 @@ public class Mypage3Fragment extends Fragment {
                                                                 ));
 //                                                                Log.d("comment", "이미지 O : "+freeSize);
                                                                 idList.add(documentSnapshot.getId());
-                                                                categoryList.add("restaurantPosts");
+                                                                categoryList.add(documentSnapshot.getData().get("category").toString());
                                                                 recyclerView.setAdapter(adapter);
                                                                 progressBar.setVisibility(View.GONE);
                                                             }
@@ -167,7 +170,7 @@ public class Mypage3Fragment extends Fragment {
                                                                 String.valueOf(commentSize)
                                                         ));
                                                         idList.add(documentSnapshot.getId());
-                                                        categoryList.add("restaurantPosts");
+                                                        categoryList.add(documentSnapshot.getData().get("category").toString());
                                                         recyclerView.setAdapter(adapter);
                                                         progressBar.setVisibility(View.GONE);
                                                     }
