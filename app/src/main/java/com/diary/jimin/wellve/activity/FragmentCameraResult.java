@@ -196,10 +196,13 @@ public class FragmentCameraResult extends Fragment {
     private TextView ovoIngredient;
     private TextView veganIngredient;
 
+    private TextView unknownText;
+    private LinearLayout cautionLayout;
+
     private FirebaseFirestore db;
     private FirebaseUser user;
 
-    private ScrollView detailPage = null;
+    private FrameLayout detailPage = null;
     private Button btn_slide;
     private Button down_slide;
     private Animation ani_top = null;
@@ -235,7 +238,7 @@ public class FragmentCameraResult extends Fragment {
         context = getContext();
 
        // View view = inflater.inflate(R.layout.fragment_camera_result,  container, false);
-        detailPage = (ScrollView) layout.findViewById(R.id.detailPage);
+        detailPage = (FrameLayout) layout.findViewById(R.id.detailPage);
         btn_slide =  (Button) layout.findViewById(R.id.btn_slide);
         ani_bottom= AnimationUtils.loadAnimation(context, R.anim.translate_bottom);
         ani_top = AnimationUtils.loadAnimation(context, R.anim.translate_top);
@@ -248,10 +251,16 @@ public class FragmentCameraResult extends Fragment {
 
         btn_slide.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
                 Log.d("slide", "확인2");
                 Log.d("slide", "Open Page");
+
+
                 detailPage.setVisibility(View.VISIBLE);
                 detailPage.startAnimation(ani_top);
+                detailPage.setAnimation(null);
+                
+
 //                switch (v.getId()) {
 //                    case R.id.btn_slide: {
 //                        Log.d("slide", "Open Page");
@@ -270,9 +279,14 @@ public class FragmentCameraResult extends Fragment {
         down_slide.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+
                 Log.d("slide", "Close Page");
+
+
                 detailPage.startAnimation(ani_bottom);
+                detailPage.setAnimation(null);
                 detailPage.setVisibility(View.GONE);
+
 //                switch(v.getId()){
 //                    case R.id.down_slide: {
 //                        Log.d("slide", "Close Page");
@@ -306,6 +320,9 @@ public class FragmentCameraResult extends Fragment {
         ovoIngredient = layout.findViewById(R.id.result_ovo_ingredient);
         veganIngredient = layout.findViewById(R.id.result_vegan_ingredient);
 
+        cautionLayout = layout.findViewById(R.id.result_caution_layout);
+        unknownText = layout.findViewById(R.id.result_unknown_ingredient);
+
 
         Bundle bundle = getArguments();
         if(bundle!=null){
@@ -337,10 +354,15 @@ public class FragmentCameraResult extends Fragment {
                 }
             });
 
-            if(Unknwon.isEmpty()){
-
-            } else{
-
+            if(!Unknwon.isEmpty()){
+                cautionLayout.setVisibility(View.VISIBLE);
+                StringBuilder sb = new StringBuilder();
+                for(String s : Unknwon){
+                    sb.append(s);
+                    sb.append(",");
+                }
+                sb.setLength(sb.length()-1);
+                unknownText.setText(sb);
             }
 
             if(VeganType.isEmpty()){

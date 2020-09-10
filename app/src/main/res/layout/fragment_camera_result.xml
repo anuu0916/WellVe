@@ -108,18 +108,12 @@
 
     </FrameLayout>
 
-<ScrollView
-    android:id="@+id/detailPage"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clickable="true"
-    android:visibility="gone"
-    android:layout_gravity="bottom"
-    android:fillViewport="true">
     <FrameLayout
+        android:id="@+id/detailPage"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:background="@drawable/ocr_fragment_back">
 <LinearLayout
     android:layout_width="match_parent"
@@ -186,6 +180,17 @@
 <!--                android:layout_gravity="left"-->
 <!--                android:textColor="#000000" />-->
 <!--        </LinearLayout>-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:visibility="visible"
+        android:layout_gravity="bottom"
+        android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -212,9 +217,14 @@
                 android:textSize="14sp"/>
         </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/result_caution_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
         <ImageView
-            android:id="@+id/result_caution"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ocr_caution"
@@ -222,8 +232,6 @@
             android:layout_marginBottom="8dp"
             />
         <TextView
-            android:id="@+id/result_caution_text"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="잠깐만!"
@@ -233,7 +241,6 @@
             android:layout_gravity="center_horizontal"/>
         <TextView
             android:id="@+id/result_unknown_ingredient"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="기타 코코아가공품, 바닐라필링, 쌀그릿츠"
@@ -243,8 +250,6 @@
             android:textStyle="bold"
             android:layout_gravity="center_horizontal"/>
         <TextView
-            android:id="@+id/result_caution_check"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="이 성분은 제조사의 확인이 필요해요."
@@ -252,6 +257,9 @@
             android:layout_marginBottom="24dp"
             android:textColor="#000000"
             android:layout_gravity="center_horizontal"/>
+
+    </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -444,12 +452,9 @@
             android:background="#d4d4d4"
             android:layout_marginHorizontal="24dp"
             />
-
+    </LinearLayout>
+    </ScrollView>
 </LinearLayout>
     </FrameLayout>
-</ScrollView>
-
-
     <!--숨겨둔 페이지 끝 (슬라이드)-->
 </FrameLayout>
-
