@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.diary.jimin.wellve.R;
 import com.diary.jimin.wellve.model.PostInfo;
@@ -40,6 +41,7 @@ public class CommentAdapter extends BaseAdapter {
     private ImageButton deleteButton;
     private String deleteStr;
     private String name;
+    private String commentId;
 
     public TextView titleTextView;
     public TextView textView;
@@ -50,6 +52,8 @@ public class CommentAdapter extends BaseAdapter {
 //    private ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>() ;
     private ArrayList<PostInfo> listViewItemList = new ArrayList<PostInfo>() ;
     private TableLayout listItemLayout;
+
+    private CommentViewHolder viewHolder;
 
     // Adapter에 사용되는 데이터의 개수를 리턴. : 필수 구현
     @Override
@@ -71,12 +75,17 @@ public class CommentAdapter extends BaseAdapter {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.list_comment_item, parent, false);
+            // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
+            viewHolder = new CommentViewHolder();
+            viewHolder.titleTextView = (TextView) convertView.findViewById(R.id.userID) ;
+            viewHolder.textView = (TextView) convertView.findViewById(R.id.context) ;
+            viewHolder.timeTextView = (TextView) convertView.findViewById(R.id.userTime);
+            viewHolder. deleteButton = (ImageButton)convertView.findViewById(R.id.commentDeleteButton);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (CommentViewHolder) convertView.getTag();
         }
 
-        // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
-        titleTextView = (TextView) convertView.findViewById(R.id.userID) ;
-        textView = (TextView) convertView.findViewById(R.id.context) ;
-        timeTextView = (TextView) convertView.findViewById(R.id.userTime);
 
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
@@ -84,18 +93,19 @@ public class CommentAdapter extends BaseAdapter {
         //현재 사용자 nickName 받아와서 댓글 쓸 때 반영되게
 
 //         아이템 내 각 위젯에 데이터 반영 ( Test 중 )
-        textView.setText(postInfo.getText());
-        titleTextView.setText(postInfo.getName());
-        timeTextView.setText(postInfo.getTime());
-        deleteButton = (ImageButton)convertView.findViewById(R.id.commentDeleteButton);
+        viewHolder.textView.setText(postInfo.getText());
+        viewHolder.titleTextView.setText(postInfo.getName());
+        viewHolder.timeTextView.setText(postInfo.getTime());
+
+
+        db = FirebaseFirestore.getInstance();
+        user= FirebaseAuth.getInstance().getCurrentUser();
 
 
 
-
-        deleteButton.setOnClickListener(new View.OnClickListener(){
+        viewHolder.deleteButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Log.d("CommentActivity",textView.getText().toString());
 
                 db = FirebaseFirestore.getInstance();
                 CollectionReference collectionReference1 = db.collection("comments");
@@ -106,10 +116,11 @@ public class CommentAdapter extends BaseAdapter {
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if(task.isSuccessful()) {
                                     for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                        if (documentSnapshot.get("text").equals(textView.getText().toString()) ) {
-                                                Log.d("CommentActivity",documentSnapshot.getData().toString());
-                                                Log.d("CommentActivity",documentSnapshot.getId());
+                                        if (documentSnapshot.get("text").equals(viewHolder.textView.getText().toString()) && documentSnapshot.get("time").equals(timeTextView.getText().toString()) ) {
+//                                                Log.d("CommentActivity",documentSnapshot.getData().toString());
+//                                                Log.d("CommentActivity",documentSnapshot.getId());
                                                 deleteStr = documentSnapshot.getId();
+                                                commentId = documentSnapshot.getData().get("id").toString();
 
                                         }
                                     }
@@ -117,33 +128,37 @@ public class CommentAdapter extends BaseAdapter {
                             }
                         });
 
-                Snackbar.make(view,"댓글 삭제",Snackbar.LENGTH_SHORT).setAction("OK",new View.OnClickListener(){
-                    @Override
-                    public void onClick(View view) {
+                if(commentId != null) {
+                    Log.d("CommentActivity", user.getUid());
+                    Log.d("CommentActivity", commentId);
+                    if(user.getUid().equals(commentId)) {
+                        Snackbar.make(view,"댓글 삭제",Snackbar.LENGTH_SHORT).setAction("OK",new View.OnClickListener(){
+                            @Override
+                            public void onClick(View view) {
 
-                        if(deleteStr != null) {
-                            db = FirebaseFirestore.getInstance();
-                            user= FirebaseAuth.getInstance().getCurrentUser();
-                            db.collection("comments").document(deleteStr)
-                                    .delete()
-                                    .addOnSuccessListener(new OnSuccessListener<Void>(){
-                                        @Override
-                                        public void onSuccess(Void aVoid){
-                                            Toast.makeText(view.getContext(), "댓글 삭제 완료", Toast.LENGTH_SHORT).show();
-                                            listViewItemList.remove(position);
-                                            notifyDataSetChanged();
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(view.getContext(), "댓글 삭제 실패", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+                                if(deleteStr != null) {
+                                    db.collection("comments").document(deleteStr)
+                                            .delete()
+                                            .addOnSuccessListener(new OnSuccessListener<Void>(){
+                                                @Override
+                                                public void onSuccess(Void aVoid){
+                                                    Toast.makeText(view.getContext(), "댓글 삭제 완료", Toast.LENGTH_SHORT).show();
+                                                    listViewItemList.remove(position);
+                                                    notifyDataSetChanged();
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(view.getContext(), "댓글 삭제 실패", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                }
                             }
-                        }
+                        }).show();
+                    }
+                }
 
-                }).show();
             }
         });
 
@@ -176,9 +191,11 @@ public class CommentAdapter extends BaseAdapter {
         listViewItemList.add(item);
     }
 
-    public void clearItem(int position) {
-
-
+    public class CommentViewHolder {
+        public TextView titleTextView;
+        public TextView textView;
+        public TextView timeTextView;
+        public ImageButton deleteButton;
 
     }
 
