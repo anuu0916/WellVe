@@ -59,6 +59,10 @@ public class CameraActivity extends AppCompatActivity {
     };
     ArrayList<String> VeganType = new ArrayList<>(Arrays.asList(VeganTypeArray));
 
+    private String [] UnknownArray = {
+    };
+    ArrayList<String> Unknown = new ArrayList<>(Arrays.asList(UnknownArray));
+
     private String [] VeganIngredientArray = {
     };
     ArrayList<String> VeganIngredient = new ArrayList<>(Arrays.asList(VeganIngredientArray));
@@ -87,7 +91,7 @@ public class CameraActivity extends AppCompatActivity {
     };
     private static final String [] Ocean = {
             "용연향", "자개", "조개", "캐비어", "키틴", "산호", "생선", "비늘", "어분", "부레풀", "해면", "진주",
-            /*"알",*/ "경랍", "어유", "간유", "경유", "바다표범", "키토산"
+            /*"알",*/ "경랍", "어유", "간유", "경유", "바다표범", "키토산", "새우"
     };
     private static final String [] Ovo= {
             "달걀", "난황", "난백", "난각", "알부민"
@@ -144,7 +148,13 @@ public class CameraActivity extends AppCompatActivity {
             for(String s : resultArray){
                 resultList.add(s);
             }
-            Log.d("resultText", resultArray+"");
+            Log.d("resultText", resultList+"");
+
+            for(String s : resultList){
+                if(s.contains("가공품") || s.contains("씨즈닝")){
+                    Unknown.add(s);
+                }
+            }
 
             for(String s : Else){
                 if(resultText.contains(s)){
@@ -274,6 +284,7 @@ public class CameraActivity extends AppCompatActivity {
                     bundle.putStringArrayList("OvoIngredient", OvoIngredient);
                     bundle.putStringArrayList("LactoOvoIngredient", LactoOvoIngredient);
                     bundle.putStringArrayList("PescoIngredient", PescoIngredient);
+                    bundle.putStringArrayList("Unknown", Unknown);
                     bundle.putString("resultText", resultText);
                     fragmentCameraResult.setArguments(bundle);
                     return fragmentCameraResult;
