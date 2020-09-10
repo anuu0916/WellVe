@@ -196,6 +196,9 @@ public class FragmentCameraResult extends Fragment {
     private TextView ovoIngredient;
     private TextView veganIngredient;
 
+    private TextView unknownText;
+    private LinearLayout cautionLayout;
+
     private FirebaseFirestore db;
     private FirebaseUser user;
 
@@ -306,6 +309,9 @@ public class FragmentCameraResult extends Fragment {
         ovoIngredient = layout.findViewById(R.id.result_ovo_ingredient);
         veganIngredient = layout.findViewById(R.id.result_vegan_ingredient);
 
+        cautionLayout = layout.findViewById(R.id.result_caution_layout);
+        unknownText = layout.findViewById(R.id.result_unknown_ingredient);
+
 
         Bundle bundle = getArguments();
         if(bundle!=null){
@@ -337,10 +343,15 @@ public class FragmentCameraResult extends Fragment {
                 }
             });
 
-            if(Unknwon.isEmpty()){
-
-            } else{
-
+            if(!Unknwon.isEmpty()){
+                cautionLayout.setVisibility(View.VISIBLE);
+                StringBuilder sb = new StringBuilder();
+                for(String s : Unknwon){
+                    sb.append(s);
+                    sb.append(",");
+                }
+                sb.setLength(sb.length()-1);
+                unknownText.setText(sb);
             }
 
             if(VeganType.isEmpty()){
