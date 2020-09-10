@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
@@ -74,6 +75,8 @@ import com.google.firebase.ml.vision.text.FirebaseVisionCloudTextRecognizerOptio
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import com.google.firebase.ml.vision.text.RecognizedLanguage;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -82,10 +85,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
@@ -113,9 +118,11 @@ public class Camera2BasicFragment extends Fragment
 
     private String isStr;
     private Uri mImageCaptureUri;
+    private Uri resultUri;
     private ProgressBar progressBar;
 
     private int isTaken = 0;
+    private int isCropped = 0;
 //    private TextView veganTypeResult;
 //    private Bundle bundle = new Bundle();
 
@@ -494,14 +501,15 @@ public class Camera2BasicFragment extends Fragment
                 ".jpg");
     }
 
-    private void cropImage(){
+    private void cropImage(Uri inputUri, Uri outputUri){
         Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(mImageCaptureUri, "image/*");
+        intent.setDataAndType(inputUri, "image/*");
 
-        intent.putExtra("outputX", 90);
-        intent.putExtra("outputY", 90);
+//        intent.putExtra("outputX", 90);
+//        intent.putExtra("outputY", 90);
         intent.putExtra("scale", true);
-        intent.putExtra("return-data", true);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
         startActivityForResult(intent, CROP_FROM_CAMERA);
     }
 
@@ -512,6 +520,59 @@ public class Camera2BasicFragment extends Fragment
 
         Log.d("bitmap", requestCode + "");
 
+        if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+            CropImage.ActivityResult cropresult = CropImage.getActivityResult(data);
+            if(resultCode == RESULT_OK){
+                Log.d("Crop", "OK");
+                resultUri = cropresult.getUri();
+                InputStream inputStream = null;
+                try {
+                    inputStream = getContext().getApplicationContext().getContentResolver().openInputStream(resultUri);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                isStr = resultUri.toString();
+                bm = BitmapFactory.decodeStream(inputStream);
+                iv_photo.setImageBitmap(bm);
+                FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bm);
+
+
+                FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance()
+                        .getCloudTextRecognizer(options.build());
+
+                options
+                        .setLanguageHints(Arrays.asList("ko", "hi"))
+                        .build();
+
+                Log.d("image", "detector : " + detector.getRecognizerType());
+
+                Task<FirebaseVisionText> result =
+                        detector.processImage(image)
+                                .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
+                                    @Override
+                                    public void onSuccess(FirebaseVisionText firebaseVisionText) {
+                                        // Task completed successfully
+                                        // ...
+                                        extractText(firebaseVisionText);
+                                        Log.d("image", "success");
+                                        progressBar.setVisibility(GONE);
+                                    }
+                                })
+                                .addOnFailureListener(
+                                        new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // Task failed with an exception
+                                                // ...
+                                                Log.d("image", "fail");
+                                                progressBar.setVisibility(GONE);
+                                            }
+                                        });
+            } else if(resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
+                Exception e = cropresult.getError();
+            }
+        }
+
         if (requestCode == PICK_IMAGE_REQUEST) {
             if (resultCode == RESULT_OK && data != null) {
                 try {
@@ -520,33 +581,8 @@ public class Camera2BasicFragment extends Fragment
                     InputStream is = getContext().getContentResolver().openInputStream(data.getData());
                     isStr = data.getData().toString();
                     Log.d("bitmap", "data:" + data.getData());
-                    bm = BitmapFactory.decodeStream(is);
-                    is.close();
-                    Log.d("bitmap", "bm: " + bm);
+                    CropImage.activity(data.getData()).start(getContext(), this);
 
-                    ExifInterface ei = new ExifInterface(mFile.getPath());
-                    int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                            ExifInterface.ORIENTATION_UNDEFINED);
-
-                    Bitmap rotatedBitmap = null;
-                    switch (orientation) {
-                        case ExifInterface.ORIENTATION_ROTATE_90:
-                            rotatedBitmap = rotateImage(bm, 90);
-                            break;
-
-                        case ExifInterface.ORIENTATION_ROTATE_180:
-                            rotatedBitmap = rotateImage(bm, 180);
-                            break;
-
-                        case ExifInterface.ORIENTATION_ROTATE_270:
-                            rotatedBitmap = rotateImage(bm, 270);
-                            break;
-
-                        case ExifInterface.ORIENTATION_NORMAL:
-                        default:
-                            rotatedBitmap = bm;
-                    }
-                    iv_photo.setImageBitmap(rotatedBitmap);
 
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -563,42 +599,6 @@ public class Camera2BasicFragment extends Fragment
 
         progressBar.setVisibility(View.VISIBLE);
 
-        FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bm);
-
-
-        FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance()
-                .getCloudTextRecognizer(options.build());
-
-        options
-                .setLanguageHints(Arrays.asList("ko", "hi"))
-                .build();
-
-        Log.d("image", "detector : " + detector.getRecognizerType());
-
-        Task<FirebaseVisionText> result =
-                detector.processImage(image)
-                        .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
-                            @Override
-                            public void onSuccess(FirebaseVisionText firebaseVisionText) {
-                                // Task completed successfully
-                                // ...
-                                extractText(firebaseVisionText);
-                                Log.d("image", "success");
-                                progressBar.setVisibility(GONE);
-                            }
-                        })
-                        .addOnFailureListener(
-                                new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        // Task failed with an exception
-                                        // ...
-                                        Log.d("image", "fail");
-                                        progressBar.setVisibility(GONE);
-                                    }
-                                });
-
-//        Log.d("image", "result : " + result.getResult());
 
     }
 
@@ -627,17 +627,6 @@ public class Camera2BasicFragment extends Fragment
 
     private void requestCameraPermission() {
 
-//        if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-//            new ConfirmationDialog().show(getChildFragmentManager(), FRAGMENT_DIALOG);
-//        } else {
-//            requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
-//        }
-//
-//        if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-//            new ConfirmationDialog().show(getChildFragmentManager(), FRAGMENT_DIALOG);
-//        } else {
-//            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_PERMISSION);
-//        }
 
         String temp = "";
 
@@ -1112,44 +1101,9 @@ public class Camera2BasicFragment extends Fragment
                 String filePath = mFile.getPath();
                 Log.d("image", filePath);
                 isStr = filePath;
-                bm = BitmapFactory.decodeFile(filePath);
-                Log.d("image", bm+"");
 
-                FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bm);
-
-
-                FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance()
-                        .getCloudTextRecognizer(options.build());
-
-                options
-                        .setLanguageHints(Arrays.asList("ko", "hi"))
-                        .build();
-
-                Log.d("image", "detector : " + detector.processImage(image));
-
-                Task<FirebaseVisionText> result =
-                        detector.processImage(image)
-                                .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
-                                    @Override
-                                    public void onSuccess(FirebaseVisionText firebaseVisionText) {
-                                        // Task completed successfully
-                                        // ...
-                                        extractText(firebaseVisionText);
-                                        Log.d("image", "success");
-                                        progressBar.setVisibility(GONE);
-                                    }
-                                })
-                                .addOnFailureListener(
-                                        new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                // Task failed with an exception
-                                                // ...
-                                                Log.d("image", "fail");
-                                                progressBar.setVisibility(GONE);
-                                            }
-                                        });
-
+                CropImage.activity(Uri.parse("file://"+filePath)).start(getContext(), this);
+                mTextureView.setVisibility(GONE);
 
                 break;
             }
