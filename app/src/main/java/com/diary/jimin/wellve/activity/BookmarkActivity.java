@@ -20,6 +20,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.diary.jimin.wellve.R;
 import com.diary.jimin.wellve.adapter.ListViewAdapter;
+import com.diary.jimin.wellve.adapter.PagerAdapter;
 import com.diary.jimin.wellve.adapter.VPAdapter;
 import com.diary.jimin.wellve.fragment.Mypage1Fragment;
 import com.diary.jimin.wellve.fragment.Mypage2Fragment;
@@ -65,9 +66,9 @@ public class BookmarkActivity extends AppCompatActivity {
     private Button infoModifyButton;
     private Button backButton;
 
-    private ViewPager vp;
-    private VPAdapter vpAdapter;
-    private TabLayout tab;
+    private ViewPager viewPager;
+    private PagerAdapter pageAdapter;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,13 +77,40 @@ public class BookmarkActivity extends AppCompatActivity {
 
         init();
 
-        vp = findViewById(R.id.categoryViewPager);
+        viewPager = findViewById(R.id.categoryViewPager);
 
         db = FirebaseFirestore.getInstance();
         adapter = new ListViewAdapter();
         user = FirebaseAuth.getInstance().getCurrentUser();
 
-        getTabs();
+//        getTabs();
+
+        tabLayout = findViewById(R.id.tab);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        pageAdapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager = findViewById(R.id.categoryViewPager);
+        viewPager.setAdapter(pageAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
 
         CollectionReference document = db.collection("users").document(user.getUid())
                 .collection("bookmarks");
@@ -136,26 +164,7 @@ public class BookmarkActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-//        document.orderBy("time", Query.Direction.DESCENDING)
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if(task.isSuccessful()) {
-//                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-//                                adapter.addItem(documentSnapshot.get("title").toString(),
-//                                        documentSnapshot.get("text").toString(),
-//                                        documentSnapshot.get("id").toString(),
-//                                        documentSnapshot.get("time").toString(),
-//                                        documentSnapshot.get("name").toString());
-//                                titleList.add(documentSnapshot.getId());
-//                                categoryList.add(documentSnapshot.get("category").toString());
-//
-//                            }
-//
-//                        }
-//                    }
-//                });
+
 
 
 
@@ -168,21 +177,21 @@ public class BookmarkActivity extends AppCompatActivity {
         backButton = (Button)findViewById(R.id.bookmarkBackButton);
     }
 
-    public void getTabs() {
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                vpAdapter = new VPAdapter(getSupportFragmentManager());
-
-                vpAdapter.addFragment(Mypage1Fragment.getInstance(), "내가 쓴 글");
-                vpAdapter.addFragment(Mypage2Fragment.getInstance(), "내가 쓴 댓글");
-                vpAdapter.addFragment(Mypage3Fragment.getInstance(), "북마크");
-
-                vp.setAdapter(vpAdapter);
-
-                tab = findViewById(R.id.tab);
-                tab.setupWithViewPager(vp);
-            }
-        });
-    }
+//    public void getTabs() {
+//        new Handler().post(new Runnable() {
+//            @Override
+//            public void run() {
+//                vpAdapter = new VPAdapter(getSupportFragmentManager());
+//
+//                vpAdapter.addFragment(Mypage1Fragment.getInstance(), "내가 쓴 글");
+//                vpAdapter.addFragment(Mypage2Fragment.getInstance(), "내가 쓴 댓글");
+//                vpAdapter.addFragment(Mypage3Fragment.getInstance(), "북마크");
+//
+//                vp.setAdapter(vpAdapter);
+//
+//                tab = findViewById(R.id.tab);
+//                tab.setupWithViewPager(vp);
+//            }
+//        });
+//    }
 }
