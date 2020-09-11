@@ -71,8 +71,10 @@ public class Page5Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_page, container, false);
         progressBar = view.findViewById(R.id.progressBar);
-        initDataset();
 
+        progressBar.setVisibility(View.VISIBLE);
+        initDataset();
+        progressBar.setVisibility(View.GONE);
 
         context = view.getContext();
         recyclerView = (RecyclerView) view.findViewById(R.id.page1RecyclerView);
@@ -104,7 +106,6 @@ public class Page5Fragment extends Fragment {
 
         CollectionReference collectionReference = db.collection("literPosts");
 
-        progressBar.setVisibility(View.VISIBLE);
         collectionReference
                 .orderBy("time", Query.Direction.DESCENDING)
                 .get()
@@ -153,7 +154,6 @@ public class Page5Fragment extends Fragment {
                                                                 idList.add(documentSnapshot.getId());
                                                                 categoryList.add("literPosts");
                                                                 recyclerView.setAdapter(adapter);
-                                                                progressBar.setVisibility(View.GONE);
                                                             }
                                                         });
                                                     } else {
@@ -168,7 +168,6 @@ public class Page5Fragment extends Fragment {
                                                         idList.add(documentSnapshot.getId());
                                                         categoryList.add("literPosts");
                                                         recyclerView.setAdapter(adapter);
-                                                        progressBar.setVisibility(View.GONE);
                                                     }
                                                 }
                                             }

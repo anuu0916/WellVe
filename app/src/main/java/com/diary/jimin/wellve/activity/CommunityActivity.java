@@ -75,6 +75,7 @@ public class CommunityActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(CommunityActivity.this, PostActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -95,7 +96,7 @@ public class CommunityActivity extends AppCompatActivity {
 
 
     }
-    
+
     void init() {
         communitySearchButton = (Button)findViewById(R.id.communitySearchButton);
         communityWriteButton = (Button)findViewById(R.id.communityWriteButton);

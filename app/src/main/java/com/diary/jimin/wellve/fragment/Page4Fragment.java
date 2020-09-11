@@ -71,8 +71,10 @@ public class Page4Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_page, container, false);
 
         progressBar = view.findViewById(R.id.progressBar);
-        initDataset();
 
+        progressBar.setVisibility(View.VISIBLE);
+        initDataset();
+        progressBar.setVisibility(View.GONE);
 
         context = view.getContext();
         recyclerView = (RecyclerView) view.findViewById(R.id.page1RecyclerView);
@@ -107,7 +109,6 @@ public class Page4Fragment extends Fragment {
 
         CollectionReference collectionReference = db.collection("restaurantPosts");
 
-        progressBar.setVisibility(View.VISIBLE);
         collectionReference
                 .orderBy("time", Query.Direction.DESCENDING)
                 .get()
@@ -156,7 +157,6 @@ public class Page4Fragment extends Fragment {
                                                                 idList.add(documentSnapshot.getId());
                                                                 categoryList.add("restaurantPosts");
                                                                 recyclerView.setAdapter(adapter);
-                                                                progressBar.setVisibility(View.GONE);
                                                             }
                                                         });
                                                     } else {
@@ -171,7 +171,6 @@ public class Page4Fragment extends Fragment {
                                                         idList.add(documentSnapshot.getId());
                                                         categoryList.add("restaurantPosts");
                                                         recyclerView.setAdapter(adapter);
-                                                        progressBar.setVisibility(View.GONE);
                                                     }
                                                 }
                                             }
