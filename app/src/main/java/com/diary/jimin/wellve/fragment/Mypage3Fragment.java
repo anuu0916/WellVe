@@ -69,7 +69,9 @@ public class Mypage3Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_page, container, false);
         progressBar = view.findViewById(R.id.progressBar);
 
+        progressBar.setVisibility(View.VISIBLE);
         initDataset();
+        progressBar.setVisibility(View.GONE);
 
         context = view.getContext();
         recyclerView = (RecyclerView) view.findViewById(R.id.page1RecyclerView);
@@ -89,6 +91,7 @@ public class Mypage3Fragment extends Fragment {
                 intent.putExtra("setId", idList.get(pos));
                 intent.putExtra("setCategory", categoryList.get(pos));
                 startActivity(intent);
+                getActivity().finish();
             }
         });
 
@@ -158,7 +161,6 @@ public class Mypage3Fragment extends Fragment {
                                                                 idList.add(documentSnapshot.getId());
                                                                 categoryList.add(documentSnapshot.getData().get("category").toString());
                                                                 recyclerView.setAdapter(adapter);
-                                                                progressBar.setVisibility(View.GONE);
                                                             }
                                                         });
                                                     } else {
@@ -172,7 +174,6 @@ public class Mypage3Fragment extends Fragment {
                                                         idList.add(documentSnapshot.getId());
                                                         categoryList.add(documentSnapshot.getData().get("category").toString());
                                                         recyclerView.setAdapter(adapter);
-                                                        progressBar.setVisibility(View.GONE);
                                                     }
 
                                                 }

@@ -196,6 +196,8 @@ public class SearchActivity extends AppCompatActivity {
                                             idList.add(document.getId());
                                             searchRecyclerview.setAdapter(adapter);
                                         }
+                                    } else {
+                                        Toast.makeText(SearchActivity.this, "검색결과가 없습니다.", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             } else {

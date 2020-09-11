@@ -68,6 +68,7 @@ public class PostInActivity extends AppCompatActivity {
     private EditText postInCommentEditText;
     private ImageButton postInSubmitButton;
     private ImageButton postInMarkButton;
+    private ImageButton postInModButton;
     private TextView postInCommentNumText;
     private TextView postInCategory;
     private ImageView postInImageView;
@@ -204,11 +205,15 @@ public class PostInActivity extends AppCompatActivity {
 
                                     //bookmarkButton 사용자에 따라 변경
                                    if(user.getUid().equals(document.getData().get("id").toString())){
-                                        postInMarkButton.setBackgroundResource(R.drawable.community_mod_btn);
+                                        postInModButton.setBackgroundResource(R.drawable.community_mod_btn);
                                         isUser=true;
 
                                     } else{
-                                        postInMarkButton.setBackgroundResource(R.drawable.bookmark_button);
+                                       if(!postInMarkButton.isSelected()) {
+                                           postInMarkButton.setBackgroundResource(R.drawable.bookmark_button);
+                                       } else if (postInMarkButton.isSelected()) {
+                                           postInMarkButton.setBackgroundResource(R.drawable.bookmark_yes);
+                                       }
                                         isUser=false;
                                     }
                                 }
@@ -335,6 +340,8 @@ public class PostInActivity extends AppCompatActivity {
 
                             postInMarkButton.setSelected(true);
                             postInMarkButton.setBackgroundResource(R.drawable.bookmark_yes);
+                            postInMarkButton.setSelected(true);
+
                             Toast.makeText(PostInActivity.this, "북마크 성공", Toast.LENGTH_SHORT).show();
                         }
                     } else if (postInMarkButton.isSelected()) {
@@ -365,10 +372,10 @@ public class PostInActivity extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 Log.d("out123", getCategory);
-                                                Toast.makeText(view.getContext(), "게시물 삭제 완료", Toast.LENGTH_SHORT).show();
-//                                                Intent intent = new Intent(PostInActivity.this, CommunityActivity.class);
-//                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                                startActivity(intent);
+//                                                Toast.makeText(view.getContext(), "게시물 삭제 완료", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(PostInActivity.this, CommunityActivity.class);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                startActivity(intent);
                                                 finish();
 
                                                 //           listViewItemList.remove(pos);
@@ -415,6 +422,7 @@ public class PostInActivity extends AppCompatActivity {
         postInCommentEditText = (EditText) findViewById(R.id.postInCommentEditText);
         postInSubmitButton = (ImageButton) findViewById(R.id.postInSubmitButton);
         postInMarkButton = (ImageButton) findViewById(R.id.postInMarkButton);
+        postInModButton=(ImageButton)findViewById(R.id.postInModButton);
         postInCommentNumText = (TextView) findViewById(R.id.postInCommentNumText);
         postInImageView = (ImageView) findViewById(R.id.postInImageView);
         backButton = (Button) findViewById(R.id.postInBackButton);

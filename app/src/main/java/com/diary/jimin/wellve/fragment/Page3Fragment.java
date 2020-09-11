@@ -71,7 +71,10 @@ public class Page3Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_page, container, false);
 
         progressBar = view.findViewById(R.id.progressBar);
+
+        progressBar.setVisibility(View.VISIBLE);
         initDataset();
+        progressBar.setVisibility(View.GONE);
 
         context = view.getContext();
         recyclerView = (RecyclerView) view.findViewById(R.id.page1RecyclerView);
@@ -105,7 +108,6 @@ public class Page3Fragment extends Fragment {
 
         CollectionReference collectionReference = db.collection("QnAPosts");
 
-        progressBar.setVisibility(View.VISIBLE);
         collectionReference
                 .orderBy("time", Query.Direction.DESCENDING)
                 .get()
@@ -154,7 +156,6 @@ public class Page3Fragment extends Fragment {
                                                                 idList.add(documentSnapshot.getId());
                                                                 categoryList.add("QnAPosts");
                                                                 recyclerView.setAdapter(adapter);
-                                                                progressBar.setVisibility(View.GONE);
                                                             }
                                                         });
                                                     } else {
@@ -169,7 +170,6 @@ public class Page3Fragment extends Fragment {
                                                         idList.add(documentSnapshot.getId());
                                                         categoryList.add("QnAPosts");
                                                         recyclerView.setAdapter(adapter);
-                                                        progressBar.setVisibility(View.GONE);
                                                     }
                                                 }
                                             }
@@ -181,50 +181,6 @@ public class Page3Fragment extends Fragment {
                     }
                 });
 
-
-//        CollectionReference collectionReference = db.collection("QnAPosts");
-//
-//        progressBar.setVisibility(View.VISIBLE);
-//        collectionReference
-//                .orderBy("time", Query.Direction.DESCENDING)
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if(task.isSuccessful()) {
-//                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-//
-//                                db.collection("comments")
-//                                        .whereEqualTo("postId",documentSnapshot.getId())
-//                                        .get()
-//                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                                            @Override
-//                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                                if(task.isSuccessful()) {
-//                                                    QnASize = 0;
-//                                                    for(QueryDocumentSnapshot document : task.getResult()) {
-//                                                        QnASize++;
-//                                                    }
-//
-//                                                    items.add(new CommunityItem(documentSnapshot.getData().get("name").toString(),
-//                                                            "https://d20aeo683mqd6t.cloudfront.net/ko/articles/title_images/000/039/143/medium/IMG_5649%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.jpg?2019",
-//                                                            documentSnapshot.getData().get("title").toString(),
-//                                                            documentSnapshot.getData().get("time").toString(),
-//                                                            "QnA ",
-//                                                            String.valueOf(QnASize)
-//                                                    ));
-//                                                    idList.add(documentSnapshot.getId());
-//                                                    categoryList.add("QnAPosts");
-//                                                    recyclerView.setAdapter(adapter);
-//                                                    progressBar.setVisibility(View.GONE);
-//                                                }
-//                                            }
-//                                        });
-//                            }
-//                        }
-//                    }
-//                });
-//
 
 
     }

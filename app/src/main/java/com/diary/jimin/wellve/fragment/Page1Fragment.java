@@ -90,7 +90,9 @@ public class Page1Fragment extends Fragment {
 
         adapter = new RecyclerViewAdapter(context, items);
 
+        progressBar.setVisibility(View.VISIBLE);
         initDataset();
+        progressBar.setVisibility(View.GONE);
 
         adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
@@ -116,7 +118,6 @@ public class Page1Fragment extends Fragment {
 
         CollectionReference collectionReference = db.collection("freePosts");
 
-        progressBar.setVisibility(View.VISIBLE);
         collectionReference
                 .orderBy("time", Query.Direction.DESCENDING)
                 .get()
@@ -166,7 +167,6 @@ public class Page1Fragment extends Fragment {
                                                                 idList.add(documentSnapshot.getId());
                                                                 categoryList.add("freePosts");
                                                                 recyclerView.setAdapter(adapter);
-                                                                progressBar.setVisibility(View.GONE);
                                                             }
                                                         });
                                                     } else {
@@ -181,7 +181,6 @@ public class Page1Fragment extends Fragment {
                                                         idList.add(documentSnapshot.getId());
                                                         categoryList.add("freePosts");
                                                         recyclerView.setAdapter(adapter);
-                                                        progressBar.setVisibility(View.GONE);
                                                     }
                                                 }
                                             }
@@ -195,7 +194,6 @@ public class Page1Fragment extends Fragment {
 
         collectionReference = db.collection("QnAPosts");
 
-        progressBar.setVisibility(View.VISIBLE);
         collectionReference
                 .orderBy("time", Query.Direction.DESCENDING)
                 .get()
@@ -244,7 +242,6 @@ public class Page1Fragment extends Fragment {
                                                                 idList.add(documentSnapshot.getId());
                                                                 categoryList.add("QnAPosts");
                                                                 recyclerView.setAdapter(adapter);
-                                                                progressBar.setVisibility(View.GONE);
                                                             }
                                                         });
                                                     } else {
@@ -259,7 +256,6 @@ public class Page1Fragment extends Fragment {
                                                         idList.add(documentSnapshot.getId());
                                                         categoryList.add("QnAPosts");
                                                         recyclerView.setAdapter(adapter);
-                                                        progressBar.setVisibility(View.GONE);
                                                     }
                                                 }
                                             }
@@ -274,7 +270,6 @@ public class Page1Fragment extends Fragment {
 
         collectionReference = db.collection("restaurantPosts");
 
-        progressBar.setVisibility(View.VISIBLE);
         collectionReference
                 .orderBy("time", Query.Direction.DESCENDING)
                 .get()
@@ -323,7 +318,6 @@ public class Page1Fragment extends Fragment {
                                                                 idList.add(documentSnapshot.getId());
                                                                 categoryList.add("restaurantPosts");
                                                                 recyclerView.setAdapter(adapter);
-                                                                progressBar.setVisibility(View.GONE);
                                                             }
                                                         });
                                                     } else {
@@ -338,7 +332,6 @@ public class Page1Fragment extends Fragment {
                                                         idList.add(documentSnapshot.getId());
                                                         categoryList.add("restaurantPosts");
                                                         recyclerView.setAdapter(adapter);
-                                                        progressBar.setVisibility(View.GONE);
                                                     }
                                                 }
                                             }
@@ -352,7 +345,6 @@ public class Page1Fragment extends Fragment {
 
         collectionReference = db.collection("literPosts");
 
-        progressBar.setVisibility(View.VISIBLE);
         collectionReference
                 .orderBy("time", Query.Direction.DESCENDING)
                 .get()
@@ -401,7 +393,6 @@ public class Page1Fragment extends Fragment {
                                                                 idList.add(documentSnapshot.getId());
                                                                 categoryList.add("literPosts");
                                                                 recyclerView.setAdapter(adapter);
-                                                                progressBar.setVisibility(View.GONE);
                                                             }
                                                         });
                                                     } else {
@@ -416,7 +407,6 @@ public class Page1Fragment extends Fragment {
                                                         idList.add(documentSnapshot.getId());
                                                         categoryList.add("literPosts");
                                                         recyclerView.setAdapter(adapter);
-                                                        progressBar.setVisibility(View.GONE);
                                                     }
                                                 }
                                             }
@@ -427,20 +417,5 @@ public class Page1Fragment extends Fragment {
                         }
                     }
                 });
-
-
-//        adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View v, int pos) {
-////                Intent intent = new Intent(getActivity(), PostInActivity.class);
-////                intent.putExtra("setId", idList.get(pos));
-////                intent.putExtra("setCategory", categoryList.get(pos));
-////                startActivity(intent);
-////                Log.d("pagePos", "pos : "+ pos);
-//            }
-//        });
-
-
-//        items.add(new CommunityItem("a", "htttp", "a", "a", "a ", "a"));
     }
 }
