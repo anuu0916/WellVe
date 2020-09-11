@@ -310,9 +310,15 @@ public class PostActivity extends AppCompatActivity {
 
                 cursor.moveToFirst();
 
-                tempFile = new File(cursor.getString(column_index));
+                try {
+                    tempFile = new File(cursor.getString(column_index));
+                } catch (NullPointerException e) {
 
-                Log.d(TAG, "tempFile Uri : " + Uri.fromFile(tempFile));
+                }
+
+
+//                Log.d(TAG, "tempFile Uri : " + Uri.fromFile(tempFile));
+//                Log.d(TAG, "photoUri : " + photoUri);
 
             } finally {
                 if (cursor != null) {
