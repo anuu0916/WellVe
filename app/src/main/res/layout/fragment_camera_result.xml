@@ -48,7 +48,7 @@
                     android:src="@drawable/ocr_slide"
                     android:layout_marginRight="8dp"/>
                 <Button
-                    android:background="#ffffff"
+                    android:background="@color/transparent"
                     android:id="@+id/btn_slide"
                     android:layout_width="wrap_content"
                     android:layout_height="28dp"
@@ -131,7 +131,7 @@
             android:src="@drawable/ocr_down"
             android:layout_marginRight="8dp"/>
         <Button
-            android:background="#ffffff"
+            android:background="@color/transparent"
             android:id="@+id/down_slide"
             android:layout_width="wrap_content"
             android:layout_height="28dp"
