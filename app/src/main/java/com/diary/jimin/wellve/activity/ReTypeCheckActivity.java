@@ -287,7 +287,8 @@ public class ReTypeCheckActivity extends Activity {
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        Intent intent = new Intent(ReTypeCheckActivity.this, InfoModifyActivity.class);
+                                        Intent intent = new Intent(ReTypeCheckActivity.this, BookmarkActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(intent);
                                         finish();
                                     }

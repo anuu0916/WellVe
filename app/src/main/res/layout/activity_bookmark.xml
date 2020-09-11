@@ -104,6 +104,28 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="채식 단계 : "
+            android:textColor="@color/colorBlack"
+            android:textSize="12sp"
+            android:layout_marginLeft="16dp" />
+
+        <TextView
+            android:id="@+id/myPageType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/colorSelect"
+            android:textSize="12sp"/>
+
+    </LinearLayout>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab"
