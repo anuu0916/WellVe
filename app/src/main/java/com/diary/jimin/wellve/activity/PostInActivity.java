@@ -209,7 +209,11 @@ public class PostInActivity extends AppCompatActivity {
                                         isUser=true;
 
                                     } else{
-                                        postInMarkButton.setBackgroundResource(R.drawable.bookmark_button);
+                                       if(!postInMarkButton.isSelected()) {
+                                           postInMarkButton.setBackgroundResource(R.drawable.bookmark_button);
+                                       } else if (postInMarkButton.isSelected()) {
+                                           postInMarkButton.setBackgroundResource(R.drawable.bookmark_yes);
+                                       }
                                         isUser=false;
                                     }
                                 }
