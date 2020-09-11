@@ -49,17 +49,16 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 isNameCheck();
-                signUp();
             }
         });
 
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SignupActivity.this, TypeCheckActivity.class);
-                startActivity(intent);
-            }
-        });
+//        signUpButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(SignupActivity.this, TypeCheckActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,12 +95,17 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
+                            boolean check = false;
                             for(QueryDocumentSnapshot document : task.getResult()) {
 //                                Log.d("nameCheck", document.getData().get("name").toString());
-                                if(nickName.equals(document.getData().get("name"))) {
+                                if(nickName.equals(document.getData().get("nickname"))) {
+                                    check = true;
                                     Toast.makeText(SignupActivity.this, "이미 사용중인 닉네임입니다.", Toast.LENGTH_SHORT).show();
                                 }
 
+                            }
+                            if(!check) {
+                                signUp();
                             }
                         }
                     }
@@ -151,7 +155,7 @@ public class SignupActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(SignupActivity.this, "이메일 또는 비밀번호를 입력해주세요.",
+            Toast.makeText(SignupActivity.this, "빈칸을 입력해주세요.",
                     Toast.LENGTH_SHORT).show();
         }
 
