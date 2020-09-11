@@ -72,7 +72,10 @@ public class Page2Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_page, container, false);
         progressBar = view.findViewById(R.id.progressBar);
+
+        progressBar.setVisibility(View.VISIBLE);
         initDataset();
+        progressBar.setVisibility(View.GONE);
 
         context = view.getContext();
         recyclerView = (RecyclerView) view.findViewById(R.id.page1RecyclerView);
@@ -105,7 +108,6 @@ public class Page2Fragment extends Fragment {
 
         CollectionReference collectionReference = db.collection("freePosts");
 
-        progressBar.setVisibility(View.VISIBLE);
         collectionReference
                 .orderBy("time", Query.Direction.DESCENDING)
                 .get()
@@ -155,7 +157,6 @@ public class Page2Fragment extends Fragment {
                                                                 idList.add(documentSnapshot.getId());
                                                                 categoryList.add("freePosts");
                                                                 recyclerView.setAdapter(adapter);
-                                                                progressBar.setVisibility(View.GONE);
                                                                 commentPos++;
                                                             }
                                                         });
@@ -171,7 +172,6 @@ public class Page2Fragment extends Fragment {
                                                         idList.add(documentSnapshot.getId());
                                                         categoryList.add("freePosts");
                                                         recyclerView.setAdapter(adapter);
-                                                        progressBar.setVisibility(View.GONE);
                                                         commentPos++;
                                                     }
                                                 }
