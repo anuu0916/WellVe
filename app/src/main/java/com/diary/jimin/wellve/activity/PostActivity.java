@@ -231,6 +231,9 @@ public class PostActivity extends AppCompatActivity {
                                                 Toast.makeText(PostActivity.this, "이미지가 안올라가네여 ㅡㅡ", Toast.LENGTH_SHORT).show();
                                             }
                                         });
+                                Intent intent = new Intent(PostActivity.this, CommunityActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
                                 finish();
                             }
                         })
@@ -247,7 +250,10 @@ public class PostActivity extends AppCompatActivity {
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                Toast.makeText(PostActivity.this, "이미지없이 성공", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(PostActivity.this, "이미지없이 성공", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(PostActivity.this, CommunityActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
                                 finish();
                             }
                         })

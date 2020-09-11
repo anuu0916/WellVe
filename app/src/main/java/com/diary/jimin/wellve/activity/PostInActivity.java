@@ -366,10 +366,10 @@ public class PostInActivity extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 Log.d("out123", getCategory);
-                                                Toast.makeText(view.getContext(), "게시물 삭제 완료", Toast.LENGTH_SHORT).show();
-//                                                Intent intent = new Intent(PostInActivity.this, CommunityActivity.class);
-//                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                                startActivity(intent);
+//                                                Toast.makeText(view.getContext(), "게시물 삭제 완료", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(PostInActivity.this, CommunityActivity.class);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                startActivity(intent);
                                                 finish();
 
                                                 //           listViewItemList.remove(pos);

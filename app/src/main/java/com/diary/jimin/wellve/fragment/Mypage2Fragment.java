@@ -65,7 +65,9 @@ public class Mypage2Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_page, container, false);
         progressBar = view.findViewById(R.id.progressBar);
 
+        progressBar.setVisibility(View.VISIBLE);
         initDataset();
+        progressBar.setVisibility(View.GONE);
 
         context = view.getContext();
         recyclerView = (RecyclerView) view.findViewById(R.id.page1RecyclerView);
@@ -97,7 +99,6 @@ public class Mypage2Fragment extends Fragment {
 
         CollectionReference collectionReference = db.collection("comments");
 
-        progressBar.setVisibility(View.VISIBLE);
         collectionReference
                 .whereEqualTo("id", user.getUid())
                 .orderBy("time",Query.Direction.DESCENDING)
@@ -128,7 +129,6 @@ public class Mypage2Fragment extends Fragment {
                                 idList.add(documentSnapshot.getData().get("postId").toString());
                                 categoryList.add(documentSnapshot.getData().get("category").toString());
                                 recyclerView.setAdapter(adapter);
-                                progressBar.setVisibility(View.GONE);
 
                             }
                         }
