@@ -47,7 +47,7 @@
             android:textSize="12sp"
             android:textColor="#575757"
             android:textStyle="bold"
-            android:layout_gravity="left"/>
+            android:layout_gravity="left" />
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -76,7 +76,12 @@
             android:layout_height="wrap_content"
             android:text="context"
             android:textSize="12sp"
-            android:textColor="#000000"/>
+            android:textColor="#000000"
+            android:ellipsize="none"
+            android:maxLines="100"
+            android:layout_weight="1"
+            android:scrollHorizontally="false"
+            android:singleLine="false"/>
     </TableRow>
     <TableRow
         android:layout_width="match_parent"
