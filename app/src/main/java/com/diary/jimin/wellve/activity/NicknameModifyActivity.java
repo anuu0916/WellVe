@@ -139,10 +139,10 @@ public class NicknameModifyActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d("nicknameModify", "DocumentSnapshot successfully updated!");
-                            Intent intent = new Intent(NicknameModifyActivity.this, MainActivity.class);
+                            Intent intent = new Intent(NicknameModifyActivity.this, BookmarkActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
-//                            finish();
+                            finish();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
