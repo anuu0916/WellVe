@@ -134,6 +134,9 @@ public class InfoModifyActivity extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Toast.makeText(InfoModifyActivity.this, "프로필 사진을 바꿨습니다.", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(InfoModifyActivity.this, BookmarkActivity.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            startActivity(intent);
                                             finish();
                                         }
                                     });

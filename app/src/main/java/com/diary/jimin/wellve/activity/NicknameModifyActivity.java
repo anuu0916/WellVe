@@ -55,7 +55,7 @@ public class NicknameModifyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 isNameCheck();
-                modifyNickname();
+
             }
         });
 
@@ -102,7 +102,7 @@ public class NicknameModifyActivity extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
     }
 
-    private void isNameCheck() {
+    private  void isNameCheck() {
         final String nickName = nicknameEditText.getText().toString();
 
         db.collection("users")
@@ -111,12 +111,17 @@ public class NicknameModifyActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
+                            boolean check = false;
                             for(QueryDocumentSnapshot document : task.getResult()) {
 //                                Log.d("nameCheck", document.getData().get("name").toString());
-                                if(nickName.equals(document.getData().get("name"))) {
+                                if(nickName.equals(document.getData().get("nickname"))) {
+                                    check = true;
                                     Toast.makeText(NicknameModifyActivity.this, "이미 사용중인 닉네임입니다.", Toast.LENGTH_SHORT).show();
                                 }
 
+                            }
+                            if(!check) {
+                                modifyNickname();
                             }
                         }
                     }
@@ -134,10 +139,10 @@ public class NicknameModifyActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d("nicknameModify", "DocumentSnapshot successfully updated!");
-                            Intent intent = new Intent(NicknameModifyActivity.this, MainActivity.class);
+                            Intent intent = new Intent(NicknameModifyActivity.this, BookmarkActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
-//                            finish();
+                            finish();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
