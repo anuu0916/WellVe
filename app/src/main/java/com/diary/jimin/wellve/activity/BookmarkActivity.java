@@ -62,6 +62,7 @@ public class BookmarkActivity extends AppCompatActivity {
 
     private CircleImageView myPageProfileImage;
     private TextView myPageNickName;
+    private TextView myPageType;
 
     private Button infoModifyButton;
     private Button backButton;
@@ -122,6 +123,7 @@ public class BookmarkActivity extends AppCompatActivity {
                     DocumentSnapshot documentSnapshot = task.getResult();
                     if(documentSnapshot.exists()) {
                         myPageNickName.setText(documentSnapshot.getData().get("nickname")+"님!");
+                        myPageType.setText(documentSnapshot.getData().get("type")+"");
                         if(documentSnapshot.getData().get("profileImageUrl")==null) {
                             myPageProfileImage.setImageResource(R.drawable.default_user);
                         } else {
@@ -179,6 +181,7 @@ public class BookmarkActivity extends AppCompatActivity {
         myPageNickName = (TextView) findViewById(R.id.myPageNickName);
         infoModifyButton=(Button)findViewById(R.id.infoModifyButton);
         backButton = (Button)findViewById(R.id.bookmarkBackButton);
+        myPageType = (TextView)findViewById(R.id.myPageType);
     }
 
 //    public void getTabs() {
