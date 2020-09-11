@@ -137,7 +137,7 @@ public class CameraActivity extends AppCompatActivity {
                     .replace(R.id.container, Camera2BasicFragment.newInstance())
                     .commit();
         }else if(!resultText.contains(",")){
-            Toast.makeText(CameraActivity.this, "원재료명을 촬영해주세요!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CameraActivity.this, "원재료명이 인식되지 않았습니다.", Toast.LENGTH_SHORT).show();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, Camera2BasicFragment.newInstance())
                     .commit();
