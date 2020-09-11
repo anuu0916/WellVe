@@ -209,7 +209,11 @@ public class PostInActivity extends AppCompatActivity {
                                         isUser=true;
 
                                     } else{
-                                        postInMarkButton.setBackgroundResource(R.drawable.bookmark_button);
+                                       if(!postInMarkButton.isSelected()) {
+                                           postInMarkButton.setBackgroundResource(R.drawable.bookmark_button);
+                                       } else if (postInMarkButton.isSelected()) {
+                                           postInMarkButton.setBackgroundResource(R.drawable.bookmark_yes);
+                                       }
                                         isUser=false;
                                     }
                                 }
@@ -336,6 +340,8 @@ public class PostInActivity extends AppCompatActivity {
 
                             postInMarkButton.setSelected(true);
                             postInMarkButton.setBackgroundResource(R.drawable.bookmark_yes);
+                            postInMarkButton.setSelected(true);
+
                             Toast.makeText(PostInActivity.this, "북마크 성공", Toast.LENGTH_SHORT).show();
                         }
                     } else if (postInMarkButton.isSelected()) {
@@ -416,7 +422,7 @@ public class PostInActivity extends AppCompatActivity {
         postInCommentEditText = (EditText) findViewById(R.id.postInCommentEditText);
         postInSubmitButton = (ImageButton) findViewById(R.id.postInSubmitButton);
         postInMarkButton = (ImageButton) findViewById(R.id.postInMarkButton);
-        postInModButton=(ImageButton)findViewById(R.id.postModButton);
+        postInModButton=(ImageButton)findViewById(R.id.postInModButton);
         postInCommentNumText = (TextView) findViewById(R.id.postInCommentNumText);
         postInImageView = (ImageView) findViewById(R.id.postInImageView);
         backButton = (Button) findViewById(R.id.postInBackButton);
