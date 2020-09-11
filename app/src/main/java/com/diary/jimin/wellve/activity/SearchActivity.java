@@ -160,9 +160,11 @@ public class SearchActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
                                 Log.d("searchList", "successful");
+                                int check=0;
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Boolean photoBool = (Boolean) document.getData().get("photo");
                                     if (document.getData().get("title").toString().contains(search)) {
+                                        check++;
                                         Log.d("searchList", document.getData().toString());
                                         if (photoBool) {
                                             String imageStr = document.getData().get("time").toString().replace("/", "").replace(" ", "_").replace(":", "");
@@ -197,8 +199,11 @@ public class SearchActivity extends AppCompatActivity {
                                             searchRecyclerview.setAdapter(adapter);
                                         }
                                     } else {
-                                        Toast.makeText(SearchActivity.this, "검색결과가 없습니다.", Toast.LENGTH_SHORT).show();
+
                                     }
+                                }
+                                if(check == 0) {
+                                    Toast.makeText(SearchActivity.this, "검색결과가 없습니다.", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
                                 Log.d("searchList", task.getException().toString());
