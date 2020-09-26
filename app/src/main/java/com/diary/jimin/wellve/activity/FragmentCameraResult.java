@@ -397,7 +397,7 @@ public class FragmentCameraResult extends Fragment {
                 pescoText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
             }
 
-            if(VeganType.contains("LactoOvo")){
+            if(VeganType.contains("Lactoovo")){
                 lactoovoImage.setImageResource(R.drawable.result_lactoovo_yes);
                 lactoovoText.setTextColor(Color.parseColor("#000000"));
                 lactoovoText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);

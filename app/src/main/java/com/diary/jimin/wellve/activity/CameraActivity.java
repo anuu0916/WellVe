@@ -62,7 +62,7 @@ public class CameraActivity extends AppCompatActivity {
     ViewPager vp;
 
     private String [] VeganTypeArray = {
-            "Pesco", "LactoOvo", "Lacto", "Ovo", "Vegan"
+            "Pesco", "Lactoovo", "Lacto", "Ovo", "Vegan"
     };
     ArrayList<String> VeganType = new ArrayList<>(Arrays.asList(VeganTypeArray));
 
@@ -98,10 +98,10 @@ public class CameraActivity extends AppCompatActivity {
     };
     private static final String [] Ocean = {
             "용연향", "자개", "조개", "캐비어", "키틴", "산호", "생선", "비늘", "어분", "부레풀", "해면", "진주",
-            /*"알",*/ "경랍", "어유", "간유", "경유", "바다표범", "키토산", "새우"
+            /*"알",*/ "경랍", "어유", "간유", "경유", "바다표범", "키토산", "새우", "참치", "황태", "오징어", "게"
     };
     private static final String [] Ovo= {
-            "달걀", "난황", "난백", "난각", "알부민"
+            "달걀", "난황", "난백", "난각", "알부민", "계란"
     };
     private static final String [] Lacto = {
             "젖", "카세인", "락토오스", "유당", "유청", "락티톨", "우유", "버터", "탈지분유", "전지분유"
@@ -265,10 +265,8 @@ public class CameraActivity extends AppCompatActivity {
             for(String s : Ovo){
                 if(resultText.contains(s)){
                     VeganType.remove("Vegan");
-                    VeganType.remove("Ovo");
                     VeganType.remove("Lacto");
                     VeganIngredient.add(s);
-                    OvoIngredient.add(s);
                     LactoIngredient.add(s);
                     Log.d("veganType", "Ovo : " + s);
                     //break;

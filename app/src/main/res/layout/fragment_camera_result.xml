@@ -212,7 +212,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="쿠키크런치(벨기에산 : 바닐라필링, 밀가루, 쌀그릿츠, 기타 코코아가공품, 설탕), 혼합제제(d-토코페롤(혼합형), 글리세린, 글리세린지방산에스테르), 밀, 우유, 대두 함유"
+                android:text=""
                 android:textColor="#000000"
                 android:textSize="14sp"/>
         </LinearLayout>
@@ -243,12 +243,14 @@
             android:id="@+id/result_unknown_ingredient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="기타 코코아가공품, 바닐라필링, 쌀그릿츠"
+            android:text=""
             android:textSize="13sp"
             android:layout_marginBottom="5dp"
             android:textColor="#000000"
             android:textStyle="bold"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
